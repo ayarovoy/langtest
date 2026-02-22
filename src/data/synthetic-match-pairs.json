@@ -9,8 +9,18 @@
     "leftColumnTitle": "Предложение",
     "rightColumnTitle": "Перевод",
     "rows": [
-      { "id": "r1", "prompt": "I read books every evening.", "correctOptionId": "o2" },
-      { "id": "r2", "prompt": "She is learning Spanish.", "correctOptionId": "o1" },
+      {
+        "id": "r1",
+        "prompt": "I read books every evening.",
+        "correctOptionId": "o2",
+        "commentMarkdown": "Обратите внимание на **Present Simple**: регулярное действие `every evening`."
+      },
+      {
+        "id": "r2",
+        "prompt": "She is learning Spanish.",
+        "correctOptionId": "o1",
+        "commentMarkdown": "Форма **is learning** указывает на процесс, который происходит сейчас."
+      },
       {
         "id": "r3",
         "prompt": "The meeting was postponed because the main speaker missed the flight.",

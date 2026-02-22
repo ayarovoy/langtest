@@ -8,7 +8,11 @@
     "text": "Выберите наиболее точный перевод слова \"reliable\" в контексте: \"a reliable source\"",
     "multiple": false,
     "options": [
-      { "id": "q1o1", "text": "надежный" },
+      {
+        "id": "q1o1",
+        "text": "надежный",
+        "commentMarkdown": "**Reliable source** = источник, которому можно доверять.\n- речь о достоверности\n- а не о частоте"
+      },
       { "id": "q1o2", "text": "редкий" },
       { "id": "q1o3", "text": "случайный" },
       { "id": "q1o4", "text": "сомнительный" }
@@ -35,7 +39,11 @@
     "multiple": false,
     "options": [
       { "id": "q3o1", "text": "has already started" },
-      { "id": "q3o2", "text": "had already started" },
+      {
+        "id": "q3o2",
+        "text": "had already started",
+        "commentMarkdown": "После конструкции **By the time + Past Simple** обычно нужен **Past Perfect** для более раннего действия."
+      },
       { "id": "q3o3", "text": "already starts" },
       { "id": "q3o4", "text": "will already start" }
     ],

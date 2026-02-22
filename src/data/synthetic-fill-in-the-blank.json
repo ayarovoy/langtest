@@ -8,8 +8,16 @@
     "title": "Короткий текст (базовый уровень)",
     "content": "I [[b1]] to school every day, but my brother [[b2]] by bus.",
     "blanks": [
-      { "id": "b1", "correctAnswers": ["go", "walk"] },
-      { "id": "b2", "correctAnswers": ["goes", "travels"] }
+      {
+        "id": "b1",
+        "correctAnswers": ["go", "walk"],
+        "commentMarkdown": "`go to school` — стандартная коллокация.\nВ разговорной речи `walk` тоже возможен по контексту."
+      },
+      {
+        "id": "b2",
+        "correctAnswers": ["goes", "travels"],
+        "commentMarkdown": "Подлежащее **my brother** требует формы 3-го лица единственного числа."
+      }
     ]
     },
     {

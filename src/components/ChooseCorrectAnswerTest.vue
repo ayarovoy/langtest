@@ -24,6 +24,12 @@
             <span v-if="showAnswersMode && isCorrectOption(question.id, option.id)" class="test__correct-icon">
               ✓
             </span>
+            <AnswerCommentPopover
+              v-if="showAnswersMode && option.commentMarkdown"
+              :markdown="option.commentMarkdown"
+              :is-open="openCommentKey === makeCommentKey(question.id, option.id)"
+              @toggle="toggleComment(question.id, option.id)"
+            />
           </label>
         </li>
       </ul>
@@ -40,11 +46,13 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 
 export interface TestOption {
   id: string
   text: string
+  commentMarkdown?: string
 }
 
 export interface TestQuestion {
@@ -66,6 +74,13 @@ const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkd
 const selectedAnswers = reactive<Record<string, string[]>>({})
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
+const openCommentKey = ref('')
+
+const makeCommentKey = (questionId: string, optionId: string): string => `${questionId}::${optionId}`
+const toggleComment = (questionId: string, optionId: string): void => {
+  const key = makeCommentKey(questionId, optionId)
+  openCommentKey.value = openCommentKey.value === key ? '' : key
+}
 
 const isSelected = (questionId: string, optionId: string): boolean =>
   (selectedAnswers[questionId] ?? []).includes(optionId)
@@ -76,6 +91,7 @@ const isCorrectOption = (questionId: string, optionId: string): boolean =>
 const toggleSelection = (question: TestQuestion, optionId: string): void => {
   checkMode.value = false
   showAnswersMode.value = false
+  openCommentKey.value = ''
   if (!selectedAnswers[question.id]) selectedAnswers[question.id] = []
   if (question.multiple) {
     const idx = selectedAnswers[question.id].indexOf(optionId)
@@ -102,10 +118,12 @@ const checkAnswers = (): void => {
 }
 const showAnswers = (): void => {
   showAnswersMode.value = true
+  openCommentKey.value = ''
 }
 const resetFeedback = (): void => {
   checkMode.value = false
   showAnswersMode.value = false
+  openCommentKey.value = ''
 }
 const restartTest = (): void => {
   resetFeedback()

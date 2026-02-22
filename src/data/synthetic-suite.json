@@ -11,7 +11,11 @@
         "multiple": false,
         "options": [
           { "id": "sq1o1", "text": "have" },
-          { "id": "sq1o2", "text": "had" },
+          {
+            "id": "sq1o2",
+            "text": "had",
+            "commentMarkdown": "**Second Conditional**: `If + Past Simple`, затем `would + infinitive`."
+          },
           { "id": "sq1o3", "text": "will have" }
         ],
         "correctOptionIds": ["sq1o2"]
@@ -41,7 +45,11 @@
         "title": "Краткий абзац",
         "content": "Our team [[b1]] a prototype last month, and we [[b2]] user feedback this week.",
         "blanks": [
-          { "id": "b1", "correctAnswers": ["built", "created"] },
+          {
+            "id": "b1",
+            "correctAnswers": ["built", "created"],
+            "commentMarkdown": "В контексте `last month` логично использовать **Past Simple**."
+          },
           { "id": "b2", "correctAnswers": ["collected", "gathered"] }
         ]
       }
@@ -59,7 +67,12 @@
         "leftColumnTitle": "Фраза",
         "rightColumnTitle": "Функция",
         "rows": [
-          { "id": "r1", "prompt": "Could you clarify that point?", "correctOptionId": "o2" },
+          {
+            "id": "r1",
+            "prompt": "Could you clarify that point?",
+            "correctOptionId": "o2",
+            "commentMarkdown": "Фраза используется для вежливого запроса уточнения на встрече."
+          },
           { "id": "r2", "prompt": "I completely agree with your proposal.", "correctOptionId": "o1" }
         ],
         "options": [

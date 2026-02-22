@@ -1,15 +1,23 @@
 import { computed, reactive, ref } from 'vue';
+import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
 const props = withDefaults(defineProps(), { title: 'Выбери правильный ответ' });
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const selectedAnswers = reactive({});
 const checkMode = ref(false);
 const showAnswersMode = ref(false);
+const openCommentKey = ref('');
+const makeCommentKey = (questionId, optionId) => `${questionId}::${optionId}`;
+const toggleComment = (questionId, optionId) => {
+    const key = makeCommentKey(questionId, optionId);
+    openCommentKey.value = openCommentKey.value === key ? '' : key;
+};
 const isSelected = (questionId, optionId) => (selectedAnswers[questionId] ?? []).includes(optionId);
 const isCorrectOption = (questionId, optionId) => props.questions.find((q) => q.id === questionId)?.correctOptionIds.includes(optionId) ?? false;
 const toggleSelection = (question, optionId) => {
     checkMode.value = false;
     showAnswersMode.value = false;
+    openCommentKey.value = '';
     if (!selectedAnswers[question.id])
         selectedAnswers[question.id] = [];
     if (question.multiple) {
@@ -34,10 +42,12 @@ const checkAnswers = () => {
 };
 const showAnswers = () => {
     showAnswersMode.value = true;
+    openCommentKey.value = '';
 };
 const resetFeedback = () => {
     checkMode.value = false;
     showAnswersMode.value = false;
+    openCommentKey.value = '';
 };
 const restartTest = () => {
     resetFeedback();
@@ -125,6 +135,31 @@ for (const [question] of __VLS_getVForSourceType((__VLS_ctx.questions))) {
                 ...{ class: "test__correct-icon" },
             });
         }
+        if (__VLS_ctx.showAnswersMode && option.commentMarkdown) {
+            /** @type {[typeof AnswerCommentPopover, ]} */ ;
+            // @ts-ignore
+            const __VLS_0 = __VLS_asFunctionalComponent(AnswerCommentPopover, new AnswerCommentPopover({
+                ...{ 'onToggle': {} },
+                markdown: (option.commentMarkdown),
+                isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.makeCommentKey(question.id, option.id)),
+            }));
+            const __VLS_1 = __VLS_0({
+                ...{ 'onToggle': {} },
+                markdown: (option.commentMarkdown),
+                isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.makeCommentKey(question.id, option.id)),
+            }, ...__VLS_functionalComponentArgsRest(__VLS_0));
+            let __VLS_3;
+            let __VLS_4;
+            let __VLS_5;
+            const __VLS_6 = {
+                onToggle: (...[$event]) => {
+                    if (!(__VLS_ctx.showAnswersMode && option.commentMarkdown))
+                        return;
+                    __VLS_ctx.toggleComment(question.id, option.id);
+                }
+            };
+            var __VLS_2;
+        }
     }
 }
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -169,9 +204,13 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            AnswerCommentPopover: AnswerCommentPopover,
             renderedDescription: renderedDescription,
             checkMode: checkMode,
             showAnswersMode: showAnswersMode,
+            openCommentKey: openCommentKey,
+            makeCommentKey: makeCommentKey,
+            toggleComment: toggleComment,
             isSelected: isSelected,
             isCorrectOption: isCorrectOption,
             toggleSelection: toggleSelection,

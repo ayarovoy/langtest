@@ -1,14 +1,17 @@
 import { computed, reactive, ref } from 'vue';
+import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
 const props = withDefaults(defineProps(), { title: 'Заполни пропуск' });
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const userAnswers = reactive({});
 const checkMode = ref(false);
 const showAnswersMode = ref(false);
+const openCommentKey = ref('');
 const keyOf = (textId, blankId) => `${textId}::${blankId}`;
 const normalize = (value) => value.trim().toLowerCase();
 const findBlank = (textId, blankId) => props.texts.find((t) => t.id === textId)?.blanks.find((b) => b.id === blankId);
 const getUserAnswer = (textId, blankId) => userAnswers[keyOf(textId, blankId)] ?? '';
+const getBlankComment = (textId, blankId) => findBlank(textId, blankId)?.commentMarkdown ?? '';
 const getCorrectAnswersText = (textId, blankId) => findBlank(textId, blankId)?.correctAnswers.join(' / ') ?? '';
 const getDisplayedAnswer = (textId, blankId) => showAnswersMode.value ? getCorrectAnswersText(textId, blankId) : getUserAnswer(textId, blankId);
 const isBlankCorrect = (textId, blankId) => {
@@ -39,15 +42,27 @@ const getSegments = (textId) => segmentsByTextId.value[textId] ?? [];
 const onInputChange = (textId, blankId, event) => {
     checkMode.value = false;
     showAnswersMode.value = false;
+    openCommentKey.value = '';
     userAnswers[keyOf(textId, blankId)] = event.target.value;
 };
 const hasIncorrectUserAnswer = (textId, blankId) => {
     const answer = getUserAnswer(textId, blankId).trim();
     return answer.length > 0 && !isBlankCorrect(textId, blankId);
 };
+const toggleComment = (textId, blankId) => {
+    const key = keyOf(textId, blankId);
+    openCommentKey.value = openCommentKey.value === key ? '' : key;
+};
 const checkAnswers = () => { checkMode.value = true; };
-const showAnswers = () => { showAnswersMode.value = true; };
-const resetFeedback = () => { checkMode.value = false; showAnswersMode.value = false; };
+const showAnswers = () => {
+    showAnswersMode.value = true;
+    openCommentKey.value = '';
+};
+const resetFeedback = () => {
+    checkMode.value = false;
+    showAnswersMode.value = false;
+    openCommentKey.value = '';
+};
 const restartTest = () => {
     resetFeedback();
     Object.keys(userAnswers).forEach((k) => delete userAnswers[k]);
@@ -126,6 +141,33 @@ for (const [textItem] of __VLS_getVForSourceType((__VLS_ctx.texts))) {
                 value: (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId)),
                 type: "text",
             });
+            if (__VLS_ctx.showAnswersMode && __VLS_ctx.getBlankComment(textItem.id, segment.blankId)) {
+                /** @type {[typeof AnswerCommentPopover, ]} */ ;
+                // @ts-ignore
+                const __VLS_0 = __VLS_asFunctionalComponent(AnswerCommentPopover, new AnswerCommentPopover({
+                    ...{ 'onToggle': {} },
+                    markdown: (__VLS_ctx.getBlankComment(textItem.id, segment.blankId)),
+                    isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.keyOf(textItem.id, segment.blankId)),
+                }));
+                const __VLS_1 = __VLS_0({
+                    ...{ 'onToggle': {} },
+                    markdown: (__VLS_ctx.getBlankComment(textItem.id, segment.blankId)),
+                    isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.keyOf(textItem.id, segment.blankId)),
+                }, ...__VLS_functionalComponentArgsRest(__VLS_0));
+                let __VLS_3;
+                let __VLS_4;
+                let __VLS_5;
+                const __VLS_6 = {
+                    onToggle: (...[$event]) => {
+                        if (!!(segment.type === 'text'))
+                            return;
+                        if (!(__VLS_ctx.showAnswersMode && __VLS_ctx.getBlankComment(textItem.id, segment.blankId)))
+                            return;
+                        __VLS_ctx.toggleComment(textItem.id, segment.blankId);
+                    }
+                };
+                var __VLS_2;
+            }
         }
     }
 }
@@ -169,16 +211,21 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            AnswerCommentPopover: AnswerCommentPopover,
             renderedDescription: renderedDescription,
             checkMode: checkMode,
             showAnswersMode: showAnswersMode,
+            openCommentKey: openCommentKey,
+            keyOf: keyOf,
             getUserAnswer: getUserAnswer,
+            getBlankComment: getBlankComment,
             getDisplayedAnswer: getDisplayedAnswer,
             totalBlanksCount: totalBlanksCount,
             correctBlanksCount: correctBlanksCount,
             getSegments: getSegments,
             onInputChange: onInputChange,
             hasIncorrectUserAnswer: hasIncorrectUserAnswer,
+            toggleComment: toggleComment,
             checkAnswers: checkAnswers,
             showAnswers: showAnswers,
             resetFeedback: resetFeedback,

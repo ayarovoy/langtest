@@ -16,11 +16,26 @@
             >
               {{ getUserAnswer(textItem.id, segment.blankId) }}
             </span>
+            <span
+              v-if="showAnswersMode"
+              class="fill-test__answer"
+              :title="getDisplayedAnswer(textItem.id, segment.blankId)"
+            >
+              {{ getDisplayedAnswer(textItem.id, segment.blankId) }}
+            </span>
             <input
+              v-else
               class="fill-test__input"
               :value="getDisplayedAnswer(textItem.id, segment.blankId)"
+              :title="getDisplayedAnswer(textItem.id, segment.blankId)"
               type="text"
               @input="onInputChange(textItem.id, segment.blankId, $event)"
+            />
+            <AnswerCommentPopover
+              v-if="showAnswersMode && getBlankComment(textItem.id, segment.blankId)"
+              :markdown="getBlankComment(textItem.id, segment.blankId)"
+              :is-open="openCommentKey === keyOf(textItem.id, segment.blankId)"
+              @toggle="toggleComment(textItem.id, segment.blankId)"
             />
           </span>
         </template>
@@ -38,9 +53,10 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 
-export interface FillBlankConfig { id: string; correctAnswers: string[] }
+export interface FillBlankConfig { id: string; correctAnswers: string[]; commentMarkdown?: string }
 export interface FillTextTask { id: string; title?: string; content: string; blanks: FillBlankConfig[] }
 interface Props { title?: string; descriptionMarkdown?: string; texts: FillTextTask[] }
 interface FillSegmentText { type: 'text'; value: string }
@@ -52,12 +68,15 @@ const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkd
 const userAnswers = reactive<Record<string, string>>({})
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
+const openCommentKey = ref('')
 
 const keyOf = (textId: string, blankId: string): string => `${textId}::${blankId}`
 const normalize = (value: string): string => value.trim().toLowerCase()
 const findBlank = (textId: string, blankId: string): FillBlankConfig | undefined =>
   props.texts.find((t) => t.id === textId)?.blanks.find((b) => b.id === blankId)
 const getUserAnswer = (textId: string, blankId: string): string => userAnswers[keyOf(textId, blankId)] ?? ''
+const getBlankComment = (textId: string, blankId: string): string =>
+  findBlank(textId, blankId)?.commentMarkdown ?? ''
 const getCorrectAnswersText = (textId: string, blankId: string): string =>
   findBlank(textId, blankId)?.correctAnswers.join(' / ') ?? ''
 const getDisplayedAnswer = (textId: string, blankId: string): string =>
@@ -96,6 +115,7 @@ const getSegments = (textId: string): FillSegment[] => segmentsByTextId.value[te
 const onInputChange = (textId: string, blankId: string, event: Event): void => {
   checkMode.value = false
   showAnswersMode.value = false
+  openCommentKey.value = ''
   userAnswers[keyOf(textId, blankId)] = (event.target as HTMLInputElement).value
 }
 const hasIncorrectUserAnswer = (textId: string, blankId: string): boolean => {
@@ -103,9 +123,21 @@ const hasIncorrectUserAnswer = (textId: string, blankId: string): boolean => {
   return answer.length > 0 && !isBlankCorrect(textId, blankId)
 }
 
+const toggleComment = (textId: string, blankId: string): void => {
+  const key = keyOf(textId, blankId)
+  openCommentKey.value = openCommentKey.value === key ? '' : key
+}
+
 const checkAnswers = (): void => { checkMode.value = true }
-const showAnswers = (): void => { showAnswersMode.value = true }
-const resetFeedback = (): void => { checkMode.value = false; showAnswersMode.value = false }
+const showAnswers = (): void => {
+  showAnswersMode.value = true
+  openCommentKey.value = ''
+}
+const resetFeedback = (): void => {
+  checkMode.value = false
+  showAnswersMode.value = false
+  openCommentKey.value = ''
+}
 const restartTest = (): void => {
   resetFeedback()
   Object.keys(userAnswers).forEach((k) => delete userAnswers[k])
@@ -131,6 +163,16 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
 .fill-test__blank--correct { background: #e8ffea; border-color: #87d78b; }
 .fill-test__blank--incorrect { background: #ffe9f1; border-color: #f1a1be; }
 .fill-test__input { width: 150px; border: none; border-bottom: 2px solid #9ca3af; background: transparent; padding: 0.1rem 0.15rem; }
+.fill-test__answer {
+  display: inline-block;
+  min-width: 150px;
+  max-width: min(100%, 28rem);
+  border-bottom: 2px solid #9ca3af;
+  padding: 0.1rem 0.15rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
 .fill-test__wrong-answer { color: #9f1239; text-decoration: line-through; font-size: 0.88rem; }
 .fill-test__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .fill-test__check-btn { border: 1px solid #2f6feb; background: #2f6feb; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; }

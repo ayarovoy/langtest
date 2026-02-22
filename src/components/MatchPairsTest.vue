@@ -35,6 +35,12 @@
                 <span class="match-test__chip" :class="{ 'match-test__chip--placeholder': isPlaceholder(task.id, row.id) }">
                   {{ getDisplayedText(task.id, row.id) }}
                 </span>
+                <AnswerCommentPopover
+                  v-if="showAnswersMode && row.commentMarkdown"
+                  :markdown="row.commentMarkdown"
+                  :is-open="openCommentKey === makeKey(task.id, row.id)"
+                  @toggle="toggleComment(task.id, row.id)"
+                />
               </div>
             </td>
           </tr>
@@ -73,9 +79,10 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 export interface MatchOption { id: string; text: string }
-export interface MatchRow { id: string; prompt: string; correctOptionId: string }
+export interface MatchRow { id: string; prompt: string; correctOptionId: string; commentMarkdown?: string }
 export interface MatchTask {
   id: string
   title?: string
@@ -94,6 +101,7 @@ const draggingTaskId = ref('')
 const draggingOptionId = ref('')
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
+const openCommentKey = ref('')
 
 const makeKey = (taskId: string, rowId: string): string => `${taskId}::${rowId}`
 const findTask = (taskId: string): MatchTask | undefined => props.tasks.find((t) => t.id === taskId)
@@ -112,6 +120,7 @@ const getAvailableOptions = (taskId: string): MatchOption[] => {
 const assignOptionToRow = (taskId: string, rowId: string, optionId: string): void => {
   checkMode.value = false
   showAnswersMode.value = false
+  openCommentKey.value = ''
   const task = findTask(taskId)
   if (!task) return
   task.rows.forEach((row) => {
@@ -188,8 +197,19 @@ const correctRowsCount = computed(() =>
 )
 
 const checkAnswers = (): void => { checkMode.value = true }
-const showAnswers = (): void => { showAnswersMode.value = true }
-const resetFeedback = (): void => { checkMode.value = false; showAnswersMode.value = false }
+const toggleComment = (taskId: string, rowId: string): void => {
+  const key = makeKey(taskId, rowId)
+  openCommentKey.value = openCommentKey.value === key ? '' : key
+}
+const showAnswers = (): void => {
+  showAnswersMode.value = true
+  openCommentKey.value = ''
+}
+const resetFeedback = (): void => {
+  checkMode.value = false
+  showAnswersMode.value = false
+  openCommentKey.value = ''
+}
 const restartTest = (): void => {
   resetFeedback()
   Object.keys(assignments).forEach((k) => delete assignments[k])

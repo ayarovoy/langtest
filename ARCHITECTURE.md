@@ -38,6 +38,7 @@
   - `componentType`
   - optional `title`
   - optional `descriptionMarkdown`
+  - optional answer-level `commentMarkdown` fields in task payloads (supports markdown)
   - payload by type:
     - `choose-correct-answer` -> `questions`
     - `fill-in-the-blank` -> `texts`
@@ -57,19 +58,23 @@
   - single/multi choice support
   - check/show/reset/restart controls
   - result highlighting + per-component stats
+  - after "show correct answers", optional `?` popover on options with `commentMarkdown`
 - `FillInTheBlankTest.vue`
   - inline blanks with answer validation
   - check/show/reset/restart controls
   - supports multiple valid answers per blank
+  - after "show correct answers", optional `?` popover on blanks with `commentMarkdown`
 - `MatchPairsTest.vue`
   - table-based matching with drag-drop and touch fallback
   - answer bank with used options hidden
   - customizable column titles via JSON
   - check/show/reset/restart controls
+  - after "show correct answers", optional `?` popover on rows with `commentMarkdown`
 
-## Markdown Description Pipeline
+## Markdown Rendering Pipeline
 - Optional section descriptions come from `descriptionMarkdown` in config JSON.
-- Rendered inside each component under title via:
+- Optional answer comments come from `commentMarkdown` in options/blanks/rows.
+- Both are rendered inside components via:
   - `src/utils/markdown.ts` (`renderMarkdown()`).
 - Supported markdown subset:
   - headings (`#`, `##`, `###`)

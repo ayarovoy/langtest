@@ -1,4 +1,5 @@
 import { computed, reactive, ref } from 'vue';
+import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
 const props = withDefaults(defineProps(), { title: 'Сопоставь одно с другим' });
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
@@ -8,6 +9,7 @@ const draggingTaskId = ref('');
 const draggingOptionId = ref('');
 const checkMode = ref(false);
 const showAnswersMode = ref(false);
+const openCommentKey = ref('');
 const makeKey = (taskId, rowId) => `${taskId}::${rowId}`;
 const findTask = (taskId) => props.tasks.find((t) => t.id === taskId);
 const findRow = (taskId, rowId) => findTask(taskId)?.rows.find((r) => r.id === rowId);
@@ -23,6 +25,7 @@ const getAvailableOptions = (taskId) => {
 const assignOptionToRow = (taskId, rowId, optionId) => {
     checkMode.value = false;
     showAnswersMode.value = false;
+    openCommentKey.value = '';
     const task = findTask(taskId);
     if (!task)
         return;
@@ -104,8 +107,19 @@ const getDropzoneClass = (taskId, rowId) => {
 const totalRowsCount = computed(() => props.tasks.reduce((acc, t) => acc + t.rows.length, 0));
 const correctRowsCount = computed(() => props.tasks.reduce((acc, t) => acc + t.rows.reduce((rAcc, r) => (isRowCorrect(t.id, r.id) ? rAcc + 1 : rAcc), 0), 0));
 const checkAnswers = () => { checkMode.value = true; };
-const showAnswers = () => { showAnswersMode.value = true; };
-const resetFeedback = () => { checkMode.value = false; showAnswersMode.value = false; };
+const toggleComment = (taskId, rowId) => {
+    const key = makeKey(taskId, rowId);
+    openCommentKey.value = openCommentKey.value === key ? '' : key;
+};
+const showAnswers = () => {
+    showAnswersMode.value = true;
+    openCommentKey.value = '';
+};
+const resetFeedback = () => {
+    checkMode.value = false;
+    showAnswersMode.value = false;
+    openCommentKey.value = '';
+};
 const restartTest = () => {
     resetFeedback();
     Object.keys(assignments).forEach((k) => delete assignments[k]);
@@ -194,6 +208,31 @@ for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
             ...{ class: ({ 'match-test__chip--placeholder': __VLS_ctx.isPlaceholder(task.id, row.id) }) },
         });
         (__VLS_ctx.getDisplayedText(task.id, row.id));
+        if (__VLS_ctx.showAnswersMode && row.commentMarkdown) {
+            /** @type {[typeof AnswerCommentPopover, ]} */ ;
+            // @ts-ignore
+            const __VLS_0 = __VLS_asFunctionalComponent(AnswerCommentPopover, new AnswerCommentPopover({
+                ...{ 'onToggle': {} },
+                markdown: (row.commentMarkdown),
+                isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.makeKey(task.id, row.id)),
+            }));
+            const __VLS_1 = __VLS_0({
+                ...{ 'onToggle': {} },
+                markdown: (row.commentMarkdown),
+                isOpen: (__VLS_ctx.openCommentKey === __VLS_ctx.makeKey(task.id, row.id)),
+            }, ...__VLS_functionalComponentArgsRest(__VLS_0));
+            let __VLS_3;
+            let __VLS_4;
+            let __VLS_5;
+            const __VLS_6 = {
+                onToggle: (...[$event]) => {
+                    if (!(__VLS_ctx.showAnswersMode && row.commentMarkdown))
+                        return;
+                    __VLS_ctx.toggleComment(task.id, row.id);
+                }
+            };
+            var __VLS_2;
+        }
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "match-test__bank" },
@@ -271,9 +310,12 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            AnswerCommentPopover: AnswerCommentPopover,
             renderedDescription: renderedDescription,
             checkMode: checkMode,
             showAnswersMode: showAnswersMode,
+            openCommentKey: openCommentKey,
+            makeKey: makeKey,
             getPendingOption: getPendingOption,
             getAvailableOptions: getAvailableOptions,
             onAnswerClick: onAnswerClick,
@@ -290,6 +332,7 @@ const __VLS_self = (await import('vue')).defineComponent({
             totalRowsCount: totalRowsCount,
             correctRowsCount: correctRowsCount,
             checkAnswers: checkAnswers,
+            toggleComment: toggleComment,
             showAnswers: showAnswers,
             resetFeedback: resetFeedback,
             restartTest: restartTest,
