@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pasado 01-02</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: #f7f9fc;
+        color: #111827;
+      }
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem;
+      }
+      .page__title {
+        margin: 0 0 0.25rem;
+        font-size: 1.5rem;
+      }
+      .page__subtitle {
+        margin: 0 0 1rem;
+        color: #64748b;
+      }
+
+      .suite {
+        display: grid;
+        gap: 1rem;
+      }
+      .suite__item {
+        background: transparent;
+      }
+
+      .comment-popover {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0.35rem;
+      }
+      .comment-popover__trigger {
+        width: 1.2rem;
+        height: 1.2rem;
+        border: 1px solid #9ca3af;
+        border-radius: 999px;
+        background: #fff;
+        color: #334155;
+        font-size: 0.75rem;
+        font-weight: 700;
+        line-height: 1;
+        padding: 0;
+        cursor: pointer;
+      }
+      .comment-popover__panel {
+        position: absolute;
+        z-index: 20;
+        top: calc(100% + 0.35rem);
+        left: 0;
+        width: min(320px, 75vw);
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+        padding: 0.55rem 0.65rem;
+      }
+      .comment-popover__content {
+        color: #334155;
+        font-size: 0.88rem;
+      }
+      .comment-popover__content p {
+        margin: 0.25rem 0;
+      }
+      .comment-popover__content ul {
+        margin: 0.25rem 0;
+        padding-left: 1.1rem;
+      }
+      .comment-popover__content h3,
+      .comment-popover__content h4,
+      .comment-popover__content h5 {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+      }
+
+      .test {
+        display: grid;
+        gap: 1rem;
+        max-width: 760px;
+      }
+      .test__stats {
+        margin: -0.25rem 0 0;
+        color: #334155;
+      }
+      .test__description {
+        color: #475569;
+        margin-top: -0.35rem;
+      }
+      .test__description p {
+        margin: 0.25rem 0;
+      }
+      .test__description ul {
+        margin: 0.25rem 0;
+        padding-left: 1.2rem;
+      }
+      .test__description h3,
+      .test__description h4,
+      .test__description h5 {
+        margin: 0.35rem 0;
+        font-size: 0.95rem;
+      }
+      .test__question {
+        border: 1px solid #d7d7d7;
+        border-radius: 12px;
+        padding: 1rem;
+        background: #fff;
+      }
+      .test__question-text {
+        margin: 0;
+        font-weight: 600;
+      }
+      .test__answers {
+        margin: 0.75rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.5rem;
+      }
+      .test__answer {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0.5rem 0.65rem;
+      }
+      .test__answer label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+      }
+      .test__answer-text {
+        flex: 1;
+      }
+      .test__correct-icon {
+        color: #1f9d42;
+        font-weight: 700;
+      }
+      .test__answer--correct {
+        background: #e8ffea;
+        border-color: #87d78b;
+      }
+      .test__answer--incorrect {
+        background: #ffe9f1;
+        border-color: #f1a1be;
+      }
+      .test__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .test__check-btn {
+        border: 1px solid #2f6feb;
+        background: #2f6feb;
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+      .test__secondary-btn {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        color: #111827;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+
+      .fill-test {
+        display: grid;
+        gap: 1rem;
+        max-width: 900px;
+      }
+      .fill-test__stats {
+        margin: -0.25rem 0 0;
+        color: #334155;
+      }
+      .fill-test__description {
+        color: #475569;
+        margin-top: -0.35rem;
+      }
+      .fill-test__description p {
+        margin: 0.25rem 0;
+      }
+      .fill-test__description ul {
+        margin: 0.25rem 0;
+        padding-left: 1.2rem;
+      }
+      .fill-test__description h3,
+      .fill-test__description h4,
+      .fill-test__description h5 {
+        margin: 0.35rem 0;
+        font-size: 0.95rem;
+      }
+      .fill-test__card {
+        border: 1px solid #d7d7d7;
+        border-radius: 12px;
+        padding: 1rem;
+        background: #fff;
+      }
+      .fill-test__text {
+        line-height: 1.9;
+      }
+      .fill-test__blank {
+        display: inline-flex;
+        gap: 0.35rem;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0.15rem 0.2rem;
+        margin: 0 0.15rem;
+      }
+      .fill-test__blank--correct {
+        background: #e8ffea;
+        border-color: #87d78b;
+      }
+      .fill-test__blank--incorrect {
+        background: #ffe9f1;
+        border-color: #f1a1be;
+      }
+      .fill-test__input {
+        width: 150px;
+        border: none;
+        border-bottom: 2px solid #9ca3af;
+        background: transparent;
+        padding: 0.1rem 0.15rem;
+      }
+      .fill-test__answer {
+        display: inline-block;
+        min-width: 150px;
+        max-width: min(100%, 28rem);
+        border-bottom: 2px solid #9ca3af;
+        padding: 0.1rem 0.15rem;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.4;
+      }
+      .fill-test__wrong-answer {
+        color: #9f1239;
+        text-decoration: line-through;
+        font-size: 0.88rem;
+      }
+      .fill-test__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .fill-test__check-btn {
+        border: 1px solid #2f6feb;
+        background: #2f6feb;
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+      .fill-test__secondary-btn {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        color: #111827;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+
+      .match-test {
+        display: grid;
+        gap: 1rem;
+        max-width: 900px;
+      }
+      .match-test__stats {
+        margin: -0.25rem 0 0;
+        color: #334155;
+      }
+      .match-test__description {
+        color: #475569;
+        margin-top: -0.35rem;
+      }
+      .match-test__description p {
+        margin: 0.25rem 0;
+      }
+      .match-test__description ul {
+        margin: 0.25rem 0;
+        padding-left: 1.2rem;
+      }
+      .match-test__description h3,
+      .match-test__description h4,
+      .match-test__description h5 {
+        margin: 0.35rem 0;
+        font-size: 0.95rem;
+      }
+      .match-test__task {
+        border: 1px solid #d7d7d7;
+        border-radius: 12px;
+        padding: 1rem;
+        background: #fff;
+      }
+      .match-test__table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .match-test__table th,
+      .match-test__table td {
+        border: 1px solid #e5e7eb;
+        padding: 0.6rem;
+      }
+      .match-test__table th {
+        background: #f8fafc;
+        text-align: left;
+      }
+      .match-test__dropzone {
+        min-height: 40px;
+        border: 1px dashed #c5ccd8;
+        border-radius: 8px;
+        padding: 0.4rem 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+      }
+      .match-test__dropzone--correct {
+        background: #e8ffea;
+        border-color: #87d78b;
+      }
+      .match-test__dropzone--incorrect {
+        background: #ffe9f1;
+        border-color: #f1a1be;
+      }
+      .match-test__chip--placeholder {
+        color: #9ca3af;
+        font-style: italic;
+      }
+      .match-test__wrong-chip {
+        color: #9f1239;
+        text-decoration: line-through;
+        font-size: 0.88rem;
+      }
+      .match-test__bank {
+        margin-top: 0.9rem;
+      }
+      .match-test__answers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .match-test__answer-chip {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        cursor: grab;
+      }
+      .match-test__answer-chip--active {
+        border-color: #2f6feb;
+        box-shadow: 0 0 0 1px #2f6feb inset;
+      }
+      .match-test__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .match-test__check-btn {
+        border: 1px solid #2f6feb;
+        background: #2f6feb;
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+      .match-test__secondary-btn {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        color: #111827;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1 class="page__title">Pasado 01-02</h1>
+      <p class="page__subtitle">Автономная страница с существующими компонентами и встроенным JSON.</p>
+      <div id="app"></div>
+    </div>
+
+    <script id="suite-data" type="application/json">
+[
+  {
+    "id": "pppi-choose-1",
+    "componentType": "choose-correct-answer",
+    "title": "Pretérito perfecto vs pretérito indefinido (A1–A2): выбери правильную форму",
+    "descriptionMarkdown": "Выбери правильный вариант. Смотри на маркеры времени: **hoy, esta semana, ya, todavía no** обычно тянут к **pretérito perfecto**; **ayer, anoche, el año pasado, en 2019** — к **pretérito indefinido**. Основа по формату и правилам взята из гайда ",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Hoy ______ mucha agua.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "he bebido",
+            "commentMarkdown": "✅ **Correcto.** *Hoy* — незавершённый период (сегодня ещё не закончилось), поэтому обычно **pretérito perfecto**."
+          },
+          {
+            "id": "q1o2",
+            "text": "bebí",
+            "commentMarkdown": "❌ Обычно с **hoy** в базовых упражнениях ожидается **he bebido** (pretérito perfecto)."
+          }
+        ],
+        "correctOptionIds": ["q1o1"]
+      },
+      {
+        "id": "q2",
+        "text": "Ayer ______ al supermercado.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "he ido",
+            "commentMarkdown": "❌ *Ayer* — законченный период времени, поэтому здесь нужен **pretérito indefinido**."
+          },
+          {
+            "id": "q2o2",
+            "text": "fui",
+            "commentMarkdown": "✅ **Correcto.** *Ayer* → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": ["q2o2"]
+      },
+      {
+        "id": "q3",
+        "text": "Esta semana ______ mucho trabajo.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "he tenido",
+            "commentMarkdown": "✅ **Correcto.** *Esta semana* обычно считается текущим, ещё не завершённым периодом."
+          },
+          {
+            "id": "q3o2",
+            "text": "tuve",
+            "commentMarkdown": "❌ Для A1–A2 с *esta semana* чаще ожидается **he tenido**."
+          }
+        ],
+        "correctOptionIds": ["q3o1"]
+      },
+      {
+        "id": "q4",
+        "text": "El año pasado ______ en Madrid.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "he vivido",
+            "commentMarkdown": "❌ *El año pasado* — завершённый период."
+          },
+          {
+            "id": "q4o2",
+            "text": "viví",
+            "commentMarkdown": "✅ **Correcto.** Завершённый период → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": ["q4o2"]
+      },
+      {
+        "id": "q5",
+        "text": "¿______ ya la tarea?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "Has hecho",
+            "commentMarkdown": "✅ **Correcto.** Маркер *ya* часто используется с **pretérito perfecto**, когда важен результат к настоящему моменту."
+          },
+          {
+            "id": "q5o2",
+            "text": "Hiciste",
+            "commentMarkdown": "❌ Возможен в других контекстах (например, если спрашивают про конкретный прошлый момент), но без такого контекста здесь ожидается **has hecho**."
+          }
+        ],
+        "correctOptionIds": ["q5o1"]
+      },
+      {
+        "id": "q6",
+        "text": "Anoche ______ una película muy buena.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q6o1",
+            "text": "hemos visto",
+            "commentMarkdown": "❌ *Anoche* — конкретный завершённый момент в прошлом."
+          },
+          {
+            "id": "q6o2",
+            "text": "vimos",
+            "commentMarkdown": "✅ **Correcto.** *Anoche* → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": ["q6o2"]
+      },
+      {
+        "id": "q7",
+        "text": "Este mes ______ tres libros.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q7o1",
+            "text": "he leído",
+            "commentMarkdown": "✅ **Correcto.** *Este mes* (месяц ещё идёт) → обычно **pretérito perfecto**."
+          },
+          {
+            "id": "q7o2",
+            "text": "leí",
+            "commentMarkdown": "❌ Для A1–A2 в нейтральном варианте с *este mes* обычно выбирают **he leído**."
+          }
+        ],
+        "correctOptionIds": ["q7o1"]
+      },
+      {
+        "id": "q8",
+        "text": "En 2020 ______ a Barcelona por primera vez.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q8o1",
+            "text": "he viajado",
+            "commentMarkdown": "❌ *En 2020* — чётко завершённый период."
+          },
+          {
+            "id": "q8o2",
+            "text": "viajé",
+            "commentMarkdown": "✅ **Correcto.** Конкретный прошлый год → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": ["q8o2"]
+      }
+    ]
+  },
+  {
+    "id": "pppi-fill-1",
+    "componentType": "fill-in-the-blank",
+    "title": "Заполни пропуски: pretérito perfecto или indefinido",
+    "descriptionMarkdown": "Впиши правильную форму глагола. Обращай внимание на маркеры времени и на то, завершён ли период.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": "Frases básicas",
+        "content": "1) Hoy [[b1]] (desayunar) muy temprano.\n2) Ayer [[b2]] (desayunar) a las ocho.\n3) Esta tarde [[b3]] (ver) a Ana dos veces.\n4) El sábado pasado [[b4]] (ver) a Ana en el mercado.\n5) ¿Todavía no [[b5]] (hacer) los deberes?\n6) La semana pasada [[b6]] (hacer) mucho frío.",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": ["he desayunado"],
+            "commentMarkdown": "✅ *Hoy* = текущий (незавершённый) период → **pretérito perfecto**."
+          },
+          {
+            "id": "b2",
+            "correctAnswers": ["desayuné"],
+            "commentMarkdown": "✅ *Ayer* = завершённый период → **pretérito indefinido**."
+          },
+          {
+            "id": "b3",
+            "correctAnswers": ["he visto"],
+            "commentMarkdown": "✅ *Esta tarde* в типичных упражнениях считается текущим периодом (если день ещё не закончился), поэтому **he visto**."
+          },
+          {
+            "id": "b4",
+            "correctAnswers": ["vi"],
+            "commentMarkdown": "✅ *El sábado pasado* — завершённый момент в прошлом → **indefinido**."
+          },
+          {
+            "id": "b5",
+            "correctAnswers": ["has hecho"],
+            "commentMarkdown": "✅ *Todavía no* часто употребляется с **pretérito perfecto**, когда речь о результате к настоящему моменту."
+          },
+          {
+            "id": "b6",
+            "correctAnswers": ["hizo"],
+            "commentMarkdown": "✅ *La semana pasada* — завершённый период → **pretérito indefinido**."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Немного сложнее: маркеры и контекст",
+        "content": "1) Este año [[b7]] (viajar, yo) mucho por trabajo.\n2) En 2019 [[b8]] (viajar, yo) a México.\n3) Ya [[b9]] (comer, nosotros), gracias.\n4) Anoche [[b10]] (comer, nosotros) en casa.\n5) Esta mañana [[b11]] (llamar, ella) tres veces.\n6) El mes pasado [[b12]] (llamar, ella) solo una vez.",
+        "blanks": [
+          {
+            "id": "b7",
+            "correctAnswers": ["he viajado"],
+            "commentMarkdown": "✅ *Este año* (год ещё не закончился) → обычно **pretérito perfecto**."
+          },
+          {
+            "id": "b8",
+            "correctAnswers": ["viajé"],
+            "commentMarkdown": "✅ Конкретный прошлый год (*en 2019*) → **pretérito indefinido**."
+          },
+          {
+            "id": "b9",
+            "correctAnswers": ["hemos comido"],
+            "commentMarkdown": "✅ *Ya* + результат к текущему моменту → **pretérito perfecto**."
+          },
+          {
+            "id": "b10",
+            "correctAnswers": ["comimos"],
+            "commentMarkdown": "✅ *Anoche* → завершённый период → **pretérito indefinido**."
+          },
+          {
+            "id": "b11",
+            "correctAnswers": ["ha llamado"],
+            "commentMarkdown": "✅ *Esta mañana* в учебной норме часто трактуется как текущий период (если день ещё идёт). В разговорной речи выбор может зависеть от региона и контекста, но здесь ожидается **ha llamado**."
+          },
+          {
+            "id": "b12",
+            "correctAnswers": ["llamó"],
+            "commentMarkdown": "✅ *El mes pasado* — завершённый период → **pretérito indefinido**."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pppi-match-1",
+    "componentType": "match-pairs",
+    "title": "Соотнеси маркер времени с нужным временем",
+    "descriptionMarkdown": "Соедини выражение времени с типичным выбором времени в базовых упражнениях (A1–A2).",
+    "tasks": [
+      {
+        "id": "m1",
+        "title": "Marcadores temporales",
+        "leftColumnTitle": "Выражение времени",
+        "rightColumnTitle": "Обычно используется",
+        "rows": [
+          {
+            "id": "m1r1",
+            "prompt": "hoy",
+            "correctOptionId": "m1o1",
+            "commentMarkdown": "✅ Обычно **pretérito perfecto**: период ещё не закончился."
+          },
+          {
+            "id": "m1r2",
+            "prompt": "ayer",
+            "correctOptionId": "m1o2",
+            "commentMarkdown": "✅ Обычно **pretérito indefinido**: завершённый прошлый день."
+          },
+          {
+            "id": "m1r3",
+            "prompt": "esta semana",
+            "correctOptionId": "m1o3",
+            "commentMarkdown": "✅ Обычно **pretérito perfecto** (незавершённый период)."
+          },
+          {
+            "id": "m1r4",
+            "prompt": "la semana pasada",
+            "correctOptionId": "m1o4",
+            "commentMarkdown": "✅ Обычно **pretérito indefinido** (завершённый период)."
+          },
+          {
+            "id": "m1r5",
+            "prompt": "ya / todavía no",
+            "correctOptionId": "m1o5",
+            "commentMarkdown": "✅ Часто сигнализируют **pretérito perfecto**, когда важен результат к текущему моменту."
+          },
+          {
+            "id": "m1r6",
+            "prompt": "en 2021",
+            "correctOptionId": "m1o6",
+            "commentMarkdown": "✅ Конкретный завершённый год → **pretérito indefinido**."
+          }
+        ],
+        "options": [
+          { "id": "m1o1", "text": "pretérito perfecto (he hablado / has comido...)" },
+          { "id": "m1o2", "text": "pretérito indefinido (hablé / comiste...)" },
+          { "id": "m1o3", "text": "pretérito perfecto (текущий период)" },
+          { "id": "m1o4", "text": "pretérito indefinido (завершённый период)" },
+          { "id": "m1o5", "text": "часто pretérito perfecto (результат сейчас)" },
+          { "id": "m1o6", "text": "pretérito indefinido (конкретный прошлый год)" }
+        ]
+      }
+    ]
+  }
+]
+    </script>
+
+    <script src="../../node_modules/vue/dist/vue.global.prod.js"></script>
+    <script>
+      const { createApp } = Vue;
+
+      const escapeHtml = (value) =>
+        String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+
+      const applyInlineMarkdown = (value) => {
+        return value
+          .replace(/`([^`]+)`/g, "<code>$1</code>")
+          .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      };
+
+      const renderMarkdown = (markdown) => {
+        const lines = String(markdown || "").split("\n");
+        const blocks = [];
+        let paragraph = [];
+        let listItems = [];
+
+        const flushParagraph = () => {
+          if (!paragraph.length) return;
+          blocks.push("<p>" + paragraph.join("<br />") + "</p>");
+          paragraph = [];
+        };
+
+        const flushList = () => {
+          if (!listItems.length) return;
+          blocks.push("<ul>" + listItems.map((item) => "<li>" + item + "</li>").join("") + "</ul>");
+          listItems = [];
+        };
+
+        for (const rawLine of lines) {
+          const line = applyInlineMarkdown(escapeHtml(rawLine.trim()));
+          if (!line) {
+            flushParagraph();
+            flushList();
+            continue;
+          }
+          if (line.startsWith("### ")) {
+            flushParagraph();
+            flushList();
+            blocks.push("<h5>" + line.slice(4) + "</h5>");
+            continue;
+          }
+          if (line.startsWith("## ")) {
+            flushParagraph();
+            flushList();
+            blocks.push("<h4>" + line.slice(3) + "</h4>");
+            continue;
+          }
+          if (line.startsWith("# ")) {
+            flushParagraph();
+            flushList();
+            blocks.push("<h3>" + line.slice(2) + "</h3>");
+            continue;
+          }
+          if (line.startsWith("- ")) {
+            flushParagraph();
+            listItems.push(line.slice(2));
+            continue;
+          }
+          flushList();
+          paragraph.push(line);
+        }
+
+        flushParagraph();
+        flushList();
+        return blocks.join("");
+      };
+
+      const AnswerCommentPopover = {
+        name: "AnswerCommentPopover",
+        props: {
+          markdown: { type: String, required: true },
+          isOpen: { type: Boolean, required: true },
+        },
+        emits: ["toggle"],
+        computed: {
+          renderedComment() {
+            return renderMarkdown(this.markdown);
+          },
+        },
+        template: `
+          <span class="comment-popover">
+            <button
+              class="comment-popover__trigger"
+              type="button"
+              :aria-expanded="isOpen"
+              aria-label="Показать комментарий к ответу"
+              @click.stop="$emit('toggle')"
+            >
+              ?
+            </button>
+            <div v-if="isOpen" class="comment-popover__panel" role="dialog">
+              <div class="comment-popover__content" v-html="renderedComment"></div>
+            </div>
+          </span>
+        `,
+      };
+
+      const ChooseCorrectAnswerTest = {
+        name: "ChooseCorrectAnswerTest",
+        components: { AnswerCommentPopover },
+        props: {
+          title: { type: String, default: "Выбери правильный ответ" },
+          descriptionMarkdown: { type: String, default: "" },
+          questions: { type: Array, required: true },
+        },
+        data() {
+          return {
+            selectedAnswers: {},
+            checkMode: false,
+            showAnswersMode: false,
+            openCommentKey: "",
+          };
+        },
+        computed: {
+          renderedDescription() {
+            return renderMarkdown(this.descriptionMarkdown || "");
+          },
+          totalQuestions() {
+            return this.questions.length;
+          },
+          correctQuestionsCount() {
+            return this.questions.reduce((acc, q) => (this.isQuestionCorrect(q) ? acc + 1 : acc), 0);
+          },
+        },
+        methods: {
+          makeCommentKey(questionId, optionId) {
+            return questionId + "::" + optionId;
+          },
+          toggleComment(questionId, optionId) {
+            const key = this.makeCommentKey(questionId, optionId);
+            this.openCommentKey = this.openCommentKey === key ? "" : key;
+          },
+          isSelected(questionId, optionId) {
+            return (this.selectedAnswers[questionId] || []).includes(optionId);
+          },
+          isCorrectOption(questionId, optionId) {
+            const q = this.questions.find((it) => it.id === questionId);
+            return q ? q.correctOptionIds.includes(optionId) : false;
+          },
+          toggleSelection(question, optionId) {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+            if (!this.selectedAnswers[question.id]) this.selectedAnswers[question.id] = [];
+            if (question.multiple) {
+              const idx = this.selectedAnswers[question.id].indexOf(optionId);
+              if (idx >= 0) this.selectedAnswers[question.id].splice(idx, 1);
+              else this.selectedAnswers[question.id].push(optionId);
+              return;
+            }
+            this.selectedAnswers[question.id] = [optionId];
+          },
+          isQuestionCorrect(question) {
+            const selected = [...(this.selectedAnswers[question.id] || [])].sort();
+            const correct = [...question.correctOptionIds].sort();
+            return selected.length === correct.length && selected.every((id, i) => id === correct[i]);
+          },
+          checkAnswers() {
+            this.checkMode = true;
+          },
+          showAnswers() {
+            this.showAnswersMode = true;
+            this.openCommentKey = "";
+          },
+          resetFeedback() {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+          },
+          restartTest() {
+            this.resetFeedback();
+            Object.keys(this.selectedAnswers).forEach((k) => delete this.selectedAnswers[k]);
+          },
+          getAnswerStateClass(questionId, optionId) {
+            const question = this.questions.find((q) => q.id === questionId);
+            if (!question) return "";
+            if (this.showAnswersMode) {
+              if (question.correctOptionIds.includes(optionId)) return "test__answer--correct";
+              return this.isSelected(questionId, optionId) ? "test__answer--incorrect" : "";
+            }
+            if (!this.checkMode || !this.isSelected(questionId, optionId)) return "";
+            return question.correctOptionIds.includes(optionId) ? "test__answer--correct" : "test__answer--incorrect";
+          },
+        },
+        template: `
+          <section class="test">
+            <h2 class="test__title">{{ title }}</h2>
+            <div v-if="descriptionMarkdown" class="test__description" v-html="renderedDescription"></div>
+            <p v-if="checkMode" class="test__stats">Правильно: {{ correctQuestionsCount }} из {{ totalQuestions }}</p>
+
+            <div v-for="question in questions" :key="question.id" class="test__question">
+              <p class="test__question-text">{{ question.text }}</p>
+              <ul class="test__answers">
+                <li
+                  v-for="option in question.options"
+                  :key="option.id"
+                  class="test__answer"
+                  :class="getAnswerStateClass(question.id, option.id)"
+                >
+                  <label>
+                    <input
+                      :type="question.multiple ? 'checkbox' : 'radio'"
+                      :name="question.id"
+                      :checked="isSelected(question.id, option.id)"
+                      @change="toggleSelection(question, option.id)"
+                    />
+                    <span class="test__answer-text">{{ option.text }}</span>
+                    <span v-if="showAnswersMode && isCorrectOption(question.id, option.id)" class="test__correct-icon">✓</span>
+                    <AnswerCommentPopover
+                      v-if="showAnswersMode && option.commentMarkdown"
+                      :markdown="option.commentMarkdown"
+                      :is-open="openCommentKey === makeCommentKey(question.id, option.id)"
+                      @toggle="toggleComment(question.id, option.id)"
+                    />
+                  </label>
+                </li>
+              </ul>
+            </div>
+
+            <div class="test__actions">
+              <button class="test__check-btn" type="button" @click="checkAnswers">Проверить</button>
+              <button class="test__secondary-btn" type="button" @click="showAnswers">Показать правильные ответы</button>
+              <button class="test__secondary-btn" type="button" @click="resetFeedback">Сброс</button>
+              <button class="test__secondary-btn" type="button" @click="restartTest">Начать заново</button>
+            </div>
+          </section>
+        `,
+      };
+
+      const FillInTheBlankTest = {
+        name: "FillInTheBlankTest",
+        components: { AnswerCommentPopover },
+        props: {
+          title: { type: String, default: "Заполни пропуск" },
+          descriptionMarkdown: { type: String, default: "" },
+          texts: { type: Array, required: true },
+        },
+        data() {
+          return {
+            userAnswers: {},
+            checkMode: false,
+            showAnswersMode: false,
+            openCommentKey: "",
+          };
+        },
+        computed: {
+          renderedDescription() {
+            return renderMarkdown(this.descriptionMarkdown || "");
+          },
+          totalBlanksCount() {
+            return this.texts.reduce((acc, t) => acc + t.blanks.length, 0);
+          },
+          correctBlanksCount() {
+            return this.texts.reduce((acc, t) => {
+              return (
+                acc +
+                t.blanks.reduce((bAcc, b) => (this.isBlankCorrect(t.id, b.id) ? bAcc + 1 : bAcc), 0)
+              );
+            }, 0);
+          },
+          segmentsByTextId() {
+            return Object.fromEntries(this.texts.map((item) => [item.id, this.parseContent(item.content)]));
+          },
+        },
+        methods: {
+          keyOf(textId, blankId) {
+            return textId + "::" + blankId;
+          },
+          normalize(value) {
+            return String(value || "").trim().toLowerCase();
+          },
+          findBlank(textId, blankId) {
+            const text = this.texts.find((t) => t.id === textId);
+            return text ? text.blanks.find((b) => b.id === blankId) : undefined;
+          },
+          getUserAnswer(textId, blankId) {
+            return this.userAnswers[this.keyOf(textId, blankId)] || "";
+          },
+          getBlankComment(textId, blankId) {
+            const b = this.findBlank(textId, blankId);
+            return b ? b.commentMarkdown || "" : "";
+          },
+          getCorrectAnswersText(textId, blankId) {
+            const b = this.findBlank(textId, blankId);
+            return b ? b.correctAnswers.join(" / ") : "";
+          },
+          getDisplayedAnswer(textId, blankId) {
+            return this.showAnswersMode
+              ? this.getCorrectAnswersText(textId, blankId)
+              : this.getUserAnswer(textId, blankId);
+          },
+          isBlankCorrect(textId, blankId) {
+            const blank = this.findBlank(textId, blankId);
+            if (!blank) return false;
+            const userValue = this.normalize(this.getUserAnswer(textId, blankId));
+            return blank.correctAnswers.some((a) => this.normalize(a) === userValue);
+          },
+          parseContent(content) {
+            const parts = content.split(/(\[\[[\w-]+\]\])/g);
+            const segments = [];
+            for (const part of parts) {
+              if (!part) continue;
+              const m = part.match(/^\[\[([\w-]+)\]\]$/);
+              if (m) segments.push({ type: "blank", blankId: m[1] });
+              else segments.push({ type: "text", value: part });
+            }
+            return segments;
+          },
+          getSegments(textId) {
+            return this.segmentsByTextId[textId] || [];
+          },
+          onInputChange(textId, blankId, event) {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+            this.userAnswers[this.keyOf(textId, blankId)] = event.target.value;
+          },
+          hasIncorrectUserAnswer(textId, blankId) {
+            const answer = this.getUserAnswer(textId, blankId).trim();
+            return answer.length > 0 && !this.isBlankCorrect(textId, blankId);
+          },
+          toggleComment(textId, blankId) {
+            const key = this.keyOf(textId, blankId);
+            this.openCommentKey = this.openCommentKey === key ? "" : key;
+          },
+          checkAnswers() {
+            this.checkMode = true;
+          },
+          showAnswers() {
+            this.showAnswersMode = true;
+            this.openCommentKey = "";
+          },
+          resetFeedback() {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+          },
+          restartTest() {
+            this.resetFeedback();
+            Object.keys(this.userAnswers).forEach((k) => delete this.userAnswers[k]);
+          },
+          getBlankStateClass(textId, blankId) {
+            if (!this.checkMode) return "";
+            return this.isBlankCorrect(textId, blankId) ? "fill-test__blank--correct" : "fill-test__blank--incorrect";
+          },
+        },
+        template: `
+          <section class="fill-test">
+            <h2>{{ title }}</h2>
+            <div v-if="descriptionMarkdown" class="fill-test__description" v-html="renderedDescription"></div>
+            <p v-if="checkMode" class="fill-test__stats">Правильно: {{ correctBlanksCount }} из {{ totalBlanksCount }}</p>
+
+            <article v-for="textItem in texts" :key="textItem.id" class="fill-test__card">
+              <h3 v-if="textItem.title">{{ textItem.title }}</h3>
+              <p class="fill-test__text">
+                <template v-for="(segment, index) in getSegments(textItem.id)" :key="textItem.id + '-' + index">
+                  <span v-if="segment.type === 'text'">{{ segment.value }}</span>
+                  <span v-else class="fill-test__blank" :class="getBlankStateClass(textItem.id, segment.blankId)">
+                    <span
+                      v-if="showAnswersMode && hasIncorrectUserAnswer(textItem.id, segment.blankId)"
+                      class="fill-test__wrong-answer"
+                    >
+                      {{ getUserAnswer(textItem.id, segment.blankId) }}
+                    </span>
+                    <span
+                      v-if="showAnswersMode"
+                      class="fill-test__answer"
+                      :title="getDisplayedAnswer(textItem.id, segment.blankId)"
+                    >
+                      {{ getDisplayedAnswer(textItem.id, segment.blankId) }}
+                    </span>
+                    <input
+                      v-else
+                      class="fill-test__input"
+                      :value="getDisplayedAnswer(textItem.id, segment.blankId)"
+                      :title="getDisplayedAnswer(textItem.id, segment.blankId)"
+                      type="text"
+                      @input="onInputChange(textItem.id, segment.blankId, $event)"
+                    />
+                    <AnswerCommentPopover
+                      v-if="showAnswersMode && getBlankComment(textItem.id, segment.blankId)"
+                      :markdown="getBlankComment(textItem.id, segment.blankId)"
+                      :is-open="openCommentKey === keyOf(textItem.id, segment.blankId)"
+                      @toggle="toggleComment(textItem.id, segment.blankId)"
+                    />
+                  </span>
+                </template>
+              </p>
+            </article>
+
+            <div class="fill-test__actions">
+              <button class="fill-test__check-btn" type="button" @click="checkAnswers">Проверить</button>
+              <button class="fill-test__secondary-btn" type="button" @click="showAnswers">Показать правильные ответы</button>
+              <button class="fill-test__secondary-btn" type="button" @click="resetFeedback">Сброс</button>
+              <button class="fill-test__secondary-btn" type="button" @click="restartTest">Начать заново</button>
+            </div>
+          </section>
+        `,
+      };
+
+      const MatchPairsTest = {
+        name: "MatchPairsTest",
+        components: { AnswerCommentPopover },
+        props: {
+          title: { type: String, default: "Сопоставь одно с другим" },
+          descriptionMarkdown: { type: String, default: "" },
+          tasks: { type: Array, required: true },
+        },
+        data() {
+          return {
+            assignments: {},
+            pendingOptionByTask: {},
+            draggingTaskId: "",
+            draggingOptionId: "",
+            checkMode: false,
+            showAnswersMode: false,
+            openCommentKey: "",
+          };
+        },
+        computed: {
+          renderedDescription() {
+            return renderMarkdown(this.descriptionMarkdown || "");
+          },
+          totalRowsCount() {
+            return this.tasks.reduce((acc, t) => acc + t.rows.length, 0);
+          },
+          correctRowsCount() {
+            return this.tasks.reduce((acc, t) => {
+              return acc + t.rows.reduce((rAcc, r) => (this.isRowCorrect(t.id, r.id) ? rAcc + 1 : rAcc), 0);
+            }, 0);
+          },
+        },
+        methods: {
+          makeKey(taskId, rowId) {
+            return taskId + "::" + rowId;
+          },
+          findTask(taskId) {
+            return this.tasks.find((t) => t.id === taskId);
+          },
+          findRow(taskId, rowId) {
+            const task = this.findTask(taskId);
+            return task ? task.rows.find((r) => r.id === rowId) : undefined;
+          },
+          findOption(taskId, optionId) {
+            const task = this.findTask(taskId);
+            return task ? task.options.find((o) => o.id === optionId) : undefined;
+          },
+          getPendingOption(taskId) {
+            return this.pendingOptionByTask[taskId] || "";
+          },
+          getAvailableOptions(taskId) {
+            const task = this.findTask(taskId);
+            if (!task) return [];
+            const assigned = new Set(task.rows.map((r) => this.assignments[this.makeKey(taskId, r.id)]).filter(Boolean));
+            return task.options.filter((o) => !assigned.has(o.id));
+          },
+          assignOptionToRow(taskId, rowId, optionId) {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+            const task = this.findTask(taskId);
+            if (!task) return;
+            task.rows.forEach((row) => {
+              if (this.assignments[this.makeKey(taskId, row.id)] === optionId) {
+                delete this.assignments[this.makeKey(taskId, row.id)];
+              }
+            });
+            this.assignments[this.makeKey(taskId, rowId)] = optionId;
+            this.pendingOptionByTask[taskId] = "";
+          },
+          onAnswerClick(taskId, optionId) {
+            this.pendingOptionByTask[taskId] = this.pendingOptionByTask[taskId] === optionId ? "" : optionId;
+          },
+          onDropzoneClick(taskId, rowId) {
+            const optionId = this.getPendingOption(taskId);
+            if (optionId) this.assignOptionToRow(taskId, rowId, optionId);
+          },
+          onAnswerDragStart(taskId, optionId, event) {
+            this.draggingTaskId = taskId;
+            this.draggingOptionId = optionId;
+            if (event.dataTransfer) event.dataTransfer.setData("text/plain", taskId + "::" + optionId);
+          },
+          onRowDrop(taskId, rowId, event) {
+            const payload = event.dataTransfer ? event.dataTransfer.getData("text/plain") : "";
+            const parts = payload.split("::");
+            const payloadTaskId = parts[0] || "";
+            const payloadOptionId = parts[1] || "";
+            const sourceTaskId = payloadTaskId || this.draggingTaskId;
+            const optionId = payloadOptionId || this.draggingOptionId;
+            if (sourceTaskId === taskId && optionId) this.assignOptionToRow(taskId, rowId, optionId);
+          },
+          onAnswerTouchStart(taskId, optionId) {
+            this.draggingTaskId = taskId;
+            this.draggingOptionId = optionId;
+          },
+          onAnswerTouchEnd(event) {
+            const touch = event.changedTouches[0];
+            if (!touch) return;
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropzone = target && target.closest ? target.closest(".match-test__dropzone") : null;
+            if (!dropzone) return;
+            const taskId = dropzone.dataset.taskId || "";
+            const rowId = dropzone.dataset.rowId || "";
+            if (taskId && rowId && taskId === this.draggingTaskId) {
+              this.assignOptionToRow(taskId, rowId, this.draggingOptionId);
+            }
+          },
+          isRowCorrect(taskId, rowId) {
+            const row = this.findRow(taskId, rowId);
+            return !!row && this.assignments[this.makeKey(taskId, rowId)] === row.correctOptionId;
+          },
+          hasWrongAssignment(taskId, rowId) {
+            return Boolean(this.assignments[this.makeKey(taskId, rowId)]) && !this.isRowCorrect(taskId, rowId);
+          },
+          getAssignedText(taskId, rowId) {
+            const assigned = this.assignments[this.makeKey(taskId, rowId)];
+            return assigned ? (this.findOption(taskId, assigned) || {}).text || "" : "";
+          },
+          getCorrectText(taskId, rowId) {
+            const row = this.findRow(taskId, rowId);
+            if (!row) return "Перетащите ответ сюда";
+            return (this.findOption(taskId, row.correctOptionId) || {}).text || "Перетащите ответ сюда";
+          },
+          getDisplayedText(taskId, rowId) {
+            if (this.showAnswersMode) return this.getCorrectText(taskId, rowId);
+            return this.getAssignedText(taskId, rowId) || "Перетащите ответ сюда";
+          },
+          isPlaceholder(taskId, rowId) {
+            return !this.showAnswersMode && !this.getAssignedText(taskId, rowId);
+          },
+          getDropzoneClass(taskId, rowId) {
+            if (this.showAnswersMode) return "match-test__dropzone--correct";
+            if (!this.checkMode) return "";
+            if (!this.assignments[this.makeKey(taskId, rowId)]) return "match-test__dropzone--incorrect";
+            return this.isRowCorrect(taskId, rowId)
+              ? "match-test__dropzone--correct"
+              : "match-test__dropzone--incorrect";
+          },
+          checkAnswers() {
+            this.checkMode = true;
+          },
+          toggleComment(taskId, rowId) {
+            const key = this.makeKey(taskId, rowId);
+            this.openCommentKey = this.openCommentKey === key ? "" : key;
+          },
+          showAnswers() {
+            this.showAnswersMode = true;
+            this.openCommentKey = "";
+          },
+          resetFeedback() {
+            this.checkMode = false;
+            this.showAnswersMode = false;
+            this.openCommentKey = "";
+          },
+          restartTest() {
+            this.resetFeedback();
+            Object.keys(this.assignments).forEach((k) => delete this.assignments[k]);
+            Object.keys(this.pendingOptionByTask).forEach((k) => delete this.pendingOptionByTask[k]);
+          },
+        },
+        template: `
+          <section class="match-test">
+            <h2>{{ title }}</h2>
+            <div v-if="descriptionMarkdown" class="match-test__description" v-html="renderedDescription"></div>
+            <p v-if="checkMode" class="match-test__stats">Правильно: {{ correctRowsCount }} из {{ totalRowsCount }}</p>
+
+            <article v-for="task in tasks" :key="task.id" class="match-test__task">
+              <h3 v-if="task.title">{{ task.title }}</h3>
+              <table class="match-test__table">
+                <thead>
+                  <tr>
+                    <th>{{ task.leftColumnTitle || 'Предложение' }}</th>
+                    <th>{{ task.rightColumnTitle || 'Сопоставление' }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in task.rows" :key="row.id">
+                    <td>{{ row.prompt }}</td>
+                    <td>
+                      <div
+                        class="match-test__dropzone"
+                        :class="getDropzoneClass(task.id, row.id)"
+                        :data-task-id="task.id"
+                        :data-row-id="row.id"
+                        @dragover.prevent
+                        @drop="onRowDrop(task.id, row.id, $event)"
+                        @click="onDropzoneClick(task.id, row.id)"
+                      >
+                        <span
+                          v-if="showAnswersMode && hasWrongAssignment(task.id, row.id)"
+                          class="match-test__wrong-chip"
+                        >
+                          {{ getAssignedText(task.id, row.id) }}
+                        </span>
+                        <span class="match-test__chip" :class="{ 'match-test__chip--placeholder': isPlaceholder(task.id, row.id) }">
+                          {{ getDisplayedText(task.id, row.id) }}
+                        </span>
+                        <AnswerCommentPopover
+                          v-if="showAnswersMode && row.commentMarkdown"
+                          :markdown="row.commentMarkdown"
+                          :is-open="openCommentKey === makeKey(task.id, row.id)"
+                          @toggle="toggleComment(task.id, row.id)"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="match-test__bank">
+                <p class="match-test__bank-title">Ответы:</p>
+                <div class="match-test__answers">
+                  <button
+                    v-for="option in getAvailableOptions(task.id)"
+                    :key="option.id"
+                    class="match-test__answer-chip"
+                    :class="{ 'match-test__answer-chip--active': getPendingOption(task.id) === option.id }"
+                    type="button"
+                    draggable="true"
+                    @click="onAnswerClick(task.id, option.id)"
+                    @dragstart="onAnswerDragStart(task.id, option.id, $event)"
+                    @touchstart.prevent="onAnswerTouchStart(task.id, option.id)"
+                    @touchend.prevent="onAnswerTouchEnd($event)"
+                  >
+                    {{ option.text }}
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <div class="match-test__actions">
+              <button class="match-test__check-btn" type="button" @click="checkAnswers">Проверить</button>
+              <button class="match-test__secondary-btn" type="button" @click="showAnswers">Показать правильные ответы</button>
+              <button class="match-test__secondary-btn" type="button" @click="resetFeedback">Сброс</button>
+              <button class="match-test__secondary-btn" type="button" @click="restartTest">Начать заново</button>
+            </div>
+          </section>
+        `,
+      };
+
+      const testComponentMap = {
+        "choose-correct-answer": ChooseCorrectAnswerTest,
+        "fill-in-the-blank": FillInTheBlankTest,
+        "match-pairs": MatchPairsTest,
+      };
+
+      const TestSuiteContainer = {
+        name: "TestSuiteContainer",
+        props: {
+          items: { type: Array, required: true },
+        },
+        methods: {
+          getComponent(type) {
+            return testComponentMap[type];
+          },
+          getComponentProps(item) {
+            if (item.componentType === "choose-correct-answer") {
+              return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, questions: item.questions };
+            }
+            if (item.componentType === "fill-in-the-blank") {
+              return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, texts: item.texts };
+            }
+            return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, tasks: item.tasks };
+          },
+        },
+        template: `
+          <section class="suite">
+            <article v-for="item in items" :key="item.id" class="suite__item">
+              <component :is="getComponent(item.componentType)" v-bind="getComponentProps(item)" />
+            </article>
+          </section>
+        `,
+      };
+
+      const suiteData = JSON.parse(document.getElementById("suite-data").textContent);
+
+      createApp({
+        components: { TestSuiteContainer },
+        data() {
+          return { items: suiteData };
+        },
+        template: `<TestSuiteContainer :items="items" />`,
+      }).mount("#app");
+    </script>
+  </body>
+</html>

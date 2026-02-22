@@ -1,0 +1,354 @@
+[
+  {
+    "id": "pppi-choose-1",
+    "componentType": "choose-correct-answer",
+    "title": "Pretérito perfecto vs pretérito indefinido (A1–A2): выбери правильную форму",
+    "descriptionMarkdown": "Выбери правильный вариант. Смотри на маркеры времени: **hoy, esta semana, ya, todavía no** обычно тянут к **pretérito perfecto**; **ayer, anoche, el año pasado, en 2019** — к **pretérito indefinido**. Основа по формату и правилам взята из гайда ",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Hoy ______ mucha agua.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "he bebido",
+            "commentMarkdown": "✅ **Correcto.** *Hoy* — незавершённый период (сегодня ещё не закончилось), поэтому обычно **pretérito perfecto**."
+          },
+          {
+            "id": "q1o2",
+            "text": "bebí",
+            "commentMarkdown": "❌ Обычно с **hoy** в базовых упражнениях ожидается **he bebido** (pretérito perfecto)."
+          }
+        ],
+        "correctOptionIds": [
+          "q1o1"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Ayer ______ al supermercado.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "he ido",
+            "commentMarkdown": "❌ *Ayer* — законченный период времени, поэтому здесь нужен **pretérito indefinido**."
+          },
+          {
+            "id": "q2o2",
+            "text": "fui",
+            "commentMarkdown": "✅ **Correcto.** *Ayer* → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": [
+          "q2o2"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Esta semana ______ mucho trabajo.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "he tenido",
+            "commentMarkdown": "✅ **Correcto.** *Esta semana* обычно считается текущим, ещё не завершённым периодом."
+          },
+          {
+            "id": "q3o2",
+            "text": "tuve",
+            "commentMarkdown": "❌ Для A1–A2 с *esta semana* чаще ожидается **he tenido**."
+          }
+        ],
+        "correctOptionIds": [
+          "q3o1"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "El año pasado ______ en Madrid.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "he vivido",
+            "commentMarkdown": "❌ *El año pasado* — завершённый период."
+          },
+          {
+            "id": "q4o2",
+            "text": "viví",
+            "commentMarkdown": "✅ **Correcto.** Завершённый период → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": [
+          "q4o2"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "¿______ ya la tarea?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "Has hecho",
+            "commentMarkdown": "✅ **Correcto.** Маркер *ya* часто используется с **pretérito perfecto**, когда важен результат к настоящему моменту."
+          },
+          {
+            "id": "q5o2",
+            "text": "Hiciste",
+            "commentMarkdown": "❌ Возможен в других контекстах (например, если спрашивают про конкретный прошлый момент), но без такого контекста здесь ожидается **has hecho**."
+          }
+        ],
+        "correctOptionIds": [
+          "q5o1"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Anoche ______ una película muy buena.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q6o1",
+            "text": "hemos visto",
+            "commentMarkdown": "❌ *Anoche* — конкретный завершённый момент в прошлом."
+          },
+          {
+            "id": "q6o2",
+            "text": "vimos",
+            "commentMarkdown": "✅ **Correcto.** *Anoche* → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": [
+          "q6o2"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Este mes ______ tres libros.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q7o1",
+            "text": "he leído",
+            "commentMarkdown": "✅ **Correcto.** *Este mes* (месяц ещё идёт) → обычно **pretérito perfecto**."
+          },
+          {
+            "id": "q7o2",
+            "text": "leí",
+            "commentMarkdown": "❌ Для A1–A2 в нейтральном варианте с *este mes* обычно выбирают **he leído**."
+          }
+        ],
+        "correctOptionIds": [
+          "q7o1"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "En 2020 ______ a Barcelona por primera vez.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q8o1",
+            "text": "he viajado",
+            "commentMarkdown": "❌ *En 2020* — чётко завершённый период."
+          },
+          {
+            "id": "q8o2",
+            "text": "viajé",
+            "commentMarkdown": "✅ **Correcto.** Конкретный прошлый год → **pretérito indefinido**."
+          }
+        ],
+        "correctOptionIds": [
+          "q8o2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pppi-fill-1",
+    "componentType": "fill-in-the-blank",
+    "title": "Заполни пропуски: pretérito perfecto или indefinido",
+    "descriptionMarkdown": "Впиши правильную форму глагола. Обращай внимание на маркеры времени и на то, завершён ли период.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": "Frases básicas",
+        "content": "1) Hoy [[b1]] (desayunar) muy temprano.\n2) Ayer [[b2]] (desayunar) a las ocho.\n3) Esta tarde [[b3]] (ver) a Ana dos veces.\n4) El sábado pasado [[b4]] (ver) a Ana en el mercado.\n5) ¿Todavía no [[b5]] (hacer) los deberes?\n6) La semana pasada [[b6]] (hacer) mucho frío.",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": [
+              "he desayunado"
+            ],
+            "commentMarkdown": "✅ *Hoy* = текущий (незавершённый) период → **pretérito perfecto**."
+          },
+          {
+            "id": "b2",
+            "correctAnswers": [
+              "desayuné"
+            ],
+            "commentMarkdown": "✅ *Ayer* = завершённый период → **pretérito indefinido**."
+          },
+          {
+            "id": "b3",
+            "correctAnswers": [
+              "he visto"
+            ],
+            "commentMarkdown": "✅ *Esta tarde* в типичных упражнениях считается текущим периодом (если день ещё не закончился), поэтому **he visto**."
+          },
+          {
+            "id": "b4",
+            "correctAnswers": [
+              "vi"
+            ],
+            "commentMarkdown": "✅ *El sábado pasado* — завершённый момент в прошлом → **indefinido**."
+          },
+          {
+            "id": "b5",
+            "correctAnswers": [
+              "has hecho"
+            ],
+            "commentMarkdown": "✅ *Todavía no* часто употребляется с **pretérito perfecto**, когда речь о результате к настоящему моменту."
+          },
+          {
+            "id": "b6",
+            "correctAnswers": [
+              "hizo"
+            ],
+            "commentMarkdown": "✅ *La semana pasada* — завершённый период → **pretérito indefinido**."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Немного сложнее: маркеры и контекст",
+        "content": "1) Este año [[b7]] (viajar, yo) mucho por trabajo.\n2) En 2019 [[b8]] (viajar, yo) a México.\n3) Ya [[b9]] (comer, nosotros), gracias.\n4) Anoche [[b10]] (comer, nosotros) en casa.\n5) Esta mañana [[b11]] (llamar, ella) tres veces.\n6) El mes pasado [[b12]] (llamar, ella) solo una vez.",
+        "blanks": [
+          {
+            "id": "b7",
+            "correctAnswers": [
+              "he viajado"
+            ],
+            "commentMarkdown": "✅ *Este año* (год ещё не закончился) → обычно **pretérito perfecto**."
+          },
+          {
+            "id": "b8",
+            "correctAnswers": [
+              "viajé"
+            ],
+            "commentMarkdown": "✅ Конкретный прошлый год (*en 2019*) → **pretérito indefinido**."
+          },
+          {
+            "id": "b9",
+            "correctAnswers": [
+              "hemos comido"
+            ],
+            "commentMarkdown": "✅ *Ya* + результат к текущему моменту → **pretérito perfecto**."
+          },
+          {
+            "id": "b10",
+            "correctAnswers": [
+              "comimos"
+            ],
+            "commentMarkdown": "✅ *Anoche* → завершённый период → **pretérito indefinido**."
+          },
+          {
+            "id": "b11",
+            "correctAnswers": [
+              "ha llamado"
+            ],
+            "commentMarkdown": "✅ *Esta mañana* в учебной норме часто трактуется как текущий период (если день ещё идёт). В разговорной речи выбор может зависеть от региона и контекста, но здесь ожидается **ha llamado**."
+          },
+          {
+            "id": "b12",
+            "correctAnswers": [
+              "llamó"
+            ],
+            "commentMarkdown": "✅ *El mes pasado* — завершённый период → **pretérito indefinido**."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pppi-match-1",
+    "componentType": "match-pairs",
+    "title": "Соотнеси маркер времени с нужным временем",
+    "descriptionMarkdown": "Соедини выражение времени с типичным выбором времени в базовых упражнениях (A1–A2).",
+    "tasks": [
+      {
+        "id": "m1",
+        "title": "Marcadores temporales",
+        "leftColumnTitle": "Выражение времени",
+        "rightColumnTitle": "Обычно используется",
+        "rows": [
+          {
+            "id": "m1r1",
+            "prompt": "hoy",
+            "correctOptionId": "m1o1",
+            "commentMarkdown": "✅ Обычно **pretérito perfecto**: период ещё не закончился."
+          },
+          {
+            "id": "m1r2",
+            "prompt": "ayer",
+            "correctOptionId": "m1o2",
+            "commentMarkdown": "✅ Обычно **pretérito indefinido**: завершённый прошлый день."
+          },
+          {
+            "id": "m1r3",
+            "prompt": "esta semana",
+            "correctOptionId": "m1o3",
+            "commentMarkdown": "✅ Обычно **pretérito perfecto** (незавершённый период)."
+          },
+          {
+            "id": "m1r4",
+            "prompt": "la semana pasada",
+            "correctOptionId": "m1o4",
+            "commentMarkdown": "✅ Обычно **pretérito indefinido** (завершённый период)."
+          },
+          {
+            "id": "m1r5",
+            "prompt": "ya / todavía no",
+            "correctOptionId": "m1o5",
+            "commentMarkdown": "✅ Часто сигнализируют **pretérito perfecto**, когда важен результат к текущему моменту."
+          },
+          {
+            "id": "m1r6",
+            "prompt": "en 2021",
+            "correctOptionId": "m1o6",
+            "commentMarkdown": "✅ Конкретный завершённый год → **pretérito indefinido**."
+          }
+        ],
+        "options": [
+          {
+            "id": "m1o1",
+            "text": "pretérito perfecto (he hablado / has comido...)"
+          },
+          {
+            "id": "m1o2",
+            "text": "pretérito indefinido (hablé / comiste...)"
+          },
+          {
+            "id": "m1o3",
+            "text": "pretérito perfecto (текущий период)"
+          },
+          {
+            "id": "m1o4",
+            "text": "pretérito indefinido (завершённый период)"
+          },
+          {
+            "id": "m1o5",
+            "text": "часто pretérito perfecto (результат сейчас)"
+          },
+          {
+            "id": "m1o6",
+            "text": "pretérito indefinido (конкретный прошлый год)"
+          }
+        ]
+      }
+    ]
+  }
+]
