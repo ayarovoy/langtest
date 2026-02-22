@@ -1,0 +1,14 @@
+---
+description: Always reference project architecture guide
+alwaysApply: true
+---
+
+# Architecture Reference Rule
+
+- Read `ARCHITECTURE.md` before making non-trivial changes.
+- Use it as the primary map for:
+  - component/data flow
+  - JSON config contracts
+  - dynamic container behavior
+  - extension checklist for new component types
+- If implementation and document diverge, update both in the same change.
