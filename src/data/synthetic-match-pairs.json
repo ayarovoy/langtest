@@ -1,16 +1,79 @@
 [
   {
-    "id": "m1",
+    "id": "m1-translation",
     "title": "Сопоставьте предложения и перевод",
     "leftColumnTitle": "Предложение",
     "rightColumnTitle": "Перевод",
     "rows": [
       { "id": "r1", "prompt": "I read books every evening.", "correctOptionId": "o2" },
-      { "id": "r2", "prompt": "She is learning Spanish.", "correctOptionId": "o1" }
+      { "id": "r2", "prompt": "She is learning Spanish.", "correctOptionId": "o1" },
+      {
+        "id": "r3",
+        "prompt": "The meeting was postponed because the main speaker missed the flight.",
+        "correctOptionId": "o4"
+      },
+      { "id": "r4", "prompt": "They have been working on this project since May.", "correctOptionId": "o3" }
     ],
     "options": [
       { "id": "o1", "text": "Она изучает испанский." },
-      { "id": "o2", "text": "Я читаю книги каждый вечер." }
+      { "id": "o2", "text": "Я читаю книги каждый вечер." },
+      { "id": "o3", "text": "Они работают над этим проектом с мая." },
+      {
+        "id": "o4",
+        "text": "Встречу перенесли, потому что основной докладчик пропустил рейс."
+      }
+    ]
+  },
+  {
+    "id": "m2-grammar",
+    "title": "Сопоставьте пример и грамматическую конструкцию",
+    "leftColumnTitle": "Пример",
+    "rightColumnTitle": "Конструкция",
+    "rows": [
+      { "id": "r1", "prompt": "If I had known, I would have called you.", "correctOptionId": "o1" },
+      { "id": "r2", "prompt": "She said that she was tired.", "correctOptionId": "o3" },
+      { "id": "r3", "prompt": "The report must be submitted by Monday.", "correctOptionId": "o2" },
+      {
+        "id": "r4",
+        "prompt": "Having finished the task, he went for a walk.",
+        "correctOptionId": "o4"
+      },
+      { "id": "r5", "prompt": "I wish I were better at pronunciation.", "correctOptionId": "o5" }
+    ],
+    "options": [
+      { "id": "o1", "text": "Third Conditional" },
+      { "id": "o2", "text": "Passive Voice with Modal Verb" },
+      { "id": "o3", "text": "Reported Speech" },
+      { "id": "o4", "text": "Participle Clause" },
+      { "id": "o5", "text": "Subjunctive (wish + past form)" }
+    ]
+  },
+  {
+    "id": "m3-functional",
+    "title": "Сопоставьте ситуацию и подходящую функциональную фразу",
+    "leftColumnTitle": "Ситуация",
+    "rightColumnTitle": "Фраза",
+    "rows": [
+      {
+        "id": "r1",
+        "prompt": "Вежливо попросить уточнить непонятный пункт на встрече.",
+        "correctOptionId": "o2"
+      },
+      {
+        "id": "r2",
+        "prompt": "Кратко согласиться с идеей коллеги и добавить свой аргумент.",
+        "correctOptionId": "o3"
+      },
+      {
+        "id": "r3",
+        "prompt": "Попросить перенести срок без категоричных формулировок.",
+        "correctOptionId": "o1"
+      }
+    ],
+    "options": [
+      { "id": "o1", "text": "Would it be possible to extend the deadline by two days?" },
+      { "id": "o2", "text": "Could you clarify what you mean by the second requirement?" },
+      { "id": "o3", "text": "I agree, and I would add that this approach is also more cost-effective." }
     ]
   }
 ]

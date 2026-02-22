@@ -1,25 +1,73 @@
 [
   {
-    "id": "q1",
-    "text": "Выберите правильный перевод слова \"apple\"",
+    "id": "q1-basic-vocab",
+    "text": "Выберите наиболее точный перевод слова \"reliable\" в контексте: \"a reliable source\"",
     "multiple": false,
     "options": [
-      { "id": "q1o1", "text": "яблоко" },
-      { "id": "q1o2", "text": "апельсин" },
-      { "id": "q1o3", "text": "груша" }
+      { "id": "q1o1", "text": "надежный" },
+      { "id": "q1o2", "text": "редкий" },
+      { "id": "q1o3", "text": "случайный" },
+      { "id": "q1o4", "text": "сомнительный" }
     ],
     "correctOptionIds": ["q1o1"]
   },
   {
-    "id": "q2",
-    "text": "Отметьте все глаголы в списке",
+    "id": "q2-parts-of-speech",
+    "text": "Отметьте все слова, которые в данном наборе являются глаголами",
     "multiple": true,
     "options": [
       { "id": "q2o1", "text": "run" },
       { "id": "q2o2", "text": "blue" },
       { "id": "q2o3", "text": "speak" },
-      { "id": "q2o4", "text": "happy" }
+      { "id": "q2o4", "text": "happy" },
+      { "id": "q2o5", "text": "translate" },
+      { "id": "q2o6", "text": "careful" }
     ],
-    "correctOptionIds": ["q2o1", "q2o3"]
+    "correctOptionIds": ["q2o1", "q2o3", "q2o5"]
+  },
+  {
+    "id": "q3-context",
+    "text": "Выберите вариант, который грамматически и смыслово лучше завершает предложение: \"By the time we arrived, the lecture ___\"",
+    "multiple": false,
+    "options": [
+      { "id": "q3o1", "text": "has already started" },
+      { "id": "q3o2", "text": "had already started" },
+      { "id": "q3o3", "text": "already starts" },
+      { "id": "q3o4", "text": "will already start" }
+    ],
+    "correctOptionIds": ["q3o2"]
+  },
+  {
+    "id": "q4-multi-semantic",
+    "text": "Прочитайте фразу \"The manager called off the meeting due to severe weather.\" Отметьте все корректные перефразирования",
+    "multiple": true,
+    "options": [
+      { "id": "q4o1", "text": "The meeting was canceled because of bad weather." },
+      { "id": "q4o2", "text": "The manager postponed the meeting because of severe weather." },
+      { "id": "q4o3", "text": "The weather improved, so the meeting continued as planned." },
+      { "id": "q4o4", "text": "Because of severe weather, the manager decided not to hold the meeting." },
+      { "id": "q4o5", "text": "The manager was called by the meeting about severe weather." }
+    ],
+    "correctOptionIds": ["q4o1", "q4o2", "q4o4"]
+  },
+  {
+    "id": "q5-long-ui",
+    "text": "Тест на длинный контент для мобильных устройств: выберите вариант, где знаки препинания и стиль оформления письма соответствуют нейтральному деловому английскому в запросе о переносе дедлайна",
+    "multiple": false,
+    "options": [
+      {
+        "id": "q5o1",
+        "text": "Hi! we cant finish in time can u move deadline thx"
+      },
+      {
+        "id": "q5o2",
+        "text": "Dear team, We cannot meet the current deadline; could we discuss a possible extension to Friday?"
+      },
+      {
+        "id": "q5o3",
+        "text": "Yo team, deadline is impossible, just change it."
+      }
+    ],
+    "correctOptionIds": ["q5o2"]
   }
 ]
