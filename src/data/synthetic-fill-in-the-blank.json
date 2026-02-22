@@ -1,0 +1,17 @@
+[
+  {
+    "id": "t1",
+    "title": "Текст 1",
+    "content": "I [[b1]] to school every day.",
+    "blanks": [{ "id": "b1", "correctAnswers": ["go"] }]
+  },
+  {
+    "id": "t2",
+    "title": "Текст 2",
+    "content": "She [[b1]] coffee in the morning, and he [[b2]] tea.",
+    "blanks": [
+      { "id": "b1", "correctAnswers": ["drinks", "has"] },
+      { "id": "b2", "correctAnswers": ["prefers", "likes"] }
+    ]
+  }
+]

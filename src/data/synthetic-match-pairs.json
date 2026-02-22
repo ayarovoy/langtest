@@ -1,0 +1,16 @@
+[
+  {
+    "id": "m1",
+    "title": "Сопоставьте предложения и перевод",
+    "leftColumnTitle": "Предложение",
+    "rightColumnTitle": "Перевод",
+    "rows": [
+      { "id": "r1", "prompt": "I read books every evening.", "correctOptionId": "o2" },
+      { "id": "r2", "prompt": "She is learning Spanish.", "correctOptionId": "o1" }
+    ],
+    "options": [
+      { "id": "o1", "text": "Она изучает испанский." },
+      { "id": "o2", "text": "Я читаю книги каждый вечер." }
+    ]
+  }
+]

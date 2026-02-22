@@ -1,0 +1,25 @@
+[
+  {
+    "id": "q1",
+    "text": "Выберите правильный перевод слова \"apple\"",
+    "multiple": false,
+    "options": [
+      { "id": "q1o1", "text": "яблоко" },
+      { "id": "q1o2", "text": "апельсин" },
+      { "id": "q1o3", "text": "груша" }
+    ],
+    "correctOptionIds": ["q1o1"]
+  },
+  {
+    "id": "q2",
+    "text": "Отметьте все глаголы в списке",
+    "multiple": true,
+    "options": [
+      { "id": "q2o1", "text": "run" },
+      { "id": "q2o2", "text": "blue" },
+      { "id": "q2o3", "text": "speak" },
+      { "id": "q2o4", "text": "happy" }
+    ],
+    "correctOptionIds": ["q2o1", "q2o3"]
+  }
+]
