@@ -1,5 +1,7 @@
 import { computed, reactive, ref } from 'vue';
+import { renderMarkdown } from '../utils/markdown';
 const props = withDefaults(defineProps(), { title: 'Заполни пропуск' });
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const userAnswers = reactive({});
 const checkMode = ref(false);
 const showAnswersMode = ref(false);
@@ -60,6 +62,11 @@ const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Запол�
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
 // CSS variable injection 
 // CSS variable injection end 
 __VLS_asFunctionalElement(__VLS_intrinsicElements.section, __VLS_intrinsicElements.section)({
@@ -67,6 +74,12 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.section, __VLS_intrinsicElemen
 });
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({});
 (__VLS_ctx.title);
+if (__VLS_ctx.descriptionMarkdown) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "fill-test__description" },
+    });
+    __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderedDescription) }, null, null);
+}
 if (__VLS_ctx.checkMode) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
         ...{ class: "fill-test__stats" },
@@ -140,6 +153,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
     type: "button",
 });
 /** @type {__VLS_StyleScopedClasses['fill-test']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__stats']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__card']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__text']} */ ;
@@ -155,6 +169,7 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            renderedDescription: renderedDescription,
             checkMode: checkMode,
             showAnswersMode: showAnswersMode,
             getUserAnswer: getUserAnswer,

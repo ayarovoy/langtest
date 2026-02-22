@@ -1,0 +1,72 @@
+[
+  {
+    "id": "suite-choose-1",
+    "componentType": "choose-correct-answer",
+    "title": "Секция 1: выбери правильный ответ",
+    "descriptionMarkdown": "### Инструкция\n- Выберите один или несколько вариантов в каждом вопросе.\n- Нажмите **Проверить**, чтобы увидеть результат.\n\nСовет: ориентируйтесь на контекст предложения, а не только на отдельные слова.",
+    "questions": [
+      {
+        "id": "sq1",
+        "text": "Выберите корректное завершение: \"If I ___ more time, I would learn Italian.\"",
+        "multiple": false,
+        "options": [
+          { "id": "sq1o1", "text": "have" },
+          { "id": "sq1o2", "text": "had" },
+          { "id": "sq1o3", "text": "will have" }
+        ],
+        "correctOptionIds": ["sq1o2"]
+      },
+      {
+        "id": "sq2",
+        "text": "Отметьте все наречия",
+        "multiple": true,
+        "options": [
+          { "id": "sq2o1", "text": "quickly" },
+          { "id": "sq2o2", "text": "careful" },
+          { "id": "sq2o3", "text": "silently" },
+          { "id": "sq2o4", "text": "blue" }
+        ],
+        "correctOptionIds": ["sq2o1", "sq2o3"]
+      }
+    ]
+  },
+  {
+    "id": "suite-fill-1",
+    "componentType": "fill-in-the-blank",
+    "title": "Секция 2: заполни пропуск",
+    "descriptionMarkdown": "Впишите подходящие слова в пропуски.\n\nМожно использовать синонимы, если они подходят по смыслу.",
+    "texts": [
+      {
+        "id": "sft1",
+        "title": "Краткий абзац",
+        "content": "Our team [[b1]] a prototype last month, and we [[b2]] user feedback this week.",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["built", "created"] },
+          { "id": "b2", "correctAnswers": ["collected", "gathered"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "suite-match-1",
+    "componentType": "match-pairs",
+    "title": "Секция 3: сопоставь одно с другим",
+    "descriptionMarkdown": "Перетащите ответы в правую колонку.\n\n- На мобильном можно сначала выбрать чип ответа, затем нажать нужную ячейку.\n- Кнопка `Сброс` убирает подсветку, `Начать заново` очищает сопоставления.",
+    "tasks": [
+      {
+        "id": "smt1",
+        "title": "Сопоставьте фразу и функцию",
+        "leftColumnTitle": "Фраза",
+        "rightColumnTitle": "Функция",
+        "rows": [
+          { "id": "r1", "prompt": "Could you clarify that point?", "correctOptionId": "o2" },
+          { "id": "r2", "prompt": "I completely agree with your proposal.", "correctOptionId": "o1" }
+        ],
+        "options": [
+          { "id": "o1", "text": "Согласие" },
+          { "id": "o2", "text": "Уточнение" }
+        ]
+      }
+    ]
+  }
+]

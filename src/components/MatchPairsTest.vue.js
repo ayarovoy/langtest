@@ -1,5 +1,7 @@
 import { computed, reactive, ref } from 'vue';
+import { renderMarkdown } from '../utils/markdown';
 const props = withDefaults(defineProps(), { title: 'Сопоставь одно с другим' });
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const assignments = reactive({});
 const pendingOptionByTask = reactive({});
 const draggingTaskId = ref('');
@@ -114,6 +116,11 @@ const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Сопос�
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
@@ -124,6 +131,12 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.section, __VLS_intrinsicElemen
 });
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({});
 (__VLS_ctx.title);
+if (__VLS_ctx.descriptionMarkdown) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "match-test__description" },
+    });
+    __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderedDescription) }, null, null);
+}
 if (__VLS_ctx.checkMode) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
         ...{ class: "match-test__stats" },
@@ -238,6 +251,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
     type: "button",
 });
 /** @type {__VLS_StyleScopedClasses['match-test']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__stats']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__task']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
@@ -257,6 +271,7 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            renderedDescription: renderedDescription,
             checkMode: checkMode,
             showAnswersMode: showAnswersMode,
             getPendingOption: getPendingOption,

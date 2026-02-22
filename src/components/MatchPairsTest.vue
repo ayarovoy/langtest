@@ -1,6 +1,7 @@
 <template>
   <section class="match-test">
     <h2>{{ title }}</h2>
+    <div v-if="descriptionMarkdown" class="match-test__description" v-html="renderedDescription"></div>
     <p v-if="checkMode" class="match-test__stats">Правильно: {{ correctRowsCount }} из {{ totalRowsCount }}</p>
 
     <article v-for="task in tasks" :key="task.id" class="match-test__task">
@@ -72,6 +73,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { renderMarkdown } from '../utils/markdown'
 export interface MatchOption { id: string; text: string }
 export interface MatchRow { id: string; prompt: string; correctOptionId: string }
 export interface MatchTask {
@@ -82,9 +84,10 @@ export interface MatchTask {
   rows: MatchRow[]
   options: MatchOption[]
 }
-interface Props { title?: string; tasks: MatchTask[] }
+interface Props { title?: string; descriptionMarkdown?: string; tasks: MatchTask[] }
 
 const props = withDefaults(defineProps<Props>(), { title: 'Сопоставь одно с другим' })
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const assignments = reactive<Record<string, string>>({})
 const pendingOptionByTask = reactive<Record<string, string>>({})
 const draggingTaskId = ref('')
@@ -197,6 +200,12 @@ const restartTest = (): void => {
 <style scoped>
 .match-test { display: grid; gap: 1rem; max-width: 900px; }
 .match-test__stats { margin: -0.25rem 0 0; color: #334155; }
+.match-test__description { color: #475569; margin-top: -0.35rem; }
+:deep(.match-test__description p) { margin: 0.25rem 0; }
+:deep(.match-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
+:deep(.match-test__description h3),
+:deep(.match-test__description h4),
+:deep(.match-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .match-test__task { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
 .match-test__table { width: 100%; border-collapse: collapse; }
 .match-test__table th, .match-test__table td { border: 1px solid #e5e7eb; padding: 0.6rem; }

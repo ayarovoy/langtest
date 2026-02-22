@@ -1,10 +1,11 @@
 <template>
-  <MatchPairsTest title="Демо: сопоставь одно с другим" :tasks="tasks" />
+  <MatchPairsTest :title="config.title" :tasks="config.tasks" />
 </template>
 
 <script setup lang="ts">
-import MatchPairsTest, { type MatchTask } from '../components/MatchPairsTest.vue'
+import MatchPairsTest from '../components/MatchPairsTest.vue'
 import importedTasks from '../data/synthetic-match-pairs.json'
+import type { MatchPairsConfig } from '../types/test-config'
 
-const tasks = importedTasks as MatchTask[]
+const config = importedTasks as MatchPairsConfig
 </script>

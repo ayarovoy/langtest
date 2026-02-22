@@ -1,6 +1,7 @@
 <template>
   <section class="fill-test">
     <h2>{{ title }}</h2>
+    <div v-if="descriptionMarkdown" class="fill-test__description" v-html="renderedDescription"></div>
     <p v-if="checkMode" class="fill-test__stats">Правильно: {{ correctBlanksCount }} из {{ totalBlanksCount }}</p>
 
     <article v-for="textItem in texts" :key="textItem.id" class="fill-test__card">
@@ -37,15 +38,17 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { renderMarkdown } from '../utils/markdown'
 
 export interface FillBlankConfig { id: string; correctAnswers: string[] }
 export interface FillTextTask { id: string; title?: string; content: string; blanks: FillBlankConfig[] }
-interface Props { title?: string; texts: FillTextTask[] }
+interface Props { title?: string; descriptionMarkdown?: string; texts: FillTextTask[] }
 interface FillSegmentText { type: 'text'; value: string }
 interface FillSegmentBlank { type: 'blank'; blankId: string }
 type FillSegment = FillSegmentText | FillSegmentBlank
 
 const props = withDefaults(defineProps<Props>(), { title: 'Заполни пропуск' })
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const userAnswers = reactive<Record<string, string>>({})
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
@@ -116,6 +119,12 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
 <style scoped>
 .fill-test { display: grid; gap: 1rem; max-width: 900px; }
 .fill-test__stats { margin: -0.25rem 0 0; color: #334155; }
+.fill-test__description { color: #475569; margin-top: -0.35rem; }
+:deep(.fill-test__description p) { margin: 0.25rem 0; }
+:deep(.fill-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
+:deep(.fill-test__description h3),
+:deep(.fill-test__description h4),
+:deep(.fill-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .fill-test__card { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
 .fill-test__text { line-height: 1.9; }
 .fill-test__blank { display: inline-flex; gap: 0.35rem; border: 1px solid transparent; border-radius: 8px; padding: 0.15rem 0.2rem; margin: 0 0.15rem; }

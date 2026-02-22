@@ -1,19 +1,17 @@
-import MatchPairsTest from '../components/MatchPairsTest.vue';
-import importedTasks from '../data/synthetic-match-pairs.json';
-const config = importedTasks;
+import TestSuiteContainer from '../components/TestSuiteContainer.vue';
+import suiteConfig from '../data/synthetic-suite.json';
+const items = suiteConfig;
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
-/** @type {[typeof MatchPairsTest, ]} */ ;
+/** @type {[typeof TestSuiteContainer, ]} */ ;
 // @ts-ignore
-const __VLS_0 = __VLS_asFunctionalComponent(MatchPairsTest, new MatchPairsTest({
-    title: (__VLS_ctx.config.title),
-    tasks: (__VLS_ctx.config.tasks),
+const __VLS_0 = __VLS_asFunctionalComponent(TestSuiteContainer, new TestSuiteContainer({
+    items: (__VLS_ctx.items),
 }));
 const __VLS_1 = __VLS_0({
-    title: (__VLS_ctx.config.title),
-    tasks: (__VLS_ctx.config.tasks),
+    items: (__VLS_ctx.items),
 }, ...__VLS_functionalComponentArgsRest(__VLS_0));
 var __VLS_3 = {};
 var __VLS_2;
@@ -21,8 +19,8 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
-            MatchPairsTest: MatchPairsTest,
-            config: config,
+            TestSuiteContainer: TestSuiteContainer,
+            items: items,
         };
     },
 });

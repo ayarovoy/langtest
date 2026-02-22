@@ -1,5 +1,9 @@
-[
-  {
+{
+  "id": "demo-match-1",
+  "componentType": "match-pairs",
+  "title": "Демо: сопоставь одно с другим",
+  "tasks": [
+    {
     "id": "m1-translation",
     "title": "Сопоставьте предложения и перевод",
     "leftColumnTitle": "Предложение",
@@ -23,8 +27,8 @@
         "text": "Встречу перенесли, потому что основной докладчик пропустил рейс."
       }
     ]
-  },
-  {
+    },
+    {
     "id": "m2-grammar",
     "title": "Сопоставьте пример и грамматическую конструкцию",
     "leftColumnTitle": "Пример",
@@ -47,8 +51,8 @@
       { "id": "o4", "text": "Participle Clause" },
       { "id": "o5", "text": "Subjunctive (wish + past form)" }
     ]
-  },
-  {
+    },
+    {
     "id": "m3-functional",
     "title": "Сопоставьте ситуацию и подходящую функциональную фразу",
     "leftColumnTitle": "Ситуация",
@@ -75,5 +79,6 @@
       { "id": "o2", "text": "Could you clarify what you mean by the second requirement?" },
       { "id": "o3", "text": "I agree, and I would add that this approach is also more cost-effective." }
     ]
-  }
-]
+    }
+  ]
+}

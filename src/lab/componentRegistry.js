@@ -1,7 +1,15 @@
 import ChooseCorrectAnswerDemo from '../demos/ChooseCorrectAnswerDemo.vue';
 import FillInTheBlankDemo from '../demos/FillInTheBlankDemo.vue';
 import MatchPairsDemo from '../demos/MatchPairsDemo.vue';
+import TestSuiteContainerDemo from '../demos/TestSuiteContainerDemo.vue';
 export const componentRegistry = [
+    {
+        id: 'test-suite-container',
+        title: 'Контейнер: набор компонентов',
+        description: 'Рендерит список тестов динамически по массиву JSON-конфигов.',
+        tags: ['container', 'dynamic', 'json'],
+        component: TestSuiteContainerDemo,
+    },
     {
         id: 'choose-correct-answer',
         title: 'Выбери правильный ответ',

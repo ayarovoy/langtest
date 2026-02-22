@@ -1,5 +1,9 @@
-[
-  {
+{
+  "id": "demo-fill-1",
+  "componentType": "fill-in-the-blank",
+  "title": "Демо: заполни пропуск",
+  "texts": [
+    {
     "id": "t1-short",
     "title": "Короткий текст (базовый уровень)",
     "content": "I [[b1]] to school every day, but my brother [[b2]] by bus.",
@@ -7,8 +11,8 @@
       { "id": "b1", "correctAnswers": ["go", "walk"] },
       { "id": "b2", "correctAnswers": ["goes", "travels"] }
     ]
-  },
-  {
+    },
+    {
     "id": "t2-medium",
     "title": "Средний текст (времена и коллокации)",
     "content": "By the end of last year, our team [[b1]] three major releases, and we [[b2]] a reliable deployment process that reduced incidents.",
@@ -16,8 +20,8 @@
       { "id": "b1", "correctAnswers": ["had delivered", "delivered"] },
       { "id": "b2", "correctAnswers": ["had built", "built"] }
     ]
-  },
-  {
+    },
+    {
     "id": "t3-long",
     "title": "Длинный текст (проверка адаптивности на узких экранах)",
     "content": "When learners practice regularly, they [[b1]] stronger vocabulary recall; however, without contextual repetition, new words [[b2]] quickly. In blended courses, teachers often [[b3]] spaced-repetition activities so that students [[b4]] both accuracy and confidence over time.",
@@ -27,8 +31,8 @@
       { "id": "b3", "correctAnswers": ["design", "include"] },
       { "id": "b4", "correctAnswers": ["improve", "gain"] }
     ]
-  },
-  {
+    },
+    {
     "id": "t4-punctuation",
     "title": "Пунктуация и формальный стиль",
     "content": "Dear Support Team, I am writing to [[b1]] an update regarding ticket #4821. We have [[b2]] all troubleshooting steps listed in the documentation; nevertheless, the issue [[b3]].",
@@ -37,5 +41,6 @@
       { "id": "b2", "correctAnswers": ["completed", "performed"] },
       { "id": "b3", "correctAnswers": ["persists", "remains unresolved"] }
     ]
-  }
-]
+    }
+  ]
+}

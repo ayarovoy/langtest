@@ -1,5 +1,9 @@
-[
-  {
+{
+  "id": "demo-choose-1",
+  "componentType": "choose-correct-answer",
+  "title": "Демо: выбери правильный ответ",
+  "questions": [
+    {
     "id": "q1-basic-vocab",
     "text": "Выберите наиболее точный перевод слова \"reliable\" в контексте: \"a reliable source\"",
     "multiple": false,
@@ -10,8 +14,8 @@
       { "id": "q1o4", "text": "сомнительный" }
     ],
     "correctOptionIds": ["q1o1"]
-  },
-  {
+    },
+    {
     "id": "q2-parts-of-speech",
     "text": "Отметьте все слова, которые в данном наборе являются глаголами",
     "multiple": true,
@@ -24,8 +28,8 @@
       { "id": "q2o6", "text": "careful" }
     ],
     "correctOptionIds": ["q2o1", "q2o3", "q2o5"]
-  },
-  {
+    },
+    {
     "id": "q3-context",
     "text": "Выберите вариант, который грамматически и смыслово лучше завершает предложение: \"By the time we arrived, the lecture ___\"",
     "multiple": false,
@@ -36,8 +40,8 @@
       { "id": "q3o4", "text": "will already start" }
     ],
     "correctOptionIds": ["q3o2"]
-  },
-  {
+    },
+    {
     "id": "q4-multi-semantic",
     "text": "Прочитайте фразу \"The manager called off the meeting due to severe weather.\" Отметьте все корректные перефразирования",
     "multiple": true,
@@ -49,8 +53,8 @@
       { "id": "q4o5", "text": "The manager was called by the meeting about severe weather." }
     ],
     "correctOptionIds": ["q4o1", "q4o2", "q4o4"]
-  },
-  {
+    },
+    {
     "id": "q5-long-ui",
     "text": "Тест на длинный контент для мобильных устройств: выберите вариант, где знаки препинания и стиль оформления письма соответствуют нейтральному деловому английскому в запросе о переносе дедлайна",
     "multiple": false,
@@ -69,5 +73,6 @@
       }
     ],
     "correctOptionIds": ["q5o2"]
-  }
-]
+    }
+  ]
+}

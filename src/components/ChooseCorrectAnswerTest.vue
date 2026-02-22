@@ -1,6 +1,7 @@
 <template>
   <section class="test">
     <h2 class="test__title">{{ title }}</h2>
+    <div v-if="descriptionMarkdown" class="test__description" v-html="renderedDescription"></div>
     <p v-if="checkMode" class="test__stats">Правильно: {{ correctQuestionsCount }} из {{ totalQuestions }}</p>
 
     <div v-for="question in questions" :key="question.id" class="test__question">
@@ -39,6 +40,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { renderMarkdown } from '../utils/markdown'
 
 export interface TestOption {
   id: string
@@ -55,10 +57,12 @@ export interface TestQuestion {
 
 interface Props {
   title?: string
+  descriptionMarkdown?: string
   questions: TestQuestion[]
 }
 
 const props = withDefaults(defineProps<Props>(), { title: 'Выбери правильный ответ' })
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const selectedAnswers = reactive<Record<string, string[]>>({})
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
@@ -123,6 +127,12 @@ const getAnswerStateClass = (questionId: string, optionId: string): string => {
 <style scoped>
 .test { display: grid; gap: 1rem; max-width: 760px; }
 .test__stats { margin: -0.25rem 0 0; color: #334155; }
+.test__description { color: #475569; margin-top: -0.35rem; }
+:deep(.test__description p) { margin: 0.25rem 0; }
+:deep(.test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
+:deep(.test__description h3),
+:deep(.test__description h4),
+:deep(.test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .test__question { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
 .test__question-text { margin: 0; font-weight: 600; }
 .test__answers { margin: 0.75rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }
