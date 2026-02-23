@@ -36,6 +36,6 @@ const getComponentProps = (item: TestComponentConfig): Record<string, unknown> =
 }
 
 .suite__item {
-  background: transparent;
+  background: var(--lt-color-container-item-bg, transparent);
 }
 </style>

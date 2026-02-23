@@ -32,7 +32,17 @@
                 >
                   {{ getAssignedText(task.id, row.id) }}
                 </span>
-                <span class="match-test__chip" :class="{ 'match-test__chip--placeholder': isPlaceholder(task.id, row.id) }">
+                <span
+                  class="match-test__chip"
+                  :class="{
+                    'match-test__chip--placeholder': isPlaceholder(task.id, row.id),
+                    'match-test__chip--draggable': isAssigned(task.id, row.id) && !showAnswersMode,
+                  }"
+                  :draggable="isAssigned(task.id, row.id) && !showAnswersMode"
+                  @dragstart="onAssignedDragStart(task.id, row.id, $event)"
+                  @touchstart.prevent="onAssignedTouchStart(task.id, row.id)"
+                  @touchend.prevent="onTouchEnd($event)"
+                >
                   {{ getDisplayedText(task.id, row.id) }}
                 </span>
                 <AnswerCommentPopover
@@ -49,7 +59,7 @@
 
       <div class="match-test__bank">
         <p class="match-test__bank-title">Ответы:</p>
-        <div class="match-test__answers">
+        <div class="match-test__answers" :data-task-id="task.id" @dragover.prevent @drop="onBankDrop(task.id, $event)">
           <button
             v-for="option in getAvailableOptions(task.id)"
             :key="option.id"
@@ -60,7 +70,7 @@
             @click="onAnswerClick(task.id, option.id)"
             @dragstart="onAnswerDragStart(task.id, option.id, $event)"
             @touchstart.prevent="onAnswerTouchStart(task.id, option.id)"
-            @touchend.prevent="onAnswerTouchEnd($event)"
+            @touchend.prevent="onTouchEnd($event)"
           >
             {{ option.text }}
           </button>
@@ -81,16 +91,8 @@
 import { computed, reactive, ref } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
-export interface MatchOption { id: string; text: string }
-export interface MatchRow { id: string; prompt: string; correctOptionId: string; commentMarkdown?: string }
-export interface MatchTask {
-  id: string
-  title?: string
-  leftColumnTitle?: string
-  rightColumnTitle?: string
-  rows: MatchRow[]
-  options: MatchOption[]
-}
+import type { MatchOption, MatchRow, MatchTask } from '../types/component-contracts'
+
 interface Props { title?: string; descriptionMarkdown?: string; tasks: MatchTask[] }
 
 const props = withDefaults(defineProps<Props>(), { title: 'Сопоставь одно с другим' })
@@ -117,15 +119,18 @@ const getAvailableOptions = (taskId: string): MatchOption[] => {
   const assigned = new Set(task.rows.map((r) => assignments[makeKey(taskId, r.id)]).filter(Boolean))
   return task.options.filter((o) => !assigned.has(o.id))
 }
-const assignOptionToRow = (taskId: string, rowId: string, optionId: string): void => {
-  checkMode.value = false
-  showAnswersMode.value = false
-  openCommentKey.value = ''
+const unassignOptionFromTask = (taskId: string, optionId: string): void => {
   const task = findTask(taskId)
   if (!task) return
   task.rows.forEach((row) => {
     if (assignments[makeKey(taskId, row.id)] === optionId) delete assignments[makeKey(taskId, row.id)]
   })
+}
+const assignOptionToRow = (taskId: string, rowId: string, optionId: string): void => {
+  checkMode.value = false
+  showAnswersMode.value = false
+  openCommentKey.value = ''
+  unassignOptionFromTask(taskId, optionId)
   assignments[makeKey(taskId, rowId)] = optionId
   pendingOptionByTask[taskId] = ''
 }
@@ -139,7 +144,14 @@ const onDropzoneClick = (taskId: string, rowId: string): void => {
 const onAnswerDragStart = (taskId: string, optionId: string, event: DragEvent): void => {
   draggingTaskId.value = taskId
   draggingOptionId.value = optionId
-  event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}`)
+  event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}::`)
+}
+const onAssignedDragStart = (taskId: string, rowId: string, event: DragEvent): void => {
+  const optionId = getAssignedOptionId(taskId, rowId)
+  if (!optionId) return
+  draggingTaskId.value = taskId
+  draggingOptionId.value = optionId
+  event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}::${rowId}`)
 }
 const onRowDrop = (taskId: string, rowId: string, event: DragEvent): void => {
   const payload = event.dataTransfer?.getData('text/plain') ?? ''
@@ -147,20 +159,63 @@ const onRowDrop = (taskId: string, rowId: string, event: DragEvent): void => {
   const sourceTaskId = payloadTaskId || draggingTaskId.value
   const optionId = payloadOptionId || draggingOptionId.value
   if (sourceTaskId === taskId && optionId) assignOptionToRow(taskId, rowId, optionId)
+  draggingTaskId.value = ''
+  draggingOptionId.value = ''
+}
+const onBankDrop = (taskId: string, event: DragEvent): void => {
+  const payload = event.dataTransfer?.getData('text/plain') ?? ''
+  const [payloadTaskId, payloadOptionId] = payload.split('::')
+  const sourceTaskId = payloadTaskId || draggingTaskId.value
+  const optionId = payloadOptionId || draggingOptionId.value
+  if (sourceTaskId !== taskId || !optionId) return
+
+  checkMode.value = false
+  showAnswersMode.value = false
+  openCommentKey.value = ''
+  unassignOptionFromTask(taskId, optionId)
+
+  draggingTaskId.value = ''
+  draggingOptionId.value = ''
 }
 const onAnswerTouchStart = (taskId: string, optionId: string): void => {
   draggingTaskId.value = taskId
   draggingOptionId.value = optionId
 }
-const onAnswerTouchEnd = (event: TouchEvent): void => {
+const onAssignedTouchStart = (taskId: string, rowId: string): void => {
+  const optionId = getAssignedOptionId(taskId, rowId)
+  if (!optionId) return
+  draggingTaskId.value = taskId
+  draggingOptionId.value = optionId
+}
+const onTouchEnd = (event: TouchEvent): void => {
   const touch = event.changedTouches[0]
   if (!touch) return
   const target = document.elementFromPoint(touch.clientX, touch.clientY)
   const dropzone = target?.closest('.match-test__dropzone') as HTMLElement | null
-  if (!dropzone) return
-  const taskId = dropzone.dataset.taskId ?? ''
-  const rowId = dropzone.dataset.rowId ?? ''
-  if (taskId && rowId && taskId === draggingTaskId.value) assignOptionToRow(taskId, rowId, draggingOptionId.value)
+  if (dropzone) {
+    const taskId = dropzone.dataset.taskId ?? ''
+    const rowId = dropzone.dataset.rowId ?? ''
+    if (taskId && rowId && taskId === draggingTaskId.value && draggingOptionId.value) {
+      assignOptionToRow(taskId, rowId, draggingOptionId.value)
+    }
+    draggingTaskId.value = ''
+    draggingOptionId.value = ''
+    return
+  }
+
+  const bank = target?.closest('.match-test__answers') as HTMLElement | null
+  if (bank) {
+    const taskId = bank.dataset.taskId ?? ''
+    if (taskId && taskId === draggingTaskId.value && draggingOptionId.value) {
+      checkMode.value = false
+      showAnswersMode.value = false
+      openCommentKey.value = ''
+      unassignOptionFromTask(taskId, draggingOptionId.value)
+    }
+  }
+
+  draggingTaskId.value = ''
+  draggingOptionId.value = ''
 }
 
 const isRowCorrect = (taskId: string, rowId: string): boolean => {
@@ -173,6 +228,8 @@ const getAssignedText = (taskId: string, rowId: string): string => {
   const assigned = assignments[makeKey(taskId, rowId)]
   return assigned ? findOption(taskId, assigned)?.text ?? '' : ''
 }
+const getAssignedOptionId = (taskId: string, rowId: string): string => assignments[makeKey(taskId, rowId)] ?? ''
+const isAssigned = (taskId: string, rowId: string): boolean => Boolean(getAssignedOptionId(taskId, rowId))
 const getCorrectText = (taskId: string, rowId: string): string => {
   const row = findRow(taskId, rowId)
   if (!row) return 'Перетащите ответ сюда'
@@ -218,28 +275,85 @@ const restartTest = (): void => {
 </script>
 
 <style scoped>
-.match-test { display: grid; gap: 1rem; max-width: 900px; }
-.match-test__stats { margin: -0.25rem 0 0; color: #334155; }
-.match-test__description { color: #475569; margin-top: -0.35rem; }
+.match-test {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  color: var(--lt-color-text-primary, #111827);
+}
+.match-test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.match-test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.match-test__description p) { margin: 0.25rem 0; }
 :deep(.match-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
 :deep(.match-test__description h3),
 :deep(.match-test__description h4),
 :deep(.match-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
-.match-test__task { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
+.match-test__task {
+  border: 1px solid var(--lt-color-card-border, #d7d7d7);
+  border-radius: var(--lt-radius-card, 12px);
+  padding: 1rem;
+  background: var(--lt-color-card-bg, #fff);
+}
 .match-test__table { width: 100%; border-collapse: collapse; }
-.match-test__table th, .match-test__table td { border: 1px solid #e5e7eb; padding: 0.6rem; }
-.match-test__table th { background: #f8fafc; text-align: left; }
-.match-test__dropzone { min-height: 40px; border: 1px dashed #c5ccd8; border-radius: 8px; padding: 0.4rem 0.5rem; display: flex; gap: 0.5rem; }
-.match-test__dropzone--correct { background: #e8ffea; border-color: #87d78b; }
-.match-test__dropzone--incorrect { background: #ffe9f1; border-color: #f1a1be; }
-.match-test__chip--placeholder { color: #9ca3af; font-style: italic; }
-.match-test__wrong-chip { color: #9f1239; text-decoration: line-through; font-size: 0.88rem; }
+.match-test__table th,
+.match-test__table td { border: 1px solid var(--lt-color-table-border, #e5e7eb); padding: 0.6rem; }
+.match-test__table th {
+  background: var(--lt-color-table-header-bg, #f8fafc);
+  color: var(--lt-color-text-primary, #111827);
+  text-align: left;
+}
+.match-test__table td { color: var(--lt-color-text-primary, #111827); }
+.match-test__dropzone {
+  min-height: 40px;
+  border: 1px dashed var(--lt-color-dropzone-border, #c5ccd8);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  color: var(--lt-color-text-primary, #111827);
+}
+.match-test__dropzone--correct {
+  background: var(--lt-color-correct-bg, #e8ffea);
+  border-color: var(--lt-color-correct-border, #87d78b);
+}
+.match-test__dropzone--incorrect {
+  background: var(--lt-color-incorrect-bg, #ffe9f1);
+  border-color: var(--lt-color-incorrect-border, #f1a1be);
+}
+.match-test__chip--placeholder { color: var(--lt-color-placeholder, #9ca3af); font-style: italic; }
+.match-test__chip--draggable { cursor: grab; }
+.match-test__wrong-chip {
+  color: var(--lt-color-incorrect-text, #9f1239);
+  text-decoration: line-through;
+  font-size: 0.88rem;
+}
 .match-test__bank { margin-top: 0.9rem; }
 .match-test__answers { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.match-test__answer-chip { border: 1px solid #d1d5db; background: #fff; border-radius: 999px; padding: 0.35rem 0.75rem; cursor: grab; }
-.match-test__answer-chip--active { border-color: #2f6feb; box-shadow: 0 0 0 1px #2f6feb inset; }
+.match-test__answer-chip {
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  cursor: grab;
+}
+.match-test__answer-chip--active {
+  border-color: var(--lt-color-primary, #2f6feb);
+  box-shadow: 0 0 0 1px var(--lt-color-primary, #2f6feb) inset;
+}
 .match-test__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.match-test__check-btn { border: 1px solid #2f6feb; background: #2f6feb; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; }
-.match-test__secondary-btn { border: 1px solid #d1d5db; background: #fff; color: #111827; border-radius: 8px; padding: 0.5rem 1rem; }
+.match-test__check-btn {
+  border: 1px solid var(--lt-color-primary, #2f6feb);
+  background: var(--lt-color-primary, #2f6feb);
+  color: var(--lt-color-primary-contrast, #fff);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
+.match-test__secondary-btn {
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
 </style>

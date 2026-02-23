@@ -55,9 +55,8 @@
 import { computed, reactive, ref } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
+import type { FillBlankConfig, FillTextTask } from '../types/component-contracts'
 
-export interface FillBlankConfig { id: string; correctAnswers: string[]; commentMarkdown?: string }
-export interface FillTextTask { id: string; title?: string; content: string; blanks: FillBlankConfig[] }
 interface Props { title?: string; descriptionMarkdown?: string; texts: FillTextTask[] }
 interface FillSegmentText { type: 'text'; value: string }
 interface FillSegmentBlank { type: 'blank'; blankId: string }
@@ -149,32 +148,83 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
 </script>
 
 <style scoped>
-.fill-test { display: grid; gap: 1rem; max-width: 900px; }
-.fill-test__stats { margin: -0.25rem 0 0; color: #334155; }
-.fill-test__description { color: #475569; margin-top: -0.35rem; }
+.fill-test {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  color: var(--lt-color-text-primary, #111827);
+}
+.fill-test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.fill-test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.fill-test__description p) { margin: 0.25rem 0; }
 :deep(.fill-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
 :deep(.fill-test__description h3),
 :deep(.fill-test__description h4),
 :deep(.fill-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
-.fill-test__card { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
+.fill-test__card {
+  border: 1px solid var(--lt-color-card-border, #d7d7d7);
+  border-radius: var(--lt-radius-card, 12px);
+  padding: 1rem;
+  background: var(--lt-color-card-bg, #fff);
+}
 .fill-test__text { line-height: 1.9; }
-.fill-test__blank { display: inline-flex; gap: 0.35rem; border: 1px solid transparent; border-radius: 8px; padding: 0.15rem 0.2rem; margin: 0 0.15rem; }
-.fill-test__blank--correct { background: #e8ffea; border-color: #87d78b; }
-.fill-test__blank--incorrect { background: #ffe9f1; border-color: #f1a1be; }
-.fill-test__input { width: 150px; border: none; border-bottom: 2px solid #9ca3af; background: transparent; padding: 0.1rem 0.15rem; }
+.fill-test__blank {
+  display: inline-flex;
+  gap: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.15rem 0.2rem;
+  margin: 0 0.15rem;
+}
+.fill-test__blank--correct {
+  background: var(--lt-color-correct-bg, #e8ffea);
+  border-color: var(--lt-color-correct-border, #87d78b);
+}
+.fill-test__blank--incorrect {
+  background: var(--lt-color-incorrect-bg, #ffe9f1);
+  border-color: var(--lt-color-incorrect-border, #f1a1be);
+}
+.fill-test__input {
+  width: 150px;
+  border: none;
+  border-bottom: 2px solid var(--lt-color-input-border, #9ca3af);
+  background: transparent;
+  color: var(--lt-color-field-text, var(--lt-color-text-primary, #111827));
+  caret-color: var(--lt-color-field-text, var(--lt-color-text-primary, #111827));
+  padding: 0.1rem 0.15rem;
+}
+.fill-test__input::placeholder {
+  color: var(--lt-color-placeholder, #9ca3af);
+}
 .fill-test__answer {
   display: inline-block;
   min-width: 150px;
   max-width: min(100%, 28rem);
-  border-bottom: 2px solid #9ca3af;
+  border-bottom: 2px solid var(--lt-color-input-border, #9ca3af);
+  color: var(--lt-color-field-text, var(--lt-color-text-primary, #111827));
   padding: 0.1rem 0.15rem;
   white-space: normal;
   overflow-wrap: anywhere;
   line-height: 1.4;
 }
-.fill-test__wrong-answer { color: #9f1239; text-decoration: line-through; font-size: 0.88rem; }
+.fill-test__wrong-answer {
+  color: var(--lt-color-incorrect-text, #9f1239);
+  text-decoration: line-through;
+  font-size: 0.88rem;
+}
 .fill-test__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.fill-test__check-btn { border: 1px solid #2f6feb; background: #2f6feb; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; }
-.fill-test__secondary-btn { border: 1px solid #d1d5db; background: #fff; color: #111827; border-radius: 8px; padding: 0.5rem 1rem; }
+.fill-test__check-btn {
+  border: 1px solid var(--lt-color-primary, #2f6feb);
+  background: var(--lt-color-primary, #2f6feb);
+  color: var(--lt-color-primary-contrast, #fff);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
+.fill-test__secondary-btn {
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
 </style>

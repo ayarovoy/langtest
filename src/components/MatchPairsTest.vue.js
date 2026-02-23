@@ -22,10 +22,7 @@ const getAvailableOptions = (taskId) => {
     const assigned = new Set(task.rows.map((r) => assignments[makeKey(taskId, r.id)]).filter(Boolean));
     return task.options.filter((o) => !assigned.has(o.id));
 };
-const assignOptionToRow = (taskId, rowId, optionId) => {
-    checkMode.value = false;
-    showAnswersMode.value = false;
-    openCommentKey.value = '';
+const unassignOptionFromTask = (taskId, optionId) => {
     const task = findTask(taskId);
     if (!task)
         return;
@@ -33,6 +30,12 @@ const assignOptionToRow = (taskId, rowId, optionId) => {
         if (assignments[makeKey(taskId, row.id)] === optionId)
             delete assignments[makeKey(taskId, row.id)];
     });
+};
+const assignOptionToRow = (taskId, rowId, optionId) => {
+    checkMode.value = false;
+    showAnswersMode.value = false;
+    openCommentKey.value = '';
+    unassignOptionFromTask(taskId, optionId);
     assignments[makeKey(taskId, rowId)] = optionId;
     pendingOptionByTask[taskId] = '';
 };
@@ -47,7 +50,15 @@ const onDropzoneClick = (taskId, rowId) => {
 const onAnswerDragStart = (taskId, optionId, event) => {
     draggingTaskId.value = taskId;
     draggingOptionId.value = optionId;
-    event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}`);
+    event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}::`);
+};
+const onAssignedDragStart = (taskId, rowId, event) => {
+    const optionId = getAssignedOptionId(taskId, rowId);
+    if (!optionId)
+        return;
+    draggingTaskId.value = taskId;
+    draggingOptionId.value = optionId;
+    event.dataTransfer?.setData('text/plain', `${taskId}::${optionId}::${rowId}`);
 };
 const onRowDrop = (taskId, rowId, event) => {
     const payload = event.dataTransfer?.getData('text/plain') ?? '';
@@ -56,23 +67,62 @@ const onRowDrop = (taskId, rowId, event) => {
     const optionId = payloadOptionId || draggingOptionId.value;
     if (sourceTaskId === taskId && optionId)
         assignOptionToRow(taskId, rowId, optionId);
+    draggingTaskId.value = '';
+    draggingOptionId.value = '';
+};
+const onBankDrop = (taskId, event) => {
+    const payload = event.dataTransfer?.getData('text/plain') ?? '';
+    const [payloadTaskId, payloadOptionId] = payload.split('::');
+    const sourceTaskId = payloadTaskId || draggingTaskId.value;
+    const optionId = payloadOptionId || draggingOptionId.value;
+    if (sourceTaskId !== taskId || !optionId)
+        return;
+    checkMode.value = false;
+    showAnswersMode.value = false;
+    openCommentKey.value = '';
+    unassignOptionFromTask(taskId, optionId);
+    draggingTaskId.value = '';
+    draggingOptionId.value = '';
 };
 const onAnswerTouchStart = (taskId, optionId) => {
     draggingTaskId.value = taskId;
     draggingOptionId.value = optionId;
 };
-const onAnswerTouchEnd = (event) => {
+const onAssignedTouchStart = (taskId, rowId) => {
+    const optionId = getAssignedOptionId(taskId, rowId);
+    if (!optionId)
+        return;
+    draggingTaskId.value = taskId;
+    draggingOptionId.value = optionId;
+};
+const onTouchEnd = (event) => {
     const touch = event.changedTouches[0];
     if (!touch)
         return;
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
     const dropzone = target?.closest('.match-test__dropzone');
-    if (!dropzone)
+    if (dropzone) {
+        const taskId = dropzone.dataset.taskId ?? '';
+        const rowId = dropzone.dataset.rowId ?? '';
+        if (taskId && rowId && taskId === draggingTaskId.value && draggingOptionId.value) {
+            assignOptionToRow(taskId, rowId, draggingOptionId.value);
+        }
+        draggingTaskId.value = '';
+        draggingOptionId.value = '';
         return;
-    const taskId = dropzone.dataset.taskId ?? '';
-    const rowId = dropzone.dataset.rowId ?? '';
-    if (taskId && rowId && taskId === draggingTaskId.value)
-        assignOptionToRow(taskId, rowId, draggingOptionId.value);
+    }
+    const bank = target?.closest('.match-test__answers');
+    if (bank) {
+        const taskId = bank.dataset.taskId ?? '';
+        if (taskId && taskId === draggingTaskId.value && draggingOptionId.value) {
+            checkMode.value = false;
+            showAnswersMode.value = false;
+            openCommentKey.value = '';
+            unassignOptionFromTask(taskId, draggingOptionId.value);
+        }
+    }
+    draggingTaskId.value = '';
+    draggingOptionId.value = '';
 };
 const isRowCorrect = (taskId, rowId) => {
     const row = findRow(taskId, rowId);
@@ -83,6 +133,8 @@ const getAssignedText = (taskId, rowId) => {
     const assigned = assignments[makeKey(taskId, rowId)];
     return assigned ? findOption(taskId, assigned)?.text ?? '' : '';
 };
+const getAssignedOptionId = (taskId, rowId) => assignments[makeKey(taskId, rowId)] ?? '';
+const isAssigned = (taskId, rowId) => Boolean(getAssignedOptionId(taskId, rowId));
 const getCorrectText = (taskId, rowId) => {
     const row = findRow(taskId, rowId);
     if (!row)
@@ -135,6 +187,7 @@ let __VLS_directives;
 /** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
 /** @type {__VLS_StyleScopedClasses['match-test__table']} */ ;
@@ -204,8 +257,21 @@ for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
             (__VLS_ctx.getAssignedText(task.id, row.id));
         }
         __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+            ...{ onDragstart: (...[$event]) => {
+                    __VLS_ctx.onAssignedDragStart(task.id, row.id, $event);
+                } },
+            ...{ onTouchstart: (...[$event]) => {
+                    __VLS_ctx.onAssignedTouchStart(task.id, row.id);
+                } },
+            ...{ onTouchend: (...[$event]) => {
+                    __VLS_ctx.onTouchEnd($event);
+                } },
             ...{ class: "match-test__chip" },
-            ...{ class: ({ 'match-test__chip--placeholder': __VLS_ctx.isPlaceholder(task.id, row.id) }) },
+            ...{ class: ({
+                    'match-test__chip--placeholder': __VLS_ctx.isPlaceholder(task.id, row.id),
+                    'match-test__chip--draggable': __VLS_ctx.isAssigned(task.id, row.id) && !__VLS_ctx.showAnswersMode,
+                }) },
+            draggable: (__VLS_ctx.isAssigned(task.id, row.id) && !__VLS_ctx.showAnswersMode),
         });
         (__VLS_ctx.getDisplayedText(task.id, row.id));
         if (__VLS_ctx.showAnswersMode && row.commentMarkdown) {
@@ -241,7 +307,12 @@ for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
         ...{ class: "match-test__bank-title" },
     });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ onDragover: () => { } },
+        ...{ onDrop: (...[$event]) => {
+                __VLS_ctx.onBankDrop(task.id, $event);
+            } },
         ...{ class: "match-test__answers" },
+        'data-task-id': (task.id),
     });
     for (const [option] of __VLS_getVForSourceType((__VLS_ctx.getAvailableOptions(task.id)))) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
@@ -255,7 +326,7 @@ for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
                     __VLS_ctx.onAnswerTouchStart(task.id, option.id);
                 } },
             ...{ onTouchend: (...[$event]) => {
-                    __VLS_ctx.onAnswerTouchEnd($event);
+                    __VLS_ctx.onTouchEnd($event);
                 } },
             key: (option.id),
             ...{ class: "match-test__answer-chip" },
@@ -321,11 +392,15 @@ const __VLS_self = (await import('vue')).defineComponent({
             onAnswerClick: onAnswerClick,
             onDropzoneClick: onDropzoneClick,
             onAnswerDragStart: onAnswerDragStart,
+            onAssignedDragStart: onAssignedDragStart,
             onRowDrop: onRowDrop,
+            onBankDrop: onBankDrop,
             onAnswerTouchStart: onAnswerTouchStart,
-            onAnswerTouchEnd: onAnswerTouchEnd,
+            onAssignedTouchStart: onAssignedTouchStart,
+            onTouchEnd: onTouchEnd,
             hasWrongAssignment: hasWrongAssignment,
             getAssignedText: getAssignedText,
+            isAssigned: isAssigned,
             getDisplayedText: getDisplayedText,
             isPlaceholder: isPlaceholder,
             getDropzoneClass: getDropzoneClass,

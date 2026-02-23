@@ -1,6 +1,4 @@
-import type { FillTextTask } from '../components/FillInTheBlankTest.vue'
-import type { MatchTask } from '../components/MatchPairsTest.vue'
-import type { TestQuestion } from '../components/ChooseCorrectAnswerTest.vue'
+import type { FillTextTask, MatchTask, TestQuestion } from './component-contracts'
 
 export type TestComponentType = 'choose-correct-answer' | 'fill-in-the-blank' | 'match-pairs'
 

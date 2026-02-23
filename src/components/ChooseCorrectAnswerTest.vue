@@ -48,20 +48,7 @@
 import { computed, reactive, ref } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
-
-export interface TestOption {
-  id: string
-  text: string
-  commentMarkdown?: string
-}
-
-export interface TestQuestion {
-  id: string
-  text: string
-  multiple: boolean
-  options: TestOption[]
-  correctOptionIds: string[]
-}
+import type { TestQuestion } from '../types/component-contracts'
 
 interface Props {
   title?: string
@@ -144,23 +131,46 @@ const getAnswerStateClass = (questionId: string, optionId: string): string => {
 
 <style scoped>
 .test { display: grid; gap: 1rem; max-width: 760px; }
-.test__stats { margin: -0.25rem 0 0; color: #334155; }
-.test__description { color: #475569; margin-top: -0.35rem; }
+.test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.test__description p) { margin: 0.25rem 0; }
 :deep(.test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
 :deep(.test__description h3),
 :deep(.test__description h4),
 :deep(.test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
-.test__question { border: 1px solid #d7d7d7; border-radius: 12px; padding: 1rem; background: #fff; }
+.test__question {
+  border: 1px solid var(--lt-color-card-border, #d7d7d7);
+  border-radius: var(--lt-radius-card, 12px);
+  padding: 1rem;
+  background: var(--lt-color-card-bg, #fff);
+}
 .test__question-text { margin: 0; font-weight: 600; }
 .test__answers { margin: 0.75rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }
-.test__answer { border: 1px solid transparent; border-radius: 8px; padding: 0.5rem 0.65rem; }
+.test__answer { border: 1px solid transparent; border-radius: var(--lt-radius-control, 8px); padding: 0.5rem 0.65rem; }
 .test__answer label { display: flex; align-items: center; gap: 0.5rem; width: 100%; }
 .test__answer-text { flex: 1; }
-.test__correct-icon { color: #1f9d42; font-weight: 700; }
-.test__answer--correct { background: #e8ffea; border-color: #87d78b; }
-.test__answer--incorrect { background: #ffe9f1; border-color: #f1a1be; }
+.test__correct-icon { color: var(--lt-color-correct-strong, #1f9d42); font-weight: 700; }
+.test__answer--correct {
+  background: var(--lt-color-correct-bg, #e8ffea);
+  border-color: var(--lt-color-correct-border, #87d78b);
+}
+.test__answer--incorrect {
+  background: var(--lt-color-incorrect-bg, #ffe9f1);
+  border-color: var(--lt-color-incorrect-border, #f1a1be);
+}
 .test__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.test__check-btn { border: 1px solid #2f6feb; background: #2f6feb; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; }
-.test__secondary-btn { border: 1px solid #d1d5db; background: #fff; color: #111827; border-radius: 8px; padding: 0.5rem 1rem; }
+.test__check-btn {
+  border: 1px solid var(--lt-color-primary, #2f6feb);
+  background: var(--lt-color-primary, #2f6feb);
+  color: var(--lt-color-primary-contrast, #fff);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
+.test__secondary-btn {
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
 </style>

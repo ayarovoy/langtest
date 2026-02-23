@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import './styles.css';
-createApp(App).mount('#app');
+import LangTestPlugin from './index';
+createApp(App).use(LangTestPlugin).mount('#app');

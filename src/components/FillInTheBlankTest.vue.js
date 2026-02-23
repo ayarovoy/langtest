@@ -82,6 +82,7 @@ let __VLS_directives;
 /** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__input']} */ ;
 // CSS variable injection 
 // CSS variable injection end 
 __VLS_asFunctionalElement(__VLS_intrinsicElements.section, __VLS_intrinsicElements.section)({
@@ -131,16 +132,28 @@ for (const [textItem] of __VLS_getVForSourceType((__VLS_ctx.texts))) {
                 });
                 (__VLS_ctx.getUserAnswer(textItem.id, segment.blankId));
             }
-            __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
-                ...{ onInput: (...[$event]) => {
-                        if (!!(segment.type === 'text'))
-                            return;
-                        __VLS_ctx.onInputChange(textItem.id, segment.blankId, $event);
-                    } },
-                ...{ class: "fill-test__input" },
-                value: (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId)),
-                type: "text",
-            });
+            if (__VLS_ctx.showAnswersMode) {
+                __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+                    ...{ class: "fill-test__answer" },
+                    title: (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId)),
+                });
+                (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId));
+            }
+            else {
+                __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
+                    ...{ onInput: (...[$event]) => {
+                            if (!!(segment.type === 'text'))
+                                return;
+                            if (!!(__VLS_ctx.showAnswersMode))
+                                return;
+                            __VLS_ctx.onInputChange(textItem.id, segment.blankId, $event);
+                        } },
+                    ...{ class: "fill-test__input" },
+                    value: (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId)),
+                    title: (__VLS_ctx.getDisplayedAnswer(textItem.id, segment.blankId)),
+                    type: "text",
+                });
+            }
             if (__VLS_ctx.showAnswersMode && __VLS_ctx.getBlankComment(textItem.id, segment.blankId)) {
                 /** @type {[typeof AnswerCommentPopover, ]} */ ;
                 // @ts-ignore
@@ -201,6 +214,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 /** @type {__VLS_StyleScopedClasses['fill-test__text']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__blank']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__wrong-answer']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__answer']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__input']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__actions']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__check-btn']} */ ;

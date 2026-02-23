@@ -35,10 +35,10 @@ const toggle = (): void => emit('toggle')
 .comment-popover__trigger {
   width: 1.2rem;
   height: 1.2rem;
-  border: 1px solid #9ca3af;
+  border: 1px solid var(--lt-color-popover-trigger-border, #9ca3af);
   border-radius: 999px;
-  background: #fff;
-  color: #334155;
+  background: var(--lt-color-popover-trigger-bg, #fff);
+  color: var(--lt-color-popover-trigger-text, #334155);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
@@ -51,13 +51,13 @@ const toggle = (): void => emit('toggle')
   top: calc(100% + 0.35rem);
   left: 0;
   width: min(320px, 75vw);
-  background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  background: var(--lt-color-popover-bg, #fff);
+  border: 1px solid var(--lt-color-popover-border, #d1d5db);
+  border-radius: var(--lt-radius-control, 8px);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
   padding: 0.55rem 0.65rem;
 }
-.comment-popover__content { color: #334155; font-size: 0.88rem; }
+.comment-popover__content { color: var(--lt-color-text-muted, #334155); font-size: 0.88rem; }
 :deep(.comment-popover__content p) { margin: 0.25rem 0; }
 :deep(.comment-popover__content ul) { margin: 0.25rem 0; padding-left: 1.1rem; }
 :deep(.comment-popover__content h3),

@@ -1,16 +1,32 @@
 {
   "name": "langtest",
-  "private": true,
+  "private": false,
   "version": "0.0.1",
   "type": "module",
+  "main": "./dist/langtest.umd.cjs",
+  "module": "./dist/langtest.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/langtest.js",
+      "require": "./dist/langtest.umd.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "npm run build:types && vite build --mode library",
+    "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "build:demo": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run"
   },
-  "dependencies": {
-    "vue": "^3.5.13"
+  "peerDependencies": {
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
@@ -20,6 +36,7 @@
     "typescript": "^5.7.3",
     "vite": "^6.0.7",
     "vitest": "^2.1.8",
+    "vue": "^3.5.13",
     "vue-tsc": "^2.2.0"
   }
 }

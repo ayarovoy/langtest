@@ -12,11 +12,15 @@
 - Stack: Vue 3, Vite, TypeScript.
 - Entry:
   - `index.html` -> `src/main.ts` -> `src/App.vue`.
+- Library entry:
+  - `src/index.ts` (public exports + optional Vue plugin installer).
 - Dev/test lab shell:
   - `src/lab/ComponentLab.vue`
   - `src/lab/componentRegistry.ts`
+  - demo app registers components through `LangTestPlugin` from `src/index.ts` (library-first usage)
 - Build command:
-  - `npm run build` (`vue-tsc -b && vite build`).
+  - `npm run build` (library bundle + declaration files).
+  - `npm run build:demo` (standalone demo app build).
 
 ## High-Level Structure
 - `src/components/`:
@@ -25,14 +29,16 @@
 - `src/data/`:
   - JSON configs for demo/test scenarios
 - `src/demos/`:
-  - adapter views that bind JSON config to components
+  - adapter views that bind JSON config to components through the package public API
 - `src/types/`:
   - shared config contract for JSON-driven rendering
+  - component payload contracts independent from `.vue` files
 - `src/utils/`:
   - helper utilities (currently markdown renderer)
 
 ## Core Data Contracts
 - Central config types: `src/types/test-config.ts`.
+- Component payload types: `src/types/component-contracts.ts`.
 - Each config object includes:
   - `id`
   - `componentType`
@@ -65,8 +71,9 @@
   - supports multiple valid answers per blank
   - after "show correct answers", optional `?` popover on blanks with `commentMarkdown`
 - `MatchPairsTest.vue`
-  - table-based matching with drag-drop and touch fallback
+  - table-based matching with drag-drop and touch support
   - answer bank with used options hidden
+  - assigned answers can be moved between rows and returned back to answer bank (desktop + mobile)
   - customizable column titles via JSON
   - check/show/reset/restart controls
   - after "show correct answers", optional `?` popover on rows with `commentMarkdown`
@@ -94,6 +101,11 @@
 
 ## Styling and UX Conventions
 - Local styles are `scoped` per component.
+- Theme-friendly CSS custom properties are supported (`--lt-*` tokens).
+- Demo lab includes 3 theme presets:
+  - light
+  - deep-blue
+  - dark
 - State colors:
   - correct: green-ish background/border
   - incorrect: pink-ish background/border
