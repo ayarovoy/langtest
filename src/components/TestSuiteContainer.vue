@@ -25,6 +25,9 @@ const getComponentProps = (item: TestComponentConfig): Record<string, unknown> =
   if (item.componentType === 'fill-in-the-blank') {
     return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, texts: item.texts }
   }
+  if (item.componentType === 'yes-no-questions') {
+    return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, tasks: item.tasks }
+  }
   return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, tasks: item.tasks }
 }
 </script>

@@ -4,6 +4,7 @@ Vue 3 + TypeScript библиотека компонентов для языко
 - выбор правильного варианта;
 - заполнение пропусков;
 - сопоставление пар;
+- чтение текста с вопросами ДА/НЕТ;
 - динамический контейнер для смешанных тестов из JSON.
 
 Библиотека ориентирована на встраивание во внешние проекты и удобную кастомизацию через CSS.
@@ -14,6 +15,7 @@ Vue 3 + TypeScript библиотека компонентов для языко
   - `ChooseCorrectAnswerTest`
   - `FillInTheBlankTest`
   - `MatchPairsTest`
+  - `YesNoQuestionsTest`
   - `TestSuiteContainer` (рендер смешанного набора компонентов по `componentType`)
 - Единый JSON-контракт для data-driven рендера
 - TypeScript-типы для payload и контейнера
@@ -25,12 +27,13 @@ Vue 3 + TypeScript библиотека компонентов для языко
 - **Public API first**: внешние проекты и demo используют только `src/index.ts` (`langtest`), без импортов из внутренних путей `src/components/*`.
 - **Data-driven rendering**: `TestSuiteContainer` принимает `TestComponentConfig[]` и выбирает компонент по `componentType`.
 - **Contracts split**:
-  - `src/types/component-contracts.ts` — payload-типы для задач (`TestQuestion`, `FillTextTask`, `MatchTask`).
+  - `src/types/component-contracts.ts` — payload-типы для задач (`TestQuestion`, `FillTextTask`, `MatchTask`, `YesNoTask`).
   - `src/types/test-config.ts` — контейнерный union-конфиг (`TestComponentConfig` и варианты).
 - **Styling model**: компоненты используют scoped CSS, но ключевые цвета/бордеры/радиусы вынесены в токены `--lt-*`, что позволяет быстро менять тему без форка компонентов.
 - **Interaction model**:
   - `MatchPairsTest` поддерживает drag-and-drop и touch.
   - Назначенные ответы можно перемещать между ячейками и возвращать обратно в банк ответов (desktop + mobile).
+- `YesNoQuestionsTest` рендерит один или несколько текстов и блок вопросов с ответами ДА/НЕТ.
 - **Build split**:
   - `npm run build` — библиотечная сборка (bundle + `.d.ts`).
   - `npm run build:demo` — отдельная сборка demo-приложения.
@@ -132,6 +135,7 @@ const suite: TestComponentConfig[] = [
 - `ChooseCorrectAnswerTest` с `questions`
 - `FillInTheBlankTest` с `texts`
 - `MatchPairsTest` с `tasks`
+- `YesNoQuestionsTest` с `tasks`
 
 Все компоненты поддерживают:
 - `title?: string`
@@ -147,9 +151,11 @@ import type {
   ChooseCorrectAnswerConfig,
   FillInTheBlankConfig,
   MatchPairsConfig,
+  YesNoQuestionsConfig,
   TestQuestion,
   FillTextTask,
   MatchTask,
+  YesNoTask,
 } from 'langtest'
 ```
 
@@ -159,6 +165,7 @@ import type {
 - `choose-correct-answer`
 - `fill-in-the-blank`
 - `match-pairs`
+- `yes-no-questions`
 
 ### choose-correct-answer
 
@@ -178,6 +185,13 @@ import type {
 - `tasks[]`:
   - `id`, `rows[]`, `options[]`
 - `rows[].correctOptionId` должен ссылаться на `options[].id`
+
+### yes-no-questions
+
+- `tasks[]`:
+  - `id`, `texts[]`, `questions[]`
+- `questions[]`:
+  - `id`, `text`, `correctAnswer` (`true` для ДА, `false` для НЕТ)
 
 ## Кастомизация стилей (главное)
 
@@ -271,7 +285,7 @@ npm run build:demo
 ## Экспорт пакета
 
 Публичный API:
-- Компоненты: `AnswerCommentPopover`, `ChooseCorrectAnswerTest`, `FillInTheBlankTest`, `MatchPairsTest`, `TestSuiteContainer`
+- Компоненты: `AnswerCommentPopover`, `ChooseCorrectAnswerTest`, `FillInTheBlankTest`, `MatchPairsTest`, `YesNoQuestionsTest`, `TestSuiteContainer`
 - Плагин: `default` и `LangTestPlugin`
 - Типы: `TestComponentConfig` и payload-типы
 

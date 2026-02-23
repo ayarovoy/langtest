@@ -1,6 +1,10 @@
-import type { FillTextTask, MatchTask, TestQuestion } from './component-contracts'
+import type { FillTextTask, MatchTask, TestQuestion, YesNoTask } from './component-contracts'
 
-export type TestComponentType = 'choose-correct-answer' | 'fill-in-the-blank' | 'match-pairs'
+export type TestComponentType =
+  | 'choose-correct-answer'
+  | 'fill-in-the-blank'
+  | 'match-pairs'
+  | 'yes-no-questions'
 
 interface BaseTestConfig {
   id: string
@@ -24,4 +28,13 @@ export interface MatchPairsConfig extends BaseTestConfig {
   tasks: MatchTask[]
 }
 
-export type TestComponentConfig = ChooseCorrectAnswerConfig | FillInTheBlankConfig | MatchPairsConfig
+export interface YesNoQuestionsConfig extends BaseTestConfig {
+  componentType: 'yes-no-questions'
+  tasks: YesNoTask[]
+}
+
+export type TestComponentConfig =
+  | ChooseCorrectAnswerConfig
+  | FillInTheBlankConfig
+  | MatchPairsConfig
+  | YesNoQuestionsConfig

@@ -1,0 +1,242 @@
+<template>
+  <section class="yn-test">
+    <h2>{{ title }}</h2>
+    <div v-if="descriptionMarkdown" class="yn-test__description" v-html="renderedDescription"></div>
+    <p v-if="checkMode" class="yn-test__stats">Правильно: {{ correctQuestionsCount }} из {{ totalQuestionsCount }}</p>
+
+    <article v-for="task in tasks" :key="task.id" class="yn-test__task">
+      <h3 v-if="task.title">{{ task.title }}</h3>
+
+      <div class="yn-test__texts">
+        <p v-for="(textItem, textIndex) in task.texts" :key="`${task.id}-text-${textIndex}`" class="yn-test__text">
+          {{ textItem }}
+        </p>
+      </div>
+
+      <ul class="yn-test__questions">
+        <li
+          v-for="question in task.questions"
+          :key="question.id"
+          class="yn-test__question"
+          :class="getQuestionStateClass(task.id, question.id)"
+        >
+          <span class="yn-test__question-text">{{ question.text }}</span>
+          <div class="yn-test__question-actions">
+            <button
+              type="button"
+              class="yn-test__answer-btn"
+              :class="getAnswerButtonClass(task.id, question.id, true)"
+              @click="selectAnswer(task.id, question.id, true)"
+            >
+              ДА
+            </button>
+            <button
+              type="button"
+              class="yn-test__answer-btn"
+              :class="getAnswerButtonClass(task.id, question.id, false)"
+              @click="selectAnswer(task.id, question.id, false)"
+            >
+              НЕТ
+            </button>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+    <div class="yn-test__actions">
+      <button class="yn-test__check-btn" type="button" @click="checkAnswers">Проверить</button>
+      <button class="yn-test__secondary-btn" type="button" @click="showAnswers">Показать правильные ответы</button>
+      <button class="yn-test__secondary-btn" type="button" @click="resetFeedback">Сброс</button>
+      <button class="yn-test__secondary-btn" type="button" @click="restartTest">Начать заново</button>
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+import { renderMarkdown } from '../utils/markdown'
+import type { YesNoQuestion, YesNoTask } from '../types/component-contracts'
+
+interface Props {
+  title?: string
+  descriptionMarkdown?: string
+  tasks: YesNoTask[]
+}
+
+const props = withDefaults(defineProps<Props>(), { title: 'Ответьте ДА или НЕТ' })
+const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
+
+const selectedAnswers = reactive<Record<string, boolean>>({})
+const checkMode = ref(false)
+const showAnswersMode = ref(false)
+
+const keyOf = (taskId: string, questionId: string): string => `${taskId}::${questionId}`
+const getSelectedAnswer = (taskId: string, questionId: string): boolean | undefined =>
+  selectedAnswers[keyOf(taskId, questionId)]
+
+const findQuestion = (taskId: string, questionId: string): YesNoQuestion | undefined =>
+  props.tasks.find((task) => task.id === taskId)?.questions.find((question) => question.id === questionId)
+
+const isQuestionCorrect = (taskId: string, questionId: string): boolean => {
+  const question = findQuestion(taskId, questionId)
+  if (!question) return false
+  return getSelectedAnswer(taskId, questionId) === question.correctAnswer
+}
+
+const selectAnswer = (taskId: string, questionId: string, answer: boolean): void => {
+  checkMode.value = false
+  showAnswersMode.value = false
+  selectedAnswers[keyOf(taskId, questionId)] = answer
+}
+
+const totalQuestionsCount = computed(() =>
+  props.tasks.reduce((acc, task) => acc + task.questions.length, 0),
+)
+const correctQuestionsCount = computed(() =>
+  props.tasks.reduce(
+    (acc, task) =>
+      acc + task.questions.reduce((taskAcc, question) => (isQuestionCorrect(task.id, question.id) ? taskAcc + 1 : taskAcc), 0),
+    0,
+  ),
+)
+
+const checkAnswers = (): void => {
+  checkMode.value = true
+}
+const showAnswers = (): void => {
+  showAnswersMode.value = true
+}
+const resetFeedback = (): void => {
+  checkMode.value = false
+  showAnswersMode.value = false
+}
+const restartTest = (): void => {
+  resetFeedback()
+  Object.keys(selectedAnswers).forEach((k) => delete selectedAnswers[k])
+}
+
+const getQuestionStateClass = (taskId: string, questionId: string): string => {
+  const hasAnswer = getSelectedAnswer(taskId, questionId) !== undefined
+  if (!checkMode.value) return ''
+  if (!hasAnswer) return 'yn-test__question--incorrect'
+  return isQuestionCorrect(taskId, questionId) ? 'yn-test__question--correct' : 'yn-test__question--incorrect'
+}
+
+const getAnswerButtonClass = (taskId: string, questionId: string, optionValue: boolean): string => {
+  const selected = getSelectedAnswer(taskId, questionId)
+  const question = findQuestion(taskId, questionId)
+  if (!question) return ''
+  const classes: string[] = []
+
+  if (selected === optionValue) classes.push('yn-test__answer-btn--selected')
+  if (showAnswersMode.value && question.correctAnswer === optionValue) {
+    classes.push('yn-test__answer-btn--correct-answer')
+  }
+
+  return classes.join(' ')
+}
+</script>
+
+<style scoped>
+.yn-test {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  color: var(--lt-color-text-primary, #111827);
+}
+.yn-test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.yn-test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
+:deep(.yn-test__description p) { margin: 0.25rem 0; }
+:deep(.yn-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
+:deep(.yn-test__description h3),
+:deep(.yn-test__description h4),
+:deep(.yn-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
+.yn-test__task {
+  border: 1px solid var(--lt-color-card-border, #d7d7d7);
+  border-radius: var(--lt-radius-card, 12px);
+  padding: 1rem;
+  background: var(--lt-color-card-bg, #fff);
+}
+.yn-test__texts {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.35rem 0 0.8rem;
+}
+.yn-test__text {
+  margin: 0;
+  line-height: 1.5;
+}
+.yn-test__questions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.yn-test__question {
+  border: 1px solid transparent;
+  border-radius: var(--lt-radius-control, 8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+}
+.yn-test__question--correct {
+  background: var(--lt-color-correct-bg, #e8ffea);
+  border-color: var(--lt-color-correct-border, #87d78b);
+}
+.yn-test__question--incorrect {
+  background: var(--lt-color-incorrect-bg, #ffe9f1);
+  border-color: var(--lt-color-incorrect-border, #f1a1be);
+}
+.yn-test__question-text {
+  flex: 1;
+  font-weight: 700;
+}
+.yn-test__question-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+.yn-test__answer-btn {
+  min-width: 58px;
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.3rem 0.6rem;
+}
+.yn-test__answer-btn--selected {
+  border-color: var(--lt-color-primary, #2f6feb);
+  box-shadow: 0 0 0 1px var(--lt-color-primary, #2f6feb) inset;
+}
+.yn-test__answer-btn--correct-answer {
+  font-weight: 700;
+}
+.yn-test__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.yn-test__check-btn {
+  border: 1px solid var(--lt-color-primary, #2f6feb);
+  background: var(--lt-color-primary, #2f6feb);
+  color: var(--lt-color-primary-contrast, #fff);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
+.yn-test__secondary-btn {
+  border: 1px solid var(--lt-color-secondary-border, #d1d5db);
+  background: var(--lt-color-secondary-bg, #fff);
+  color: var(--lt-color-secondary-text, #111827);
+  border-radius: var(--lt-radius-control, 8px);
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 720px) {
+  .yn-test__question {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .yn-test__question-actions {
+    justify-content: flex-end;
+  }
+}
+</style>

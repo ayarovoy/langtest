@@ -6,6 +6,7 @@
   - `choose-correct-answer`
   - `fill-in-the-blank`
   - `match-pairs`
+  - `yes-no-questions`
 - Components are data-driven by JSON and intended for embedding in external projects.
 
 ## Runtime and Build
@@ -49,6 +50,7 @@
     - `choose-correct-answer` -> `questions`
     - `fill-in-the-blank` -> `texts`
     - `match-pairs` -> `tasks`
+    - `yes-no-questions` -> `tasks`
 
 ## Dynamic Rendering
 - Component lookup: `src/components/test-component-map.ts`.
@@ -77,6 +79,10 @@
   - customizable column titles via JSON
   - check/show/reset/restart controls
   - after "show correct answers", optional `?` popover on rows with `commentMarkdown`
+- `YesNoQuestionsTest.vue`
+  - one or more text blocks followed by true/false style questions (`ДА` / `НЕТ`)
+  - per-question answer buttons aligned to the right
+  - check/show/reset/restart controls
 
 ## Markdown Rendering Pipeline
 - Optional section descriptions come from `descriptionMarkdown` in config JSON.
@@ -94,6 +100,7 @@
   - `src/data/synthetic-questions.json`
   - `src/data/synthetic-fill-in-the-blank.json`
   - `src/data/synthetic-match-pairs.json`
+  - `src/data/synthetic-yes-no-questions.json`
 - Mixed suite config for container:
   - `src/data/synthetic-suite.json`
 - Container demo:

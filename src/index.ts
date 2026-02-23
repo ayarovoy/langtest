@@ -4,6 +4,7 @@ import ChooseCorrectAnswerTest from './components/ChooseCorrectAnswerTest.vue'
 import FillInTheBlankTest from './components/FillInTheBlankTest.vue'
 import MatchPairsTest from './components/MatchPairsTest.vue'
 import TestSuiteContainer from './components/TestSuiteContainer.vue'
+import YesNoQuestionsTest from './components/YesNoQuestionsTest.vue'
 
 export {
   AnswerCommentPopover,
@@ -11,6 +12,7 @@ export {
   FillInTheBlankTest,
   MatchPairsTest,
   TestSuiteContainer,
+  YesNoQuestionsTest,
 }
 
 export * from './types/component-contracts'
@@ -22,6 +24,7 @@ export const LangTestPlugin = {
     app.component('ChooseCorrectAnswerTest', ChooseCorrectAnswerTest)
     app.component('FillInTheBlankTest', FillInTheBlankTest)
     app.component('MatchPairsTest', MatchPairsTest)
+    app.component('YesNoQuestionsTest', YesNoQuestionsTest)
     app.component('TestSuiteContainer', TestSuiteContainer)
   },
 }

@@ -3,6 +3,7 @@ import ChooseCorrectAnswerDemo from '../demos/ChooseCorrectAnswerDemo.vue'
 import FillInTheBlankDemo from '../demos/FillInTheBlankDemo.vue'
 import MatchPairsDemo from '../demos/MatchPairsDemo.vue'
 import TestSuiteContainerDemo from '../demos/TestSuiteContainerDemo.vue'
+import YesNoQuestionsDemo from '../demos/YesNoQuestionsDemo.vue'
 
 export interface ComponentLabEntry {
   id: string
@@ -40,5 +41,12 @@ export const componentRegistry: ComponentLabEntry[] = [
     description: 'Drag-and-drop ответов в таблицу с проверкой и статистикой.',
     tags: ['match', 'drag-drop', 'table'],
     component: MatchPairsDemo,
+  },
+  {
+    id: 'yes-no-questions',
+    title: 'Текст и вопросы ДА/НЕТ',
+    description: 'Один или несколько текстов и блок вопросов с выбором ответа ДА/НЕТ.',
+    tags: ['reading', 'yes-no', 'comprehension'],
+    component: YesNoQuestionsDemo,
   },
 ]

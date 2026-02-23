@@ -45,3 +45,16 @@ export interface MatchTask {
   rows: MatchRow[]
   options: MatchOption[]
 }
+
+export interface YesNoQuestion {
+  id: string
+  text: string
+  correctAnswer: boolean
+}
+
+export interface YesNoTask {
+  id: string
+  title?: string
+  texts: string[]
+  questions: YesNoQuestion[]
+}

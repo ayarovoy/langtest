@@ -81,5 +81,27 @@
         ]
       }
     ]
+  },
+  {
+    "id": "suite-yes-no-1",
+    "componentType": "yes-no-questions",
+    "title": "Секция 4: текст и вопросы ДА/НЕТ",
+    "descriptionMarkdown": "Прочитайте текстовые блоки, затем ответьте **ДА** или **НЕТ** по каждому утверждению.",
+    "tasks": [
+      {
+        "id": "syt1",
+        "title": "Короткое чтение",
+        "texts": [
+          "The school library changed its opening hours this semester.",
+          "Now it opens at 8:00 on weekdays and closes at 19:00.",
+          "Students can borrow up to five books for two weeks, and renew them once online."
+        ],
+        "questions": [
+          { "id": "q1", "text": "Библиотека открывается в 9:00 в будние дни.", "correctAnswer": false },
+          { "id": "q2", "text": "Книги можно взять на две недели.", "correctAnswer": true },
+          { "id": "q3", "text": "Продлить книги онлайн нельзя.", "correctAnswer": false }
+        ]
+      }
+    ]
   }
 ]

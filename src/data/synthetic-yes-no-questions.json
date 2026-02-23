@@ -1,0 +1,79 @@
+{
+  "id": "demo-yes-no-1",
+  "componentType": "yes-no-questions",
+  "title": "Демо: текст и вопросы ДА/НЕТ",
+  "tasks": [
+    {
+      "id": "yn-task-1",
+      "title": "Текст 1: Анна и итальянский",
+      "texts": [
+        "Anna started learning Italian six months ago because she plans to study in Rome next year."
+      ],
+      "questions": [
+        {
+          "id": "yn-q1",
+          "text": "Анна начала учить итальянский больше года назад.",
+          "correctAnswer": false
+        },
+        {
+          "id": "yn-q2",
+          "text": "Анна начала учить итальянский шесть месяцев назад.",
+          "correctAnswer": true
+        },
+        {
+          "id": "yn-q3",
+          "text": "Анна уже учится в Риме.",
+          "correctAnswer": false
+        }
+      ]
+    },
+    {
+      "id": "yn-task-2",
+      "title": "Текст 2: Формат занятий",
+      "texts": [
+        "She attends online classes three times a week and also practices speaking with a language partner on weekends."
+      ],
+      "questions": [
+        {
+          "id": "yn-q4",
+          "text": "Анна занимается онлайн три раза в неделю.",
+          "correctAnswer": true
+        },
+        {
+          "id": "yn-q5",
+          "text": "По выходным она вообще не практикует речь.",
+          "correctAnswer": false
+        },
+        {
+          "id": "yn-q6",
+          "text": "У Анны есть языковой партнер для практики.",
+          "correctAnswer": true
+        }
+      ]
+    },
+    {
+      "id": "yn-task-3",
+      "title": "Текст 3: Прогресс в аудировании",
+      "texts": [
+        "At first she found listening difficult, but now she can understand short podcasts about travel and daily life."
+      ],
+      "questions": [
+        {
+          "id": "yn-q7",
+          "text": "С самого начала Анна легко понимала аудирование.",
+          "correctAnswer": false
+        },
+        {
+          "id": "yn-q8",
+          "text": "Сейчас Анна может понимать короткие подкасты на знакомые темы.",
+          "correctAnswer": true
+        },
+        {
+          "id": "yn-q9",
+          "text": "Подкасты, которые она понимает, не связаны с повседневной жизнью.",
+          "correctAnswer": false
+        }
+      ]
+    }
+  ]
+}
