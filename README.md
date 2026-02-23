@@ -128,6 +128,54 @@ const suite: TestComponentConfig[] = [
 </script>
 ```
 
+## Сохранение и восстановление прогресса
+
+API библиотеки не зависит от способа хранения состояния: вы сами решаете, куда писать snapshot (например, в `localStorage`, IndexedDB или backend).
+
+`TestSuiteContainer` поддерживает:
+- `initialState?: TestSuiteState`
+- событие `@state-change`
+- методы `getState()` и `setState(state)` через `ref`
+
+```vue
+<template>
+  <TestSuiteContainer
+    ref="suiteRef"
+    :items="suite"
+    :initial-state="initialState"
+    @state-change="persistState"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { TestSuiteContainer } from 'langtest'
+import type { TestSuiteContainerHandle, TestSuiteState } from 'langtest'
+
+const suiteRef = ref<TestSuiteContainerHandle>()
+const initialState = ref<TestSuiteState | undefined>(loadState())
+
+function loadState(): TestSuiteState | undefined {
+  const raw = localStorage.getItem('my-suite-state')
+  if (!raw) return undefined
+  try {
+    return JSON.parse(raw) as TestSuiteState
+  } catch {
+    return undefined
+  }
+}
+
+function persistState(state: TestSuiteState): void {
+  localStorage.setItem('my-suite-state', JSON.stringify(state))
+}
+
+function resetProgress(): void {
+  localStorage.removeItem('my-suite-state')
+  suiteRef.value?.setState(undefined)
+}
+</script>
+```
+
 ## Использование отдельных компонентов
 
 Можно использовать каждый компонент напрямую:
@@ -247,6 +295,8 @@ const tasks: YesNoTask[] = [
 import type {
   AnswerLayoutMode,
   AnswerLayoutHeuristics,
+  TestSuiteState,
+  TestSuiteContainerHandle,
   TestComponentConfig,
   ChooseCorrectAnswerConfig,
   FillInTheBlankConfig,

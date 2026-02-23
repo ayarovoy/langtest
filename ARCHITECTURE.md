@@ -58,25 +58,38 @@
 - Component lookup: `src/components/test-component-map.ts`.
 - Container: `src/components/TestSuiteContainer.vue`.
   - Input: `items: TestComponentConfig[]`
+  - Optional input: `initialState?: TestSuiteState`
   - For each item:
     - choose target component by `componentType`
     - pass type-specific props
     - render as a single ordered list of test blocks
+  - collects child `progress-change` events and shows combined summary progress
+  - exposes `getState()` / `setState(state)` for external persistence flows
+  - emits `state-change` with the full `TestSuiteState` snapshot
 
 ## Component Behavior Summary
 - `ChooseCorrectAnswerTest.vue`
   - single/multi choice support
   - answer list layout modes: vertical, horizontal (wrap), auto (heuristic-based per question)
+  - per-question completion marker (`✓`) when at least one option is selected
+  - local progress bar (hidden inside suite container)
+  - "Правильно: X из Y" is shown near progress and counts only after `Проверить` (`Y=0` before check)
   - check/show/reset/restart controls
   - result highlighting + per-component stats
   - after "show correct answers", optional `?` popover on options with `commentMarkdown`
 - `FillInTheBlankTest.vue`
   - inline blanks with answer validation
+  - per-text completion marker (`✓`) when all blanks are filled
+  - local progress bar (hidden inside suite container)
+  - "Правильно: X из Y" is shown near progress and counts only after `Проверить` (`Y=0` before check)
   - check/show/reset/restart controls
   - supports multiple valid answers per blank
   - after "show correct answers", optional `?` popover on blanks with `commentMarkdown`
 - `MatchPairsTest.vue`
   - table-based matching with drag-drop and touch support
+  - per-table completion marker (`✓`) when all rows have assigned answers
+  - local progress bar (hidden inside suite container)
+  - "Правильно: X из Y" is shown near progress and counts only after `Проверить` (`Y=0` before check)
   - answer bank with used options hidden
   - assigned answers can be moved between rows and returned back to answer bank (desktop + mobile)
   - customizable column titles via JSON
@@ -84,6 +97,9 @@
   - after "show correct answers", optional `?` popover on rows with `commentMarkdown`
 - `YesNoQuestionsTest.vue`
   - one or more text blocks followed by true/false style questions (`ДА` / `НЕТ`)
+  - per-text-block completion marker (`✓`) when all yes/no questions are answered
+  - local progress bar (hidden inside suite container)
+  - "Правильно: X из Y" is shown near progress and counts only after `Проверить` (`Y=0` before check)
   - per-question answer buttons aligned to the right
   - check/show/reset/restart controls
 
@@ -121,6 +137,15 @@
   - incorrect: pink-ish background/border
 - Action buttons pattern reused:
   - `Проверить`, `Показать правильные ответы`, `Сброс`, `Начать заново`
+
+## State Persistence API
+- State contracts are in `src/types/test-state.ts` and exported from `src/index.ts`.
+- All test components support:
+  - prop `initialState`
+  - event `state-change`
+  - exposed methods `getState()` / `setState(state)`
+- `TestSuiteContainer` aggregates child snapshots into `TestSuiteState`.
+- Library API is storage-agnostic: saving/loading strategy (`localStorage`, IndexedDB, backend API) is owned by the host application.
 
 ## Important Repo Notes
 - Repository currently contains generated `*.js` files next to `.vue/.ts` sources.

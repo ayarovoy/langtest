@@ -17,6 +17,7 @@ export {
 
 export * from './types/component-contracts'
 export * from './types/test-config'
+export * from './types/test-state'
 
 export const LangTestPlugin = {
   install(app: App): void {

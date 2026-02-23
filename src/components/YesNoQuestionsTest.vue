@@ -2,9 +2,24 @@
   <section class="yn-test">
     <h2>{{ title }}</h2>
     <div v-if="descriptionMarkdown" class="yn-test__description" v-html="renderedDescription"></div>
-    <p v-if="checkMode" class="yn-test__stats">Правильно: {{ correctQuestionsCount }} из {{ totalQuestionsCount }}</p>
+    <div v-if="showProgress" class="yn-test__progress">
+      <div class="yn-test__progress-head">
+        <p class="yn-test__progress-label">Прогресс: {{ completedTasksCount }} из {{ totalTasksCount }}</p>
+        <p class="yn-test__progress-stats">Правильно: {{ correctCheckedTasksCount }} из {{ checkedTasksCount }}</p>
+      </div>
+      <div
+        class="yn-test__progress-track"
+        role="progressbar"
+        :aria-valuemin="0"
+        :aria-valuemax="totalTasksCount"
+        :aria-valuenow="completedTasksCount"
+      >
+        <div class="yn-test__progress-fill" :style="{ width: `${progressPercent}%` }"></div>
+      </div>
+    </div>
 
     <article v-for="task in tasks" :key="task.id" class="yn-test__task">
+      <span v-if="isTaskCompleted(task.id)" class="yn-test__completed-mark" aria-hidden="true">✓</span>
       <h3 v-if="task.title">{{ task.title }}</h3>
 
       <div class="yn-test__texts">
@@ -53,17 +68,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { renderMarkdown } from '../utils/markdown'
 import type { YesNoQuestion, YesNoTask } from '../types/component-contracts'
+import type { StatefulTestComponentHandle, YesNoQuestionsState } from '../types/test-state'
 
 interface Props {
   title?: string
   descriptionMarkdown?: string
+  showProgress?: boolean
   tasks: YesNoTask[]
+  initialState?: YesNoQuestionsState
 }
 
-const props = withDefaults(defineProps<Props>(), { title: 'Ответьте ДА или НЕТ' })
+const props = withDefaults(defineProps<Props>(), { title: 'Ответьте ДА или НЕТ', showProgress: true })
+const emit = defineEmits<{
+  (
+    event: 'progress-change',
+    payload: { completed: number; total: number; correctChecked: number; checked: number },
+  ): void
+  (event: 'state-change', payload: YesNoQuestionsState): void
+}>()
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 
 const selectedAnswers = reactive<Record<string, boolean>>({})
@@ -89,15 +114,35 @@ const selectAnswer = (taskId: string, questionId: string, answer: boolean): void
   selectedAnswers[keyOf(taskId, questionId)] = answer
 }
 
-const totalQuestionsCount = computed(() =>
-  props.tasks.reduce((acc, task) => acc + task.questions.length, 0),
+const totalTasksCount = computed(() => props.tasks.length)
+const isTaskCompleted = (taskId: string): boolean => {
+  const task = props.tasks.find((item) => item.id === taskId)
+  if (!task) return false
+  return task.questions.every((question) => getSelectedAnswer(taskId, question.id) !== undefined)
+}
+const isTaskCorrect = (taskId: string): boolean => {
+  const task = props.tasks.find((item) => item.id === taskId)
+  if (!task) return false
+  return task.questions.every((question) => isQuestionCorrect(taskId, question.id))
+}
+const completedTasksCount = computed(() =>
+  props.tasks.reduce((acc, task) => (isTaskCompleted(task.id) ? acc + 1 : acc), 0),
 )
-const correctQuestionsCount = computed(() =>
-  props.tasks.reduce(
-    (acc, task) =>
-      acc + task.questions.reduce((taskAcc, question) => (isQuestionCorrect(task.id, question.id) ? taskAcc + 1 : taskAcc), 0),
-    0,
-  ),
+const progressPercent = computed(() => {
+  if (totalTasksCount.value === 0) return 0
+  return Math.round((completedTasksCount.value / totalTasksCount.value) * 100)
+})
+const checkedTasksCount = computed(() => (checkMode.value ? totalTasksCount.value : 0))
+const correctCheckedTasksCount = computed(() => {
+  if (!checkMode.value) return 0
+  return props.tasks.reduce((acc, task) => (isTaskCorrect(task.id) ? acc + 1 : acc), 0)
+})
+watch(
+  [completedTasksCount, totalTasksCount, correctCheckedTasksCount, checkedTasksCount],
+  ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked })
+  },
+  { immediate: true },
 )
 
 const checkAnswers = (): void => {
@@ -135,6 +180,65 @@ const getAnswerButtonClass = (taskId: string, questionId: string, optionValue: b
 
   return classes.join(' ')
 }
+
+const toBoolean = (value: unknown): boolean => value === true
+const normalizeState = (state: unknown): YesNoQuestionsState => {
+  const raw = (state ?? {}) as Partial<YesNoQuestionsState>
+  const validKeys = new Set(
+    props.tasks.flatMap((task) => task.questions.map((question) => keyOf(task.id, question.id))),
+  )
+  const selectedAnswers: Record<string, boolean> = {}
+  const rawSelected = raw.selectedAnswers ?? {}
+  Object.entries(rawSelected).forEach(([answerKey, answerValue]) => {
+    if (!validKeys.has(answerKey) || typeof answerValue !== 'boolean') return
+    selectedAnswers[answerKey] = answerValue
+  })
+  return {
+    selectedAnswers,
+    checkMode: toBoolean(raw.checkMode),
+    showAnswersMode: toBoolean(raw.showAnswersMode),
+  }
+}
+const applyState = (state: unknown): void => {
+  const normalized = normalizeState(state)
+  Object.keys(selectedAnswers).forEach((key) => delete selectedAnswers[key])
+  Object.entries(normalized.selectedAnswers).forEach(([answerKey, answerValue]) => {
+    selectedAnswers[answerKey] = answerValue
+  })
+  checkMode.value = normalized.checkMode
+  showAnswersMode.value = normalized.showAnswersMode
+}
+const getState = (): YesNoQuestionsState => normalizeState({
+  selectedAnswers,
+  checkMode: checkMode.value,
+  showAnswersMode: showAnswersMode.value,
+})
+const setState = (state: unknown): void => {
+  applyState(state)
+}
+watch(
+  () => props.initialState,
+  (state) => {
+    if (!state) return
+    applyState(state)
+  },
+  { immediate: true, deep: true },
+)
+watch(
+  () => props.tasks,
+  () => {
+    applyState(getState())
+  },
+  { deep: true },
+)
+watch(
+  [selectedAnswers, checkMode, showAnswersMode],
+  () => {
+    emit('state-change', getState())
+  },
+  { immediate: true, deep: true },
+)
+defineExpose<StatefulTestComponentHandle<YesNoQuestionsState>>({ getState, setState })
 </script>
 
 <style scoped>
@@ -144,7 +248,23 @@ const getAnswerButtonClass = (taskId: string, questionId: string, optionValue: b
   max-width: 900px;
   color: var(--lt-color-text-primary, #111827);
 }
-.yn-test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.yn-test__progress { display: grid; gap: 0.35rem; }
+.yn-test__progress-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.yn-test__progress-label { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.yn-test__progress-stats { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.yn-test__progress-track {
+  width: 100%;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--lt-color-progress-track, #e5e7eb);
+  overflow: hidden;
+}
+.yn-test__progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lt-color-progress-fill, #2f6feb);
+  transition: width 0.2s ease;
+}
 .yn-test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.yn-test__description p) { margin: 0.25rem 0; }
 :deep(.yn-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
@@ -152,10 +272,26 @@ const getAnswerButtonClass = (taskId: string, questionId: string, optionValue: b
 :deep(.yn-test__description h4),
 :deep(.yn-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .yn-test__task {
+  position: relative;
   border: 1px solid var(--lt-color-card-border, #d7d7d7);
   border-radius: var(--lt-radius-card, 12px);
   padding: 1rem;
   background: var(--lt-color-card-bg, #fff);
+}
+.yn-test__completed-mark {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lt-color-correct-strong, #1f9d42);
 }
 .yn-test__texts {
   display: grid;

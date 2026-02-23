@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
 const DEFAULT_LAYOUT_HEURISTICS = {
@@ -9,7 +9,9 @@ const DEFAULT_LAYOUT_HEURISTICS = {
 const props = withDefaults(defineProps(), {
     title: 'Выбери правильный ответ',
     answerLayout: 'vertical',
+    showProgress: true,
 });
+const emit = defineEmits();
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const selectedAnswers = reactive({});
 const checkMode = ref(false);
@@ -29,6 +31,7 @@ const toggleComment = (questionId, optionId) => {
     openCommentKey.value = openCommentKey.value === key ? '' : key;
 };
 const isSelected = (questionId, optionId) => (selectedAnswers[questionId] ?? []).includes(optionId);
+const isQuestionCompleted = (questionId) => (selectedAnswers[questionId] ?? []).length > 0;
 const isCorrectOption = (questionId, optionId) => props.questions.find((q) => q.id === questionId)?.correctOptionIds.includes(optionId) ?? false;
 const toggleSelection = (question, optionId) => {
     checkMode.value = false;
@@ -52,7 +55,18 @@ const isQuestionCorrect = (question) => {
     return selected.length === correct.length && selected.every((id, i) => id === correct[i]);
 };
 const totalQuestions = computed(() => props.questions.length);
+const completedQuestionsCount = computed(() => props.questions.reduce((acc, question) => (isQuestionCompleted(question.id) ? acc + 1 : acc), 0));
+const progressPercent = computed(() => {
+    if (totalQuestions.value === 0)
+        return 0;
+    return Math.round((completedQuestionsCount.value / totalQuestions.value) * 100);
+});
 const correctQuestionsCount = computed(() => props.questions.reduce((acc, q) => (isQuestionCorrect(q) ? acc + 1 : acc), 0));
+const checkedQuestionsCount = computed(() => (checkMode.value ? totalQuestions.value : 0));
+const correctCheckedQuestionsCount = computed(() => (checkMode.value ? correctQuestionsCount.value : 0));
+watch([completedQuestionsCount, totalQuestions, correctCheckedQuestionsCount, checkedQuestionsCount], ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked });
+}, { immediate: true });
 const checkAnswers = () => {
     checkMode.value = true;
 };
@@ -95,10 +109,63 @@ const resolveQuestionLayout = (question) => {
     return shouldUseHorizontal ? 'horizontal' : 'vertical';
 };
 const getAnswersLayoutClass = (question) => `test__answers--${resolveQuestionLayout(question)}`;
+const toBoolean = (value) => value === true;
+const normalizeState = (state) => {
+    const raw = (state ?? {});
+    const validOptionIdsByQuestionId = Object.fromEntries(props.questions.map((question) => [question.id, new Set(question.options.map((option) => option.id))]));
+    const selectedAnswers = {};
+    const rawSelected = raw.selectedAnswers ?? {};
+    Object.entries(rawSelected).forEach(([questionId, optionIds]) => {
+        const validOptionIds = validOptionIdsByQuestionId[questionId];
+        if (!validOptionIds || !Array.isArray(optionIds))
+            return;
+        const filteredIds = optionIds.filter((id) => typeof id === 'string' && validOptionIds.has(id));
+        if (filteredIds.length === 0)
+            return;
+        selectedAnswers[questionId] = [...new Set(filteredIds)];
+    });
+    return {
+        selectedAnswers,
+        checkMode: toBoolean(raw.checkMode),
+        showAnswersMode: toBoolean(raw.showAnswersMode),
+    };
+};
+const applyState = (state) => {
+    const normalized = normalizeState(state);
+    Object.keys(selectedAnswers).forEach((key) => delete selectedAnswers[key]);
+    Object.entries(normalized.selectedAnswers).forEach(([questionId, optionIds]) => {
+        selectedAnswers[questionId] = [...optionIds];
+    });
+    checkMode.value = normalized.checkMode;
+    showAnswersMode.value = normalized.showAnswersMode;
+    openCommentKey.value = '';
+};
+const getState = () => normalizeState({
+    selectedAnswers,
+    checkMode: checkMode.value,
+    showAnswersMode: showAnswersMode.value,
+});
+const setState = (state) => {
+    applyState(state);
+};
+watch(() => props.initialState, (state) => {
+    if (!state)
+        return;
+    applyState(state);
+}, { immediate: true, deep: true });
+watch(() => props.questions, () => {
+    applyState(getState());
+}, { deep: true });
+watch([selectedAnswers, checkMode, showAnswersMode], () => {
+    emit('state-change', getState());
+}, { immediate: true, deep: true });
+let __VLS_exposed;
+defineExpose({ getState, setState });
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
 const __VLS_withDefaultsArg = (function (t) { return t; })({
     title: 'Выбери правильный ответ',
     answerLayout: 'vertical',
+    showProgress: true,
 });
 const __VLS_ctx = {};
 let __VLS_components;
@@ -126,18 +193,46 @@ if (__VLS_ctx.descriptionMarkdown) {
     });
     __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderedDescription) }, null, null);
 }
-if (__VLS_ctx.checkMode) {
-    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
-        ...{ class: "test__stats" },
+if (__VLS_ctx.showProgress) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "test__progress" },
     });
-    (__VLS_ctx.correctQuestionsCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "test__progress-head" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "test__progress-label" },
+    });
+    (__VLS_ctx.completedQuestionsCount);
     (__VLS_ctx.totalQuestions);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "test__progress-stats" },
+    });
+    (__VLS_ctx.correctCheckedQuestionsCount);
+    (__VLS_ctx.checkedQuestionsCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "test__progress-track" },
+        role: "progressbar",
+        'aria-valuemin': (0),
+        'aria-valuemax': (__VLS_ctx.totalQuestions),
+        'aria-valuenow': (__VLS_ctx.completedQuestionsCount),
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "test__progress-fill" },
+        ...{ style: ({ width: `${__VLS_ctx.progressPercent}%` }) },
+    });
 }
 for (const [question] of __VLS_getVForSourceType((__VLS_ctx.questions))) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         key: (question.id),
         ...{ class: "test__question" },
     });
+    if (__VLS_ctx.isQuestionCompleted(question.id)) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+            ...{ class: "test__completed-mark" },
+            'aria-hidden': "true",
+        });
+    }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
         ...{ class: "test__question-text" },
     });
@@ -223,8 +318,14 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 /** @type {__VLS_StyleScopedClasses['test']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__title']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__description']} */ ;
-/** @type {__VLS_StyleScopedClasses['test__stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress-head']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress-label']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress-stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress-track']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__progress-fill']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__question']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__completed-mark']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__question-text']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__answers']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__answer']} */ ;
@@ -241,16 +342,19 @@ const __VLS_self = (await import('vue')).defineComponent({
         return {
             AnswerCommentPopover: AnswerCommentPopover,
             renderedDescription: renderedDescription,
-            checkMode: checkMode,
             showAnswersMode: showAnswersMode,
             openCommentKey: openCommentKey,
             makeCommentKey: makeCommentKey,
             toggleComment: toggleComment,
             isSelected: isSelected,
+            isQuestionCompleted: isQuestionCompleted,
             isCorrectOption: isCorrectOption,
             toggleSelection: toggleSelection,
             totalQuestions: totalQuestions,
-            correctQuestionsCount: correctQuestionsCount,
+            completedQuestionsCount: completedQuestionsCount,
+            progressPercent: progressPercent,
+            checkedQuestionsCount: checkedQuestionsCount,
+            correctCheckedQuestionsCount: correctCheckedQuestionsCount,
             checkAnswers: checkAnswers,
             showAnswers: showAnswers,
             resetFeedback: resetFeedback,
@@ -259,13 +363,17 @@ const __VLS_self = (await import('vue')).defineComponent({
             getAnswersLayoutClass: getAnswersLayoutClass,
         };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });
 export default (await import('vue')).defineComponent({
     setup() {
-        return {};
+        return {
+            ...__VLS_exposed,
+        };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });

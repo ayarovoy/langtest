@@ -7,6 +7,7 @@ import YesNoQuestionsTest from './components/YesNoQuestionsTest.vue';
 export { AnswerCommentPopover, ChooseCorrectAnswerTest, FillInTheBlankTest, MatchPairsTest, TestSuiteContainer, YesNoQuestionsTest, };
 export * from './types/component-contracts';
 export * from './types/test-config';
+export * from './types/test-state';
 export const LangTestPlugin = {
     install(app) {
         app.component('AnswerCommentPopover', AnswerCommentPopover);

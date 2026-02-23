@@ -89,6 +89,24 @@
       { "id": "o2", "text": "Could you clarify what you mean by the second requirement?" },
       { "id": "o3", "text": "I agree, and I would add that this approach is also more cost-effective." }
     ]
+    },
+    {
+    "id": "m4-duplicates",
+    "title": "Одинаковые тексты ответов (проверка дубликатов)",
+    "leftColumnTitle": "Русский",
+    "rightColumnTitle": "Испанский",
+    "rows": [
+      { "id": "r1", "prompt": "Я иду домой.", "correctOptionId": "o1" },
+      { "id": "r2", "prompt": "Я уезжаю завтра.", "correctOptionId": "o2" },
+      { "id": "r3", "prompt": "Она идет домой.", "correctOptionId": "o3" },
+      { "id": "r4", "prompt": "Она уезжает завтра.", "correctOptionId": "o4" }
+    ],
+    "options": [
+      { "id": "o1", "text": "Me voy." },
+      { "id": "o2", "text": "Me voy." },
+      { "id": "o3", "text": "Se va." },
+      { "id": "o4", "text": "Se va." }
+    ]
     }
   ]
 }

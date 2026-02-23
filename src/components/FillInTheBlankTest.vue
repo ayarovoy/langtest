@@ -2,9 +2,24 @@
   <section class="fill-test">
     <h2>{{ title }}</h2>
     <div v-if="descriptionMarkdown" class="fill-test__description" v-html="renderedDescription"></div>
-    <p v-if="checkMode" class="fill-test__stats">Правильно: {{ correctBlanksCount }} из {{ totalBlanksCount }}</p>
+    <div v-if="showProgress" class="fill-test__progress">
+      <div class="fill-test__progress-head">
+        <p class="fill-test__progress-label">Прогресс: {{ completedTextsCount }} из {{ totalTextsCount }}</p>
+        <p class="fill-test__progress-stats">Правильно: {{ correctCheckedTextsCount }} из {{ checkedTextsCount }}</p>
+      </div>
+      <div
+        class="fill-test__progress-track"
+        role="progressbar"
+        :aria-valuemin="0"
+        :aria-valuemax="totalTextsCount"
+        :aria-valuenow="completedTextsCount"
+      >
+        <div class="fill-test__progress-fill" :style="{ width: `${progressPercent}%` }"></div>
+      </div>
+    </div>
 
     <article v-for="textItem in texts" :key="textItem.id" class="fill-test__card">
+      <span v-if="isTextCompleted(textItem.id)" class="fill-test__completed-mark" aria-hidden="true">✓</span>
       <h3 v-if="textItem.title">{{ textItem.title }}</h3>
       <p class="fill-test__text">
         <template v-for="(segment, index) in getSegments(textItem.id)" :key="`${textItem.id}-${index}`">
@@ -52,17 +67,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 import type { FillBlankConfig, FillTextTask } from '../types/component-contracts'
+import type { FillInTheBlankState, StatefulTestComponentHandle } from '../types/test-state'
 
-interface Props { title?: string; descriptionMarkdown?: string; texts: FillTextTask[] }
+interface Props {
+  title?: string
+  descriptionMarkdown?: string
+  showProgress?: boolean
+  texts: FillTextTask[]
+  initialState?: FillInTheBlankState
+}
 interface FillSegmentText { type: 'text'; value: string }
 interface FillSegmentBlank { type: 'blank'; blankId: string }
 type FillSegment = FillSegmentText | FillSegmentBlank
 
-const props = withDefaults(defineProps<Props>(), { title: 'Заполни пропуск' })
+const props = withDefaults(defineProps<Props>(), { title: 'Заполни пропуск', showProgress: true })
+const emit = defineEmits<{
+  (
+    event: 'progress-change',
+    payload: { completed: number; total: number; correctChecked: number; checked: number },
+  ): void
+  (event: 'state-change', payload: FillInTheBlankState): void
+}>()
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const userAnswers = reactive<Record<string, string>>({})
 const checkMode = ref(false)
@@ -87,12 +116,35 @@ const isBlankCorrect = (textId: string, blankId: string): boolean => {
   return blank.correctAnswers.some((a) => normalize(a) === userValue)
 }
 
-const totalBlanksCount = computed(() => props.texts.reduce((acc, t) => acc + t.blanks.length, 0))
-const correctBlanksCount = computed(() =>
-  props.texts.reduce(
-    (acc, t) => acc + t.blanks.reduce((bAcc, b) => (isBlankCorrect(t.id, b.id) ? bAcc + 1 : bAcc), 0),
-    0,
-  ),
+const totalTextsCount = computed(() => props.texts.length)
+const isTextCompleted = (textId: string): boolean => {
+  const text = props.texts.find((item) => item.id === textId)
+  if (!text) return false
+  return text.blanks.every((blank) => getUserAnswer(textId, blank.id).trim().length > 0)
+}
+const isTextCorrect = (textId: string): boolean => {
+  const text = props.texts.find((item) => item.id === textId)
+  if (!text) return false
+  return text.blanks.every((blank) => isBlankCorrect(textId, blank.id))
+}
+const completedTextsCount = computed(() =>
+  props.texts.reduce((acc, text) => (isTextCompleted(text.id) ? acc + 1 : acc), 0),
+)
+const progressPercent = computed(() => {
+  if (totalTextsCount.value === 0) return 0
+  return Math.round((completedTextsCount.value / totalTextsCount.value) * 100)
+})
+const checkedTextsCount = computed(() => (checkMode.value ? totalTextsCount.value : 0))
+const correctCheckedTextsCount = computed(() => {
+  if (!checkMode.value) return 0
+  return props.texts.reduce((acc, text) => (isTextCorrect(text.id) ? acc + 1 : acc), 0)
+})
+watch(
+  [completedTextsCount, totalTextsCount, correctCheckedTextsCount, checkedTextsCount],
+  ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked })
+  },
+  { immediate: true },
 )
 
 const parseContent = (content: string): FillSegment[] => {
@@ -145,6 +197,66 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
   if (!checkMode.value) return ''
   return isBlankCorrect(textId, blankId) ? 'fill-test__blank--correct' : 'fill-test__blank--incorrect'
 }
+
+const toBoolean = (value: unknown): boolean => value === true
+const normalizeState = (state: unknown): FillInTheBlankState => {
+  const raw = (state ?? {}) as Partial<FillInTheBlankState>
+  const validKeys = new Set(
+    props.texts.flatMap((text) => text.blanks.map((blank) => keyOf(text.id, blank.id))),
+  )
+  const userAnswers: Record<string, string> = {}
+  const rawAnswers = raw.userAnswers ?? {}
+  Object.entries(rawAnswers).forEach(([blankKey, value]) => {
+    if (!validKeys.has(blankKey) || typeof value !== 'string') return
+    userAnswers[blankKey] = value
+  })
+  return {
+    userAnswers,
+    checkMode: toBoolean(raw.checkMode),
+    showAnswersMode: toBoolean(raw.showAnswersMode),
+  }
+}
+const applyState = (state: unknown): void => {
+  const normalized = normalizeState(state)
+  Object.keys(userAnswers).forEach((key) => delete userAnswers[key])
+  Object.entries(normalized.userAnswers).forEach(([blankKey, value]) => {
+    userAnswers[blankKey] = value
+  })
+  checkMode.value = normalized.checkMode
+  showAnswersMode.value = normalized.showAnswersMode
+  openCommentKey.value = ''
+}
+const getState = (): FillInTheBlankState => normalizeState({
+  userAnswers,
+  checkMode: checkMode.value,
+  showAnswersMode: showAnswersMode.value,
+})
+const setState = (state: unknown): void => {
+  applyState(state)
+}
+watch(
+  () => props.initialState,
+  (state) => {
+    if (!state) return
+    applyState(state)
+  },
+  { immediate: true, deep: true },
+)
+watch(
+  () => props.texts,
+  () => {
+    applyState(getState())
+  },
+  { deep: true },
+)
+watch(
+  [userAnswers, checkMode, showAnswersMode],
+  () => {
+    emit('state-change', getState())
+  },
+  { immediate: true, deep: true },
+)
+defineExpose<StatefulTestComponentHandle<FillInTheBlankState>>({ getState, setState })
 </script>
 
 <style scoped>
@@ -154,7 +266,23 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
   max-width: 900px;
   color: var(--lt-color-text-primary, #111827);
 }
-.fill-test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.fill-test__progress { display: grid; gap: 0.35rem; }
+.fill-test__progress-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.fill-test__progress-label { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.fill-test__progress-stats { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.fill-test__progress-track {
+  width: 100%;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--lt-color-progress-track, #e5e7eb);
+  overflow: hidden;
+}
+.fill-test__progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lt-color-progress-fill, #2f6feb);
+  transition: width 0.2s ease;
+}
 .fill-test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.fill-test__description p) { margin: 0.25rem 0; }
 :deep(.fill-test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
@@ -162,10 +290,26 @@ const getBlankStateClass = (textId: string, blankId: string): string => {
 :deep(.fill-test__description h4),
 :deep(.fill-test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .fill-test__card {
+  position: relative;
   border: 1px solid var(--lt-color-card-border, #d7d7d7);
   border-radius: var(--lt-radius-card, 12px);
   padding: 1rem;
   background: var(--lt-color-card-bg, #fff);
+}
+.fill-test__completed-mark {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lt-color-correct-strong, #1f9d42);
 }
 .fill-test__text { line-height: 1.9; }
 .fill-test__blank {

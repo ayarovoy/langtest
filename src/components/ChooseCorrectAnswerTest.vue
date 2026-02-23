@@ -2,9 +2,18 @@
   <section class="test">
     <h2 class="test__title">{{ title }}</h2>
     <div v-if="descriptionMarkdown" class="test__description" v-html="renderedDescription"></div>
-    <p v-if="checkMode" class="test__stats">Правильно: {{ correctQuestionsCount }} из {{ totalQuestions }}</p>
+    <div v-if="showProgress" class="test__progress">
+      <div class="test__progress-head">
+        <p class="test__progress-label">Прогресс: {{ completedQuestionsCount }} из {{ totalQuestions }}</p>
+        <p class="test__progress-stats">Правильно: {{ correctCheckedQuestionsCount }} из {{ checkedQuestionsCount }}</p>
+      </div>
+      <div class="test__progress-track" role="progressbar" :aria-valuemin="0" :aria-valuemax="totalQuestions" :aria-valuenow="completedQuestionsCount">
+        <div class="test__progress-fill" :style="{ width: `${progressPercent}%` }"></div>
+      </div>
+    </div>
 
     <div v-for="question in questions" :key="question.id" class="test__question">
+      <span v-if="isQuestionCompleted(question.id)" class="test__completed-mark" aria-hidden="true">✓</span>
       <p class="test__question-text">{{ question.text }}</p>
       <ul class="test__answers" :class="getAnswersLayoutClass(question)">
         <li
@@ -45,18 +54,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 import type { TestQuestion } from '../types/component-contracts'
 import type { AnswerLayoutHeuristics, AnswerLayoutMode } from '../types/test-config'
+import type { ChooseCorrectAnswerState, StatefulTestComponentHandle } from '../types/test-state'
 
 interface Props {
   title?: string
   descriptionMarkdown?: string
   answerLayout?: AnswerLayoutMode
   answerLayoutHeuristics?: AnswerLayoutHeuristics
+  showProgress?: boolean
   questions: TestQuestion[]
+  initialState?: ChooseCorrectAnswerState
 }
 
 const DEFAULT_LAYOUT_HEURISTICS: Required<AnswerLayoutHeuristics> = {
@@ -68,7 +80,15 @@ const DEFAULT_LAYOUT_HEURISTICS: Required<AnswerLayoutHeuristics> = {
 const props = withDefaults(defineProps<Props>(), {
   title: 'Выбери правильный ответ',
   answerLayout: 'vertical',
+  showProgress: true,
 })
+const emit = defineEmits<{
+  (
+    event: 'progress-change',
+    payload: { completed: number; total: number; correctChecked: number; checked: number },
+  ): void
+  (event: 'state-change', payload: ChooseCorrectAnswerState): void
+}>()
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const selectedAnswers = reactive<Record<string, string[]>>({})
 const checkMode = ref(false)
@@ -94,6 +114,7 @@ const toggleComment = (questionId: string, optionId: string): void => {
 
 const isSelected = (questionId: string, optionId: string): boolean =>
   (selectedAnswers[questionId] ?? []).includes(optionId)
+const isQuestionCompleted = (questionId: string): boolean => (selectedAnswers[questionId] ?? []).length > 0
 
 const isCorrectOption = (questionId: string, optionId: string): boolean =>
   props.questions.find((q) => q.id === questionId)?.correctOptionIds.includes(optionId) ?? false
@@ -119,8 +140,24 @@ const isQuestionCorrect = (question: TestQuestion): boolean => {
 }
 
 const totalQuestions = computed(() => props.questions.length)
+const completedQuestionsCount = computed(() =>
+  props.questions.reduce((acc, question) => (isQuestionCompleted(question.id) ? acc + 1 : acc), 0),
+)
+const progressPercent = computed(() => {
+  if (totalQuestions.value === 0) return 0
+  return Math.round((completedQuestionsCount.value / totalQuestions.value) * 100)
+})
 const correctQuestionsCount = computed(() =>
   props.questions.reduce((acc, q) => (isQuestionCorrect(q) ? acc + 1 : acc), 0),
+)
+const checkedQuestionsCount = computed(() => (checkMode.value ? totalQuestions.value : 0))
+const correctCheckedQuestionsCount = computed(() => (checkMode.value ? correctQuestionsCount.value : 0))
+watch(
+  [completedQuestionsCount, totalQuestions, correctCheckedQuestionsCount, checkedQuestionsCount],
+  ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked })
+  },
+  { immediate: true },
 )
 
 const checkAnswers = (): void => {
@@ -171,11 +208,90 @@ const resolveQuestionLayout = (question: TestQuestion): Exclude<AnswerLayoutMode
 
 const getAnswersLayoutClass = (question: TestQuestion): string =>
   `test__answers--${resolveQuestionLayout(question)}`
+
+const toBoolean = (value: unknown): boolean => value === true
+const normalizeState = (state: unknown): ChooseCorrectAnswerState => {
+  const raw = (state ?? {}) as Partial<ChooseCorrectAnswerState>
+  const validOptionIdsByQuestionId: Record<string, Set<string>> = Object.fromEntries(
+    props.questions.map((question) => [question.id, new Set(question.options.map((option) => option.id))]),
+  )
+  const selectedAnswers: Record<string, string[]> = {}
+  const rawSelected = raw.selectedAnswers ?? {}
+  Object.entries(rawSelected).forEach(([questionId, optionIds]) => {
+    const validOptionIds = validOptionIdsByQuestionId[questionId]
+    if (!validOptionIds || !Array.isArray(optionIds)) return
+    const filteredIds = optionIds.filter((id): id is string => typeof id === 'string' && validOptionIds.has(id))
+    if (filteredIds.length === 0) return
+    selectedAnswers[questionId] = [...new Set(filteredIds)]
+  })
+  return {
+    selectedAnswers,
+    checkMode: toBoolean(raw.checkMode),
+    showAnswersMode: toBoolean(raw.showAnswersMode),
+  }
+}
+const applyState = (state: unknown): void => {
+  const normalized = normalizeState(state)
+  Object.keys(selectedAnswers).forEach((key) => delete selectedAnswers[key])
+  Object.entries(normalized.selectedAnswers).forEach(([questionId, optionIds]) => {
+    selectedAnswers[questionId] = [...optionIds]
+  })
+  checkMode.value = normalized.checkMode
+  showAnswersMode.value = normalized.showAnswersMode
+  openCommentKey.value = ''
+}
+const getState = (): ChooseCorrectAnswerState => normalizeState({
+  selectedAnswers,
+  checkMode: checkMode.value,
+  showAnswersMode: showAnswersMode.value,
+})
+const setState = (state: unknown): void => {
+  applyState(state)
+}
+watch(
+  () => props.initialState,
+  (state) => {
+    if (!state) return
+    applyState(state)
+  },
+  { immediate: true, deep: true },
+)
+watch(
+  () => props.questions,
+  () => {
+    applyState(getState())
+  },
+  { deep: true },
+)
+watch(
+  [selectedAnswers, checkMode, showAnswersMode],
+  () => {
+    emit('state-change', getState())
+  },
+  { immediate: true, deep: true },
+)
+defineExpose<StatefulTestComponentHandle<ChooseCorrectAnswerState>>({ getState, setState })
 </script>
 
 <style scoped>
 .test { display: grid; gap: 1rem; max-width: 760px; }
-.test__stats { margin: -0.25rem 0 0; color: var(--lt-color-text-muted, #334155); }
+.test__progress { display: grid; gap: 0.35rem; }
+.test__progress-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.test__progress-label { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.test__progress-stats { margin: 0; color: var(--lt-color-text-muted, #334155); }
+.test__progress-track {
+  width: 100%;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--lt-color-progress-track, #e5e7eb);
+  overflow: hidden;
+}
+.test__progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lt-color-progress-fill, #2f6feb);
+  transition: width 0.2s ease;
+}
 .test__description { color: var(--lt-color-text-secondary, #475569); margin-top: -0.35rem; }
 :deep(.test__description p) { margin: 0.25rem 0; }
 :deep(.test__description ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
@@ -183,10 +299,26 @@ const getAnswersLayoutClass = (question: TestQuestion): string =>
 :deep(.test__description h4),
 :deep(.test__description h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .test__question {
+  position: relative;
   border: 1px solid var(--lt-color-card-border, #d7d7d7);
   border-radius: var(--lt-radius-card, 12px);
   padding: 1rem;
   background: var(--lt-color-card-bg, #fff);
+}
+.test__completed-mark {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lt-color-correct-strong, #1f9d42);
 }
 .test__question-text { margin: 0; font-weight: 600; }
 .test__answers { margin: 0.75rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }

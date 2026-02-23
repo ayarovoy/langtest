@@ -33,6 +33,7 @@ export default defineConfig(({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: 5173,
+      allowedHosts: ['llm1.ru.tuna.am'],
     },
     preview: {
       host: '0.0.0.0',

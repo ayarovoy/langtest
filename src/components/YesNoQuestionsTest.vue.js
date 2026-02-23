@@ -1,6 +1,7 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
-const props = withDefaults(defineProps(), { title: 'Ответьте ДА или НЕТ' });
+const props = withDefaults(defineProps(), { title: 'Ответьте ДА или НЕТ', showProgress: true });
+const emit = defineEmits();
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const selectedAnswers = reactive({});
 const checkMode = ref(false);
@@ -19,8 +20,34 @@ const selectAnswer = (taskId, questionId, answer) => {
     showAnswersMode.value = false;
     selectedAnswers[keyOf(taskId, questionId)] = answer;
 };
-const totalQuestionsCount = computed(() => props.tasks.reduce((acc, task) => acc + task.questions.length, 0));
-const correctQuestionsCount = computed(() => props.tasks.reduce((acc, task) => acc + task.questions.reduce((taskAcc, question) => (isQuestionCorrect(task.id, question.id) ? taskAcc + 1 : taskAcc), 0), 0));
+const totalTasksCount = computed(() => props.tasks.length);
+const isTaskCompleted = (taskId) => {
+    const task = props.tasks.find((item) => item.id === taskId);
+    if (!task)
+        return false;
+    return task.questions.every((question) => getSelectedAnswer(taskId, question.id) !== undefined);
+};
+const isTaskCorrect = (taskId) => {
+    const task = props.tasks.find((item) => item.id === taskId);
+    if (!task)
+        return false;
+    return task.questions.every((question) => isQuestionCorrect(taskId, question.id));
+};
+const completedTasksCount = computed(() => props.tasks.reduce((acc, task) => (isTaskCompleted(task.id) ? acc + 1 : acc), 0));
+const progressPercent = computed(() => {
+    if (totalTasksCount.value === 0)
+        return 0;
+    return Math.round((completedTasksCount.value / totalTasksCount.value) * 100);
+});
+const checkedTasksCount = computed(() => (checkMode.value ? totalTasksCount.value : 0));
+const correctCheckedTasksCount = computed(() => {
+    if (!checkMode.value)
+        return 0;
+    return props.tasks.reduce((acc, task) => (isTaskCorrect(task.id) ? acc + 1 : acc), 0);
+});
+watch([completedTasksCount, totalTasksCount, correctCheckedTasksCount, checkedTasksCount], ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked });
+}, { immediate: true });
 const checkAnswers = () => {
     checkMode.value = true;
 };
@@ -56,8 +83,55 @@ const getAnswerButtonClass = (taskId, questionId, optionValue) => {
     }
     return classes.join(' ');
 };
+const toBoolean = (value) => value === true;
+const normalizeState = (state) => {
+    const raw = (state ?? {});
+    const validKeys = new Set(props.tasks.flatMap((task) => task.questions.map((question) => keyOf(task.id, question.id))));
+    const selectedAnswers = {};
+    const rawSelected = raw.selectedAnswers ?? {};
+    Object.entries(rawSelected).forEach(([answerKey, answerValue]) => {
+        if (!validKeys.has(answerKey) || typeof answerValue !== 'boolean')
+            return;
+        selectedAnswers[answerKey] = answerValue;
+    });
+    return {
+        selectedAnswers,
+        checkMode: toBoolean(raw.checkMode),
+        showAnswersMode: toBoolean(raw.showAnswersMode),
+    };
+};
+const applyState = (state) => {
+    const normalized = normalizeState(state);
+    Object.keys(selectedAnswers).forEach((key) => delete selectedAnswers[key]);
+    Object.entries(normalized.selectedAnswers).forEach(([answerKey, answerValue]) => {
+        selectedAnswers[answerKey] = answerValue;
+    });
+    checkMode.value = normalized.checkMode;
+    showAnswersMode.value = normalized.showAnswersMode;
+};
+const getState = () => normalizeState({
+    selectedAnswers,
+    checkMode: checkMode.value,
+    showAnswersMode: showAnswersMode.value,
+});
+const setState = (state) => {
+    applyState(state);
+};
+watch(() => props.initialState, (state) => {
+    if (!state)
+        return;
+    applyState(state);
+}, { immediate: true, deep: true });
+watch(() => props.tasks, () => {
+    applyState(getState());
+}, { deep: true });
+watch([selectedAnswers, checkMode, showAnswersMode], () => {
+    emit('state-change', getState());
+}, { immediate: true, deep: true });
+let __VLS_exposed;
+defineExpose({ getState, setState });
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
-const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Ответьте ДА или НЕТ' });
+const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Ответьте ДА или НЕТ', showProgress: true });
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
@@ -81,18 +155,46 @@ if (__VLS_ctx.descriptionMarkdown) {
     });
     __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderedDescription) }, null, null);
 }
-if (__VLS_ctx.checkMode) {
-    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
-        ...{ class: "yn-test__stats" },
+if (__VLS_ctx.showProgress) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "yn-test__progress" },
     });
-    (__VLS_ctx.correctQuestionsCount);
-    (__VLS_ctx.totalQuestionsCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "yn-test__progress-head" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "yn-test__progress-label" },
+    });
+    (__VLS_ctx.completedTasksCount);
+    (__VLS_ctx.totalTasksCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "yn-test__progress-stats" },
+    });
+    (__VLS_ctx.correctCheckedTasksCount);
+    (__VLS_ctx.checkedTasksCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "yn-test__progress-track" },
+        role: "progressbar",
+        'aria-valuemin': (0),
+        'aria-valuemax': (__VLS_ctx.totalTasksCount),
+        'aria-valuenow': (__VLS_ctx.completedTasksCount),
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "yn-test__progress-fill" },
+        ...{ style: ({ width: `${__VLS_ctx.progressPercent}%` }) },
+    });
 }
 for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.article, __VLS_intrinsicElements.article)({
         key: (task.id),
         ...{ class: "yn-test__task" },
     });
+    if (__VLS_ctx.isTaskCompleted(task.id)) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+            ...{ class: "yn-test__completed-mark" },
+            'aria-hidden': "true",
+        });
+    }
     if (task.title) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.h3, __VLS_intrinsicElements.h3)({});
         (task.title);
@@ -166,8 +268,14 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 });
 /** @type {__VLS_StyleScopedClasses['yn-test']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__description']} */ ;
-/** @type {__VLS_StyleScopedClasses['yn-test__stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress-head']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress-label']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress-stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress-track']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__progress-fill']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__task']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__completed-mark']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__texts']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__questions']} */ ;
@@ -186,10 +294,13 @@ const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
             renderedDescription: renderedDescription,
-            checkMode: checkMode,
             selectAnswer: selectAnswer,
-            totalQuestionsCount: totalQuestionsCount,
-            correctQuestionsCount: correctQuestionsCount,
+            totalTasksCount: totalTasksCount,
+            isTaskCompleted: isTaskCompleted,
+            completedTasksCount: completedTasksCount,
+            progressPercent: progressPercent,
+            checkedTasksCount: checkedTasksCount,
+            correctCheckedTasksCount: correctCheckedTasksCount,
             checkAnswers: checkAnswers,
             showAnswers: showAnswers,
             resetFeedback: resetFeedback,
@@ -198,13 +309,17 @@ const __VLS_self = (await import('vue')).defineComponent({
             getAnswerButtonClass: getAnswerButtonClass,
         };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });
 export default (await import('vue')).defineComponent({
     setup() {
-        return {};
+        return {
+            ...__VLS_exposed,
+        };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });

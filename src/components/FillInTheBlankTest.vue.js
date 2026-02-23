@@ -1,7 +1,8 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
-const props = withDefaults(defineProps(), { title: 'Заполни пропуск' });
+const props = withDefaults(defineProps(), { title: 'Заполни пропуск', showProgress: true });
+const emit = defineEmits();
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const userAnswers = reactive({});
 const checkMode = ref(false);
@@ -21,8 +22,34 @@ const isBlankCorrect = (textId, blankId) => {
     const userValue = normalize(getUserAnswer(textId, blankId));
     return blank.correctAnswers.some((a) => normalize(a) === userValue);
 };
-const totalBlanksCount = computed(() => props.texts.reduce((acc, t) => acc + t.blanks.length, 0));
-const correctBlanksCount = computed(() => props.texts.reduce((acc, t) => acc + t.blanks.reduce((bAcc, b) => (isBlankCorrect(t.id, b.id) ? bAcc + 1 : bAcc), 0), 0));
+const totalTextsCount = computed(() => props.texts.length);
+const isTextCompleted = (textId) => {
+    const text = props.texts.find((item) => item.id === textId);
+    if (!text)
+        return false;
+    return text.blanks.every((blank) => getUserAnswer(textId, blank.id).trim().length > 0);
+};
+const isTextCorrect = (textId) => {
+    const text = props.texts.find((item) => item.id === textId);
+    if (!text)
+        return false;
+    return text.blanks.every((blank) => isBlankCorrect(textId, blank.id));
+};
+const completedTextsCount = computed(() => props.texts.reduce((acc, text) => (isTextCompleted(text.id) ? acc + 1 : acc), 0));
+const progressPercent = computed(() => {
+    if (totalTextsCount.value === 0)
+        return 0;
+    return Math.round((completedTextsCount.value / totalTextsCount.value) * 100);
+});
+const checkedTextsCount = computed(() => (checkMode.value ? totalTextsCount.value : 0));
+const correctCheckedTextsCount = computed(() => {
+    if (!checkMode.value)
+        return 0;
+    return props.texts.reduce((acc, text) => (isTextCorrect(text.id) ? acc + 1 : acc), 0);
+});
+watch([completedTextsCount, totalTextsCount, correctCheckedTextsCount, checkedTextsCount], ([completed, total, correctChecked, checked]) => {
+    emit('progress-change', { completed, total, correctChecked, checked });
+}, { immediate: true });
 const parseContent = (content) => {
     const parts = content.split(/(\[\[[\w-]+\]\])/g);
     const segments = [];
@@ -72,8 +99,56 @@ const getBlankStateClass = (textId, blankId) => {
         return '';
     return isBlankCorrect(textId, blankId) ? 'fill-test__blank--correct' : 'fill-test__blank--incorrect';
 };
+const toBoolean = (value) => value === true;
+const normalizeState = (state) => {
+    const raw = (state ?? {});
+    const validKeys = new Set(props.texts.flatMap((text) => text.blanks.map((blank) => keyOf(text.id, blank.id))));
+    const userAnswers = {};
+    const rawAnswers = raw.userAnswers ?? {};
+    Object.entries(rawAnswers).forEach(([blankKey, value]) => {
+        if (!validKeys.has(blankKey) || typeof value !== 'string')
+            return;
+        userAnswers[blankKey] = value;
+    });
+    return {
+        userAnswers,
+        checkMode: toBoolean(raw.checkMode),
+        showAnswersMode: toBoolean(raw.showAnswersMode),
+    };
+};
+const applyState = (state) => {
+    const normalized = normalizeState(state);
+    Object.keys(userAnswers).forEach((key) => delete userAnswers[key]);
+    Object.entries(normalized.userAnswers).forEach(([blankKey, value]) => {
+        userAnswers[blankKey] = value;
+    });
+    checkMode.value = normalized.checkMode;
+    showAnswersMode.value = normalized.showAnswersMode;
+    openCommentKey.value = '';
+};
+const getState = () => normalizeState({
+    userAnswers,
+    checkMode: checkMode.value,
+    showAnswersMode: showAnswersMode.value,
+});
+const setState = (state) => {
+    applyState(state);
+};
+watch(() => props.initialState, (state) => {
+    if (!state)
+        return;
+    applyState(state);
+}, { immediate: true, deep: true });
+watch(() => props.texts, () => {
+    applyState(getState());
+}, { deep: true });
+watch([userAnswers, checkMode, showAnswersMode], () => {
+    emit('state-change', getState());
+}, { immediate: true, deep: true });
+let __VLS_exposed;
+defineExpose({ getState, setState });
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
-const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Заполни пропуск' });
+const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Заполни пропуск', showProgress: true });
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
@@ -96,18 +171,46 @@ if (__VLS_ctx.descriptionMarkdown) {
     });
     __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderedDescription) }, null, null);
 }
-if (__VLS_ctx.checkMode) {
-    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
-        ...{ class: "fill-test__stats" },
+if (__VLS_ctx.showProgress) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "fill-test__progress" },
     });
-    (__VLS_ctx.correctBlanksCount);
-    (__VLS_ctx.totalBlanksCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "fill-test__progress-head" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "fill-test__progress-label" },
+    });
+    (__VLS_ctx.completedTextsCount);
+    (__VLS_ctx.totalTextsCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
+        ...{ class: "fill-test__progress-stats" },
+    });
+    (__VLS_ctx.correctCheckedTextsCount);
+    (__VLS_ctx.checkedTextsCount);
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "fill-test__progress-track" },
+        role: "progressbar",
+        'aria-valuemin': (0),
+        'aria-valuemax': (__VLS_ctx.totalTextsCount),
+        'aria-valuenow': (__VLS_ctx.completedTextsCount),
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "fill-test__progress-fill" },
+        ...{ style: ({ width: `${__VLS_ctx.progressPercent}%` }) },
+    });
 }
 for (const [textItem] of __VLS_getVForSourceType((__VLS_ctx.texts))) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.article, __VLS_intrinsicElements.article)({
         key: (textItem.id),
         ...{ class: "fill-test__card" },
     });
+    if (__VLS_ctx.isTextCompleted(textItem.id)) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+            ...{ class: "fill-test__completed-mark" },
+            'aria-hidden': "true",
+        });
+    }
     if (textItem.title) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.h3, __VLS_intrinsicElements.h3)({});
         (textItem.title);
@@ -209,8 +312,14 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 });
 /** @type {__VLS_StyleScopedClasses['fill-test']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__description']} */ ;
-/** @type {__VLS_StyleScopedClasses['fill-test__stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress-head']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress-label']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress-stats']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress-track']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__progress-fill']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__card']} */ ;
+/** @type {__VLS_StyleScopedClasses['fill-test__completed-mark']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__text']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__blank']} */ ;
 /** @type {__VLS_StyleScopedClasses['fill-test__wrong-answer']} */ ;
@@ -227,15 +336,18 @@ const __VLS_self = (await import('vue')).defineComponent({
         return {
             AnswerCommentPopover: AnswerCommentPopover,
             renderedDescription: renderedDescription,
-            checkMode: checkMode,
             showAnswersMode: showAnswersMode,
             openCommentKey: openCommentKey,
             keyOf: keyOf,
             getUserAnswer: getUserAnswer,
             getBlankComment: getBlankComment,
             getDisplayedAnswer: getDisplayedAnswer,
-            totalBlanksCount: totalBlanksCount,
-            correctBlanksCount: correctBlanksCount,
+            totalTextsCount: totalTextsCount,
+            isTextCompleted: isTextCompleted,
+            completedTextsCount: completedTextsCount,
+            progressPercent: progressPercent,
+            checkedTextsCount: checkedTextsCount,
+            correctCheckedTextsCount: correctCheckedTextsCount,
             getSegments: getSegments,
             onInputChange: onInputChange,
             hasIncorrectUserAnswer: hasIncorrectUserAnswer,
@@ -247,13 +359,17 @@ const __VLS_self = (await import('vue')).defineComponent({
             getBlankStateClass: getBlankStateClass,
         };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });
 export default (await import('vue')).defineComponent({
     setup() {
-        return {};
+        return {
+            ...__VLS_exposed,
+        };
     },
+    __typeEmits: {},
     __typeProps: {},
     props: {},
 });
