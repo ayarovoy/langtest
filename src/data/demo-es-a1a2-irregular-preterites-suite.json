@@ -1,0 +1,412 @@
+[
+  {
+    "id": "es-suite-01-choose-perfecto-yo-hacer",
+    "componentType": "choose-correct-answer",
+    "title": "1) Pretérito perfecto: (yo) hacer",
+    "descriptionMarkdown": "Выберите правильную форму. **Лицо и время явно указаны** в скобках.",
+    "answerLayout": "auto",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Completa: (yo, pretérito perfecto) Hoy ____ la tarea. (hacer)",
+        "multiple": false,
+        "options": [
+          { "id": "q1o1", "text": "he hecho" },
+          { "id": "q1o2", "text": "hice" },
+          { "id": "q1o3", "text": "ha hecho" },
+          { "id": "q1o4", "text": "he hacer" }
+        ],
+        "correctOptionIds": ["q1o1"]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-02-fill-indefinido-tu-tener-poder",
+    "componentType": "fill-in-the-blank",
+    "title": "2) Pretérito indefinido: (tú) tener / poder",
+    "descriptionMarkdown": "Впишите форму **pretérito indefinido** для указанного лица.",
+    "texts": [
+      {
+        "id": "t2",
+        "title": "Dos frases",
+        "content": "Ayer (tú) [[b1]] tiempo para estudiar. (tener)\nAnoche (tú) no [[b2]] venir. (poder)",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["tuviste"] },
+          { "id": "b2", "correctAnswers": ["pudiste"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-03-match-participios-irregulares",
+    "componentType": "match-pairs",
+    "title": "3) Participios irregulares (pretérito perfecto)",
+    "descriptionMarkdown": "Сопоставьте инфинитив и **participio** (форма причастия).",
+    "tasks": [
+      {
+        "id": "m3",
+        "title": "Infinitivo → participio",
+        "leftColumnTitle": "Infinitivo",
+        "rightColumnTitle": "Participio",
+        "rows": [
+          { "id": "m3r1", "prompt": "hacer", "correctOptionId": "m3o1" },
+          { "id": "m3r2", "prompt": "ver", "correctOptionId": "m3o2" },
+          { "id": "m3r3", "prompt": "decir", "correctOptionId": "m3o3" },
+          { "id": "m3r4", "prompt": "poner", "correctOptionId": "m3o4" }
+        ],
+        "options": [
+          { "id": "m3o1", "text": "hecho" },
+          { "id": "m3o2", "text": "visto" },
+          { "id": "m3o3", "text": "dicho" },
+          { "id": "m3o4", "text": "puesto" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-04-yesno-reglas-tiempo",
+    "componentType": "yes-no-questions",
+    "title": "4) Perfecto vs indefinido: маркеры времени (uso común en España)",
+    "descriptionMarkdown": "Прочитайте мини-памятку и ответьте **ДА/НЕТ**.",
+    "tasks": [
+      {
+        "id": "y4",
+        "title": "Reglas rápidas",
+        "texts": [
+          "En el uso común en España, el pretérito perfecto se usa mucho con periodos no terminados: hoy, esta semana, este mes.",
+          "El pretérito indefinido se usa con periodos terminados: ayer, la semana pasada, el año pasado, en 2019."
+        ],
+        "questions": [
+          { "id": "y4q1", "text": "Con «ayer» normalmente usamos pretérito perfecto.", "correctAnswer": false },
+          { "id": "y4q2", "text": "Con «esta semana» normalmente usamos pretérito perfecto.", "correctAnswer": true },
+          { "id": "y4q3", "text": "Con «en 2019» normalmente usamos pretérito indefinido.", "correctAnswer": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-05-choose-indefinido-ella-hacer",
+    "componentType": "choose-correct-answer",
+    "title": "5) Pretérito indefinido: (ella) hacer",
+    "descriptionMarkdown": "Выберите правильную форму (лицо указано).",
+    "questions": [
+      {
+        "id": "q5",
+        "text": "Completa: (ella, pretérito indefinido) Ayer ____ la compra. (hacer)",
+        "multiple": false,
+        "options": [
+          { "id": "q5o1", "text": "hizo" },
+          { "id": "q5o2", "text": "ha hecho" },
+          { "id": "q5o3", "text": "hace" },
+          { "id": "q5o4", "text": "hicé" }
+        ],
+        "correctOptionIds": ["q5o1"]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-06-fill-perfecto-nosotros-ver-escribir",
+    "componentType": "fill-in-the-blank",
+    "title": "6) Pretérito perfecto: (nosotros) ver / escribir",
+    "descriptionMarkdown": "Впишите форму **pretérito perfecto** для указанного лица.",
+    "texts": [
+      {
+        "id": "t6",
+        "title": "Hoy",
+        "content": "Hoy (nosotros) [[b1]] una película. (ver)\nEsta mañana (nosotros) [[b2]] un correo. (escribir)",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["hemos visto"] },
+          { "id": "b2", "correctAnswers": ["hemos escrito"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-07-match-indefinido-yo-irregulars",
+    "componentType": "match-pairs",
+    "title": "7) Pretérito indefinido: формы (yo)",
+    "descriptionMarkdown": "Сопоставьте глагол и форму **pretérito indefinido** для (yo).",
+    "tasks": [
+      {
+        "id": "m7",
+        "title": "(yo) en pretérito indefinido",
+        "leftColumnTitle": "Глагол",
+        "rightColumnTitle": "Форма (yo)",
+        "rows": [
+          { "id": "m7r1", "prompt": "tener (yo)", "correctOptionId": "m7o1" },
+          { "id": "m7r2", "prompt": "venir (yo)", "correctOptionId": "m7o2" },
+          { "id": "m7r3", "prompt": "decir (yo)", "correctOptionId": "m7o3" },
+          { "id": "m7r4", "prompt": "hacer (yo)", "correctOptionId": "m7o4" }
+        ],
+        "options": [
+          { "id": "m7o1", "text": "tuve" },
+          { "id": "m7o2", "text": "vine" },
+          { "id": "m7o3", "text": "dije" },
+          { "id": "m7o4", "text": "hice" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-08-yesno-eleccion-frases",
+    "componentType": "yes-no-questions",
+    "title": "8) Выбор времени по маркеру (uso común en España)",
+    "descriptionMarkdown": "Ответьте **ДА**, если время в примере выбрано правильно, иначе **НЕТ**.",
+    "tasks": [
+      {
+        "id": "y8",
+        "title": "¿Correcto o no?",
+        "texts": [
+          "Regla de este ejercicio: hoy/esta semana → perfecto; ayer/la semana pasada → indefinido."
+        ],
+        "questions": [
+          { "id": "y8q1", "text": "«Esta semana he visto a Ana.» (perfecto)", "correctAnswer": true },
+          { "id": "y8q2", "text": "«Ayer he tenido un examen.» (perfecto)", "correctAnswer": false },
+          { "id": "y8q3", "text": "«El año pasado fui a Madrid.» (indefinido)", "correctAnswer": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-09-choose-perfecto-tu-poner",
+    "componentType": "choose-correct-answer",
+    "title": "9) Pretérito perfecto: (tú) poner",
+    "descriptionMarkdown": "Выберите форму **pretérito perfecto** для (tú).",
+    "questions": [
+      {
+        "id": "q9",
+        "text": "Completa: (tú, pretérito perfecto) Hoy ____ la mesa. (poner)",
+        "multiple": false,
+        "options": [
+          { "id": "q9o1", "text": "has puesto" },
+          { "id": "q9o2", "text": "ha puesto" },
+          { "id": "q9o3", "text": "pusiste" },
+          { "id": "q9o4", "text": "has poner" }
+        ],
+        "correctOptionIds": ["q9o1"]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-10-fill-indefinido-nosotros-estar-ir",
+    "componentType": "fill-in-the-blank",
+    "title": "10) Pretérito indefinido: (nosotros) estar / ir",
+    "descriptionMarkdown": "Впишите форму **pretérito indefinido** для указанного лица.",
+    "texts": [
+      {
+        "id": "t10",
+        "title": "La semana pasada",
+        "content": "La semana pasada (nosotros) [[b1]] en casa. (estar)\nAyer (nosotros) [[b2]] al cine. (ir)",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["estuvimos"] },
+          { "id": "b2", "correctAnswers": ["fuimos"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-11-match-perfecto-personas-haber",
+    "componentType": "match-pairs",
+    "title": "11) Pretérito perfecto: auxiliar «haber» (forma correcta)",
+    "descriptionMarkdown": "Сопоставьте лицо и правильную форму **haber** (presente) для pretérito perfecto.",
+    "tasks": [
+      {
+        "id": "m11",
+        "title": "Persona → haber",
+        "leftColumnTitle": "Persona",
+        "rightColumnTitle": "haber (presente)",
+        "rows": [
+          { "id": "m11r1", "prompt": "yo", "correctOptionId": "m11o1" },
+          { "id": "m11r2", "prompt": "tú", "correctOptionId": "m11o2" },
+          { "id": "m11r3", "prompt": "él/ella/usted", "correctOptionId": "m11o3" },
+          { "id": "m11r4", "prompt": "nosotros/nosotras", "correctOptionId": "m11o4" }
+        ],
+        "options": [
+          { "id": "m11o1", "text": "he" },
+          { "id": "m11o2", "text": "has" },
+          { "id": "m11o3", "text": "ha" },
+          { "id": "m11o4", "text": "hemos" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-12-yesno-haber-personas",
+    "componentType": "yes-no-questions",
+    "title": "12) «Haber» в pretérito perfecto: верно/неверно",
+    "descriptionMarkdown": "Ответьте **ДА**, если форма «haber» подходит указанному лицу.",
+    "tasks": [
+      {
+        "id": "y12",
+        "title": "¿Correcto?",
+        "texts": ["Pretérito perfecto = haber (presente) + participio."],
+        "questions": [
+          { "id": "y12q1", "text": "(yo) «ha»", "correctAnswer": false },
+          { "id": "y12q2", "text": "(nosotros) «hemos»", "correctAnswer": true },
+          { "id": "y12q3", "text": "(tú) «has»", "correctAnswer": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-13-choose-comparacion-hoy-ayer",
+    "componentType": "choose-correct-answer",
+    "title": "13) Сравнение: hoy vs ayer (uso común en España)",
+    "descriptionMarkdown": "Выберите вариант с правильным временем по маркеру.",
+    "questions": [
+      {
+        "id": "q13",
+        "text": "¿Cuál es correcto? (yo)",
+        "multiple": false,
+        "options": [
+          { "id": "q13o1", "text": "Hoy he visto a Marta." },
+          { "id": "q13o2", "text": "Hoy vi a Marta." },
+          { "id": "q13o3", "text": "Ayer he visto a Marta." },
+          { "id": "q13o4", "text": "Ayer veo a Marta." }
+        ],
+        "correctOptionIds": ["q13o1"]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-14-fill-perfecto-vosotros-abrir-volver",
+    "componentType": "fill-in-the-blank",
+    "title": "14) Pretérito perfecto: (vosotros) abrir / volver",
+    "descriptionMarkdown": "Впишите форму **pretérito perfecto** для (vosotros). Если сложно набрать ударение, можно без него.",
+    "texts": [
+      {
+        "id": "t14",
+        "title": "Esta tarde",
+        "content": "Esta tarde (vosotros) [[b1]] la ventana. (abrir)\nHoy (vosotros) [[b2]] tarde a casa. (volver)",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["habéis abierto", "habeis abierto"] },
+          { "id": "b2", "correctAnswers": ["habéis vuelto", "habeis vuelto"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-15-match-indefinido-tuv-etc",
+    "componentType": "match-pairs",
+    "title": "15) Pretérito indefinido: основы tuv-/pud-/sup-/quis-",
+    "descriptionMarkdown": "Сопоставьте глагол и форму **pretérito indefinido** для указанного лица.",
+    "tasks": [
+      {
+        "id": "m15",
+        "title": "Forma irregular",
+        "leftColumnTitle": "Глагол (persona)",
+        "rightColumnTitle": "Indefinido",
+        "rows": [
+          { "id": "m15r1", "prompt": "tener (él)", "correctOptionId": "m15o1" },
+          { "id": "m15r2", "prompt": "poder (yo)", "correctOptionId": "m15o2" },
+          { "id": "m15r3", "prompt": "saber (tú)", "correctOptionId": "m15o3" },
+          { "id": "m15r4", "prompt": "querer (nosotros)", "correctOptionId": "m15o4" }
+        ],
+        "options": [
+          { "id": "m15o1", "text": "tuvo" },
+          { "id": "m15o2", "text": "pude" },
+          { "id": "m15o3", "text": "supiste" },
+          { "id": "m15o4", "text": "quisimos" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-16-yesno-participios",
+    "componentType": "yes-no-questions",
+    "title": "16) Participios irregulares: верно/неверно",
+    "descriptionMarkdown": "Ответьте **ДА**, если participio написан правильно.",
+    "tasks": [
+      {
+        "id": "y16",
+        "title": "Participio",
+        "texts": ["Проверьте форму participio (не время!)."],
+        "questions": [
+          { "id": "y16q1", "text": "hacer → hecho", "correctAnswer": true },
+          { "id": "y16q2", "text": "decir → decido", "correctAnswer": false },
+          { "id": "y16q3", "text": "ver → visto", "correctAnswer": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-17-choose-perfecto-ellos-decir",
+    "componentType": "choose-correct-answer",
+    "title": "17) Pretérito perfecto: (ellos) decir",
+    "descriptionMarkdown": "Выберите форму **pretérito perfecto** для (ellos).",
+    "questions": [
+      {
+        "id": "q17",
+        "text": "Completa: (ellos, pretérito perfecto) Esta semana ____ la verdad. (decir)",
+        "multiple": false,
+        "options": [
+          { "id": "q17o1", "text": "han dicho" },
+          { "id": "q17o2", "text": "dijeron" },
+          { "id": "q17o3", "text": "ha dicho" },
+          { "id": "q17o4", "text": "han decir" }
+        ],
+        "correctOptionIds": ["q17o1"]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-18-fill-indefinido-yo-poner-decidir-no",
+    "componentType": "fill-in-the-blank",
+    "title": "18) Pretérito indefinido: (yo) poner / decir",
+    "descriptionMarkdown": "Впишите форму **pretérito indefinido** для (yo).",
+    "texts": [
+      {
+        "id": "t18",
+        "title": "Anoche",
+        "content": "Anoche (yo) [[b1]] la mesa. (poner)\nAyer (yo) [[b2]] la verdad. (decir)",
+        "blanks": [
+          { "id": "b1", "correctAnswers": ["puse"] },
+          { "id": "b2", "correctAnswers": ["dije"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-19-match-compara-perfecto-indefinido",
+    "componentType": "match-pairs",
+    "title": "19) Сравнение: выбери время по ситуации (uso común en España)",
+    "descriptionMarkdown": "Сопоставьте ситуацию и подходящее время.",
+    "tasks": [
+      {
+        "id": "m19",
+        "title": "Situación → tiempo",
+        "leftColumnTitle": "Situación",
+        "rightColumnTitle": "Tiempo",
+        "rows": [
+          { "id": "m19r1", "prompt": "hoy / esta mañana (periodo no terminado)", "correctOptionId": "m19o1" },
+          { "id": "m19r2", "prompt": "ayer / la semana pasada (periodo terminado)", "correctOptionId": "m19o2" },
+          { "id": "m19r3", "prompt": "en 2020 (fecha terminada)", "correctOptionId": "m19o2" },
+          { "id": "m19r4", "prompt": "este mes (periodo no terminado)", "correctOptionId": "m19o1" }
+        ],
+        "options": [
+          { "id": "m19o1", "text": "pretérito perfecto" },
+          { "id": "m19o2", "text": "pretérito indefinido" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "es-suite-20-yesno-comparacion-frases",
+    "componentType": "yes-no-questions",
+    "title": "20) Сравнение: предложения (uso común en España)",
+    "descriptionMarkdown": "Ответьте **ДА**, если выбранное время подходит маркеру.",
+    "tasks": [
+      {
+        "id": "y20",
+        "title": "Frases",
+        "texts": ["Считаем правильным выбор: hoy/esta semana → perfecto; ayer/el año pasado/en + año → indefinido."],
+        "questions": [
+          { "id": "y20q1", "text": "«Hoy he puesto la mesa.»", "correctAnswer": true },
+          { "id": "y20q2", "text": "«Ayer he hecho la tarea.»", "correctAnswer": false },
+          { "id": "y20q3", "text": "«En 2021 tuve un coche.»", "correctAnswer": true }
+        ]
+      }
+    ]
+  }
+]
+

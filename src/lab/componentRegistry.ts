@@ -2,6 +2,7 @@ import type { Component } from 'vue'
 import ChooseCorrectAnswerDemo from '../demos/ChooseCorrectAnswerDemo.vue'
 import FillInTheBlankDemo from '../demos/FillInTheBlankDemo.vue'
 import MatchPairsDemo from '../demos/MatchPairsDemo.vue'
+import SpanishA1A2IrregularPreteritesSuiteDemo from '../demos/SpanishA1A2IrregularPreteritesSuiteDemo.vue'
 import TestSuiteContainerDemo from '../demos/TestSuiteContainerDemo.vue'
 import YesNoQuestionsDemo from '../demos/YesNoQuestionsDemo.vue'
 
@@ -20,6 +21,14 @@ export const componentRegistry: ComponentLabEntry[] = [
     description: 'Рендерит список тестов динамически по массиву JSON-конфигов.',
     tags: ['container', 'dynamic', 'json'],
     component: TestSuiteContainerDemo,
+  },
+  {
+    id: 'demo-es-a1a2-irregular-preterites-suite',
+    title: 'Демо: ES A1–A2 — perfecto vs indefinido (неправильные глаголы)',
+    description:
+      '20 упражнений разных типов: pretérito perfecto / pretérito indefinido и их сравнение (лицо всегда указано).',
+    tags: ['container', 'es', 'a1', 'a2', 'perfecto', 'indefinido'],
+    component: SpanishA1A2IrregularPreteritesSuiteDemo,
   },
   {
     id: 'choose-correct-answer',
