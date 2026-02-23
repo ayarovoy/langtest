@@ -1,12 +1,28 @@
 import { computed, reactive, ref } from 'vue';
 import AnswerCommentPopover from './AnswerCommentPopover.vue';
 import { renderMarkdown } from '../utils/markdown';
-const props = withDefaults(defineProps(), { title: 'Выбери правильный ответ' });
+const DEFAULT_LAYOUT_HEURISTICS = {
+    minOptionsForHorizontal: 3,
+    maxAverageOptionLengthForHorizontal: 24,
+    maxLongestOptionLengthForHorizontal: 42,
+};
+const props = withDefaults(defineProps(), {
+    title: 'Выбери правильный ответ',
+    answerLayout: 'vertical',
+});
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''));
 const selectedAnswers = reactive({});
 const checkMode = ref(false);
 const showAnswersMode = ref(false);
 const openCommentKey = ref('');
+const mergedLayoutHeuristics = computed(() => ({
+    minOptionsForHorizontal: props.answerLayoutHeuristics?.minOptionsForHorizontal ??
+        DEFAULT_LAYOUT_HEURISTICS.minOptionsForHorizontal,
+    maxAverageOptionLengthForHorizontal: props.answerLayoutHeuristics?.maxAverageOptionLengthForHorizontal ??
+        DEFAULT_LAYOUT_HEURISTICS.maxAverageOptionLengthForHorizontal,
+    maxLongestOptionLengthForHorizontal: props.answerLayoutHeuristics?.maxLongestOptionLengthForHorizontal ??
+        DEFAULT_LAYOUT_HEURISTICS.maxLongestOptionLengthForHorizontal,
+}));
 const makeCommentKey = (questionId, optionId) => `${questionId}::${optionId}`;
 const toggleComment = (questionId, optionId) => {
     const key = makeCommentKey(questionId, optionId);
@@ -66,8 +82,24 @@ const getAnswerStateClass = (questionId, optionId) => {
         return '';
     return question.correctOptionIds.includes(optionId) ? 'test__answer--correct' : 'test__answer--incorrect';
 };
+const resolveQuestionLayout = (question) => {
+    if (props.answerLayout !== 'auto')
+        return props.answerLayout;
+    const trimmedLengths = question.options.map((option) => option.text.trim().length);
+    const longestOptionLength = Math.max(...trimmedLengths, 0);
+    const averageOptionLength = trimmedLengths.reduce((total, length) => total + length, 0) / Math.max(trimmedLengths.length, 1);
+    const { minOptionsForHorizontal, maxAverageOptionLengthForHorizontal, maxLongestOptionLengthForHorizontal, } = mergedLayoutHeuristics.value;
+    const shouldUseHorizontal = question.options.length >= minOptionsForHorizontal &&
+        averageOptionLength <= maxAverageOptionLengthForHorizontal &&
+        longestOptionLength <= maxLongestOptionLengthForHorizontal;
+    return shouldUseHorizontal ? 'horizontal' : 'vertical';
+};
+const getAnswersLayoutClass = (question) => `test__answers--${resolveQuestionLayout(question)}`;
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
-const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Выбери правильный ответ' });
+const __VLS_withDefaultsArg = (function (t) { return t; })({
+    title: 'Выбери правильный ответ',
+    answerLayout: 'vertical',
+});
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
@@ -76,6 +108,8 @@ let __VLS_directives;
 /** @type {__VLS_StyleScopedClasses['test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__answers--horizontal']} */ ;
+/** @type {__VLS_StyleScopedClasses['test__answer']} */ ;
 /** @type {__VLS_StyleScopedClasses['test__answer']} */ ;
 // CSS variable injection 
 // CSS variable injection end 
@@ -110,6 +144,7 @@ for (const [question] of __VLS_getVForSourceType((__VLS_ctx.questions))) {
     (question.text);
     __VLS_asFunctionalElement(__VLS_intrinsicElements.ul, __VLS_intrinsicElements.ul)({
         ...{ class: "test__answers" },
+        ...{ class: (__VLS_ctx.getAnswersLayoutClass(question)) },
     });
     for (const [option] of __VLS_getVForSourceType((question.options))) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.li, __VLS_intrinsicElements.li)({
@@ -221,6 +256,7 @@ const __VLS_self = (await import('vue')).defineComponent({
             resetFeedback: resetFeedback,
             restartTest: restartTest,
             getAnswerStateClass: getAnswerStateClass,
+            getAnswersLayoutClass: getAnswersLayoutClass,
         };
     },
     __typeProps: {},

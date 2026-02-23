@@ -4,6 +4,12 @@
     "componentType": "choose-correct-answer",
     "title": "Секция 1: выбери правильный ответ",
     "descriptionMarkdown": "### Инструкция\n- Выберите один или несколько вариантов в каждом вопросе.\n- Нажмите **Проверить**, чтобы увидеть результат.\n\nСовет: ориентируйтесь на контекст предложения, а не только на отдельные слова.",
+    "answerLayout": "auto",
+    "answerLayoutHeuristics": {
+      "minOptionsForHorizontal": 4,
+      "maxAverageOptionLengthForHorizontal": 24,
+      "maxLongestOptionLengthForHorizontal": 42
+    },
     "questions": [
       {
         "id": "sq1",

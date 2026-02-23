@@ -1,5 +1,13 @@
 import type { FillTextTask, MatchTask, TestQuestion, YesNoTask } from './component-contracts'
 
+export type AnswerLayoutMode = 'vertical' | 'horizontal' | 'auto'
+
+export interface AnswerLayoutHeuristics {
+  minOptionsForHorizontal?: number
+  maxAverageOptionLengthForHorizontal?: number
+  maxLongestOptionLengthForHorizontal?: number
+}
+
 export type TestComponentType =
   | 'choose-correct-answer'
   | 'fill-in-the-blank'
@@ -15,6 +23,8 @@ interface BaseTestConfig {
 
 export interface ChooseCorrectAnswerConfig extends BaseTestConfig {
   componentType: 'choose-correct-answer'
+  answerLayout?: AnswerLayoutMode
+  answerLayoutHeuristics?: AnswerLayoutHeuristics
   questions: TestQuestion[]
 }
 

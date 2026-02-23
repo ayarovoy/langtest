@@ -6,7 +6,7 @@
 
     <div v-for="question in questions" :key="question.id" class="test__question">
       <p class="test__question-text">{{ question.text }}</p>
-      <ul class="test__answers">
+      <ul class="test__answers" :class="getAnswersLayoutClass(question)">
         <li
           v-for="option in question.options"
           :key="option.id"
@@ -49,19 +49,42 @@ import { computed, reactive, ref } from 'vue'
 import AnswerCommentPopover from './AnswerCommentPopover.vue'
 import { renderMarkdown } from '../utils/markdown'
 import type { TestQuestion } from '../types/component-contracts'
+import type { AnswerLayoutHeuristics, AnswerLayoutMode } from '../types/test-config'
 
 interface Props {
   title?: string
   descriptionMarkdown?: string
+  answerLayout?: AnswerLayoutMode
+  answerLayoutHeuristics?: AnswerLayoutHeuristics
   questions: TestQuestion[]
 }
 
-const props = withDefaults(defineProps<Props>(), { title: 'Выбери правильный ответ' })
+const DEFAULT_LAYOUT_HEURISTICS: Required<AnswerLayoutHeuristics> = {
+  minOptionsForHorizontal: 3,
+  maxAverageOptionLengthForHorizontal: 24,
+  maxLongestOptionLengthForHorizontal: 42,
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: 'Выбери правильный ответ',
+  answerLayout: 'vertical',
+})
 const renderedDescription = computed(() => renderMarkdown(props.descriptionMarkdown ?? ''))
 const selectedAnswers = reactive<Record<string, string[]>>({})
 const checkMode = ref(false)
 const showAnswersMode = ref(false)
 const openCommentKey = ref('')
+const mergedLayoutHeuristics = computed<Required<AnswerLayoutHeuristics>>(() => ({
+  minOptionsForHorizontal:
+    props.answerLayoutHeuristics?.minOptionsForHorizontal ??
+    DEFAULT_LAYOUT_HEURISTICS.minOptionsForHorizontal,
+  maxAverageOptionLengthForHorizontal:
+    props.answerLayoutHeuristics?.maxAverageOptionLengthForHorizontal ??
+    DEFAULT_LAYOUT_HEURISTICS.maxAverageOptionLengthForHorizontal,
+  maxLongestOptionLengthForHorizontal:
+    props.answerLayoutHeuristics?.maxLongestOptionLengthForHorizontal ??
+    DEFAULT_LAYOUT_HEURISTICS.maxLongestOptionLengthForHorizontal,
+}))
 
 const makeCommentKey = (questionId: string, optionId: string): string => `${questionId}::${optionId}`
 const toggleComment = (questionId: string, optionId: string): void => {
@@ -127,6 +150,27 @@ const getAnswerStateClass = (questionId: string, optionId: string): string => {
   if (!checkMode.value || !isSelected(questionId, optionId)) return ''
   return question.correctOptionIds.includes(optionId) ? 'test__answer--correct' : 'test__answer--incorrect'
 }
+
+const resolveQuestionLayout = (question: TestQuestion): Exclude<AnswerLayoutMode, 'auto'> => {
+  if (props.answerLayout !== 'auto') return props.answerLayout
+  const trimmedLengths = question.options.map((option) => option.text.trim().length)
+  const longestOptionLength = Math.max(...trimmedLengths, 0)
+  const averageOptionLength =
+    trimmedLengths.reduce((total, length) => total + length, 0) / Math.max(trimmedLengths.length, 1)
+  const {
+    minOptionsForHorizontal,
+    maxAverageOptionLengthForHorizontal,
+    maxLongestOptionLengthForHorizontal,
+  } = mergedLayoutHeuristics.value
+  const shouldUseHorizontal =
+    question.options.length >= minOptionsForHorizontal &&
+    averageOptionLength <= maxAverageOptionLengthForHorizontal &&
+    longestOptionLength <= maxLongestOptionLengthForHorizontal
+  return shouldUseHorizontal ? 'horizontal' : 'vertical'
+}
+
+const getAnswersLayoutClass = (question: TestQuestion): string =>
+  `test__answers--${resolveQuestionLayout(question)}`
 </script>
 
 <style scoped>
@@ -146,8 +190,10 @@ const getAnswerStateClass = (questionId: string, optionId: string): string => {
 }
 .test__question-text { margin: 0; font-weight: 600; }
 .test__answers { margin: 0.75rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }
+.test__answers--horizontal { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.test__answers--horizontal .test__answer { flex: 1 1 min(260px, 100%); }
 .test__answer { border: 1px solid transparent; border-radius: var(--lt-radius-control, 8px); padding: 0.5rem 0.65rem; }
-.test__answer label { display: flex; align-items: center; gap: 0.5rem; width: 100%; }
+.test__answer label { display: flex; align-items: flex-start; gap: 0.5rem; width: 100%; }
 .test__answer-text { flex: 1; }
 .test__correct-icon { color: var(--lt-color-correct-strong, #1f9d42); font-weight: 700; }
 .test__answer--correct {

@@ -141,12 +141,112 @@ const suite: TestComponentConfig[] = [
 - `title?: string`
 - `descriptionMarkdown?: string`
 
+### Пример: ChooseCorrectAnswerTest
+
+```vue
+<template>
+  <ChooseCorrectAnswerTest title="Выбери правильный ответ" :questions="questions" />
+</template>
+
+<script setup lang="ts">
+import { ChooseCorrectAnswerTest } from 'langtest'
+import type { TestQuestion } from 'langtest'
+
+const questions: TestQuestion[] = [
+  {
+    id: 'q1',
+    text: 'She ___ to work every day.',
+    multiple: false,
+    options: [
+      { id: 'o1', text: 'go' },
+      { id: 'o2', text: 'goes' }
+    ],
+    correctOptionIds: ['o2']
+  }
+]
+</script>
+```
+
+### Пример: FillInTheBlankTest
+
+```vue
+<template>
+  <FillInTheBlankTest title="Заполни пропуск" :texts="texts" />
+</template>
+
+<script setup lang="ts">
+import { FillInTheBlankTest } from 'langtest'
+import type { FillTextTask } from 'langtest'
+
+const texts: FillTextTask[] = [
+  {
+    id: 't1',
+    content: 'We [[b1]] English twice a week.',
+    blanks: [{ id: 'b1', correctAnswers: ['study', 'learn'] }]
+  }
+]
+</script>
+```
+
+### Пример: MatchPairsTest
+
+```vue
+<template>
+  <MatchPairsTest title="Сопоставь одно с другим" :tasks="tasks" />
+</template>
+
+<script setup lang="ts">
+import { MatchPairsTest } from 'langtest'
+import type { MatchTask } from 'langtest'
+
+const tasks: MatchTask[] = [
+  {
+    id: 'm1',
+    rows: [
+      { id: 'r1', prompt: 'Hello', correctOptionId: 'o1' },
+      { id: 'r2', prompt: 'Goodbye', correctOptionId: 'o2' }
+    ],
+    options: [
+      { id: 'o1', text: 'Привет' },
+      { id: 'o2', text: 'Пока' }
+    ]
+  }
+]
+</script>
+```
+
+### Пример: YesNoQuestionsTest
+
+```vue
+<template>
+  <YesNoQuestionsTest title="Текст и вопросы ДА/НЕТ" :tasks="tasks" />
+</template>
+
+<script setup lang="ts">
+import { YesNoQuestionsTest } from 'langtest'
+import type { YesNoTask } from 'langtest'
+
+const tasks: YesNoTask[] = [
+  {
+    id: 'yn1',
+    texts: ['Anna practices Spanish every weekend.'],
+    questions: [
+      { id: 'q1', text: 'Анна практикует испанский по выходным.', correctAnswer: true },
+      { id: 'q2', text: 'Анна никогда не практикует язык дома.', correctAnswer: false }
+    ]
+  }
+]
+</script>
+```
+
 ## Публичные типы
 
 Импортируются из корня пакета:
 
 ```ts
 import type {
+  AnswerLayoutMode,
+  AnswerLayoutHeuristics,
   TestComponentConfig,
   ChooseCorrectAnswerConfig,
   FillInTheBlankConfig,
@@ -171,6 +271,14 @@ import type {
 
 - `questions[]`:
   - `id`, `text`, `multiple`, `options[]`, `correctOptionIds[]`
+- `answerLayout?`:
+  - `vertical` (по умолчанию)
+  - `horizontal` (варианты в строку с переносом)
+  - `auto` (компонент сам выбирает раскладку по эвристикам)
+- `answerLayoutHeuristics?` (используется в `auto`):
+  - `minOptionsForHorizontal`
+  - `maxAverageOptionLengthForHorizontal`
+  - `maxLongestOptionLengthForHorizontal`
 - `correctOptionIds` должны ссылаться на `options[].id`
 
 ### fill-in-the-blank

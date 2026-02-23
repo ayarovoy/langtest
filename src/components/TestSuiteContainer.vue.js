@@ -3,7 +3,13 @@ const __VLS_props = defineProps();
 const getComponent = (type) => testComponentMap[type];
 const getComponentProps = (item) => {
     if (item.componentType === 'choose-correct-answer') {
-        return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, questions: item.questions };
+        return {
+            title: item.title,
+            descriptionMarkdown: item.descriptionMarkdown,
+            answerLayout: item.answerLayout,
+            answerLayoutHeuristics: item.answerLayoutHeuristics,
+            questions: item.questions,
+        };
     }
     if (item.componentType === 'fill-in-the-blank') {
         return { title: item.title, descriptionMarkdown: item.descriptionMarkdown, texts: item.texts };

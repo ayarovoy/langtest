@@ -37,8 +37,6 @@ const restartTest = () => {
 };
 const getQuestionStateClass = (taskId, questionId) => {
     const hasAnswer = getSelectedAnswer(taskId, questionId) !== undefined;
-    if (showAnswersMode.value)
-        return 'yn-test__question--correct';
     if (!checkMode.value)
         return '';
     if (!hasAnswer)
@@ -50,17 +48,13 @@ const getAnswerButtonClass = (taskId, questionId, optionValue) => {
     const question = findQuestion(taskId, questionId);
     if (!question)
         return '';
-    if (showAnswersMode.value) {
-        if (question.correctAnswer === optionValue)
-            return 'yn-test__answer-btn--correct-answer';
-        if (selected === optionValue && selected !== question.correctAnswer) {
-            return 'yn-test__answer-btn--incorrect-answer';
-        }
-        return '';
-    }
+    const classes = [];
     if (selected === optionValue)
-        return 'yn-test__answer-btn--selected';
-    return '';
+        classes.push('yn-test__answer-btn--selected');
+    if (showAnswersMode.value && question.correctAnswer === optionValue) {
+        classes.push('yn-test__answer-btn--correct-answer');
+    }
+    return classes.join(' ');
 };
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
 const __VLS_withDefaultsArg = (function (t) { return t; })({ title: 'Ответьте ДА или НЕТ' });

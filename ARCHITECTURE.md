@@ -45,6 +45,8 @@
   - `componentType`
   - optional `title`
   - optional `descriptionMarkdown`
+  - for `choose-correct-answer`: optional `answerLayout` (`vertical` | `horizontal` | `auto`)
+  - for `choose-correct-answer`: optional `answerLayoutHeuristics` thresholds for auto mode
   - optional answer-level `commentMarkdown` fields in task payloads (supports markdown)
   - payload by type:
     - `choose-correct-answer` -> `questions`
@@ -64,6 +66,7 @@
 ## Component Behavior Summary
 - `ChooseCorrectAnswerTest.vue`
   - single/multi choice support
+  - answer list layout modes: vertical, horizontal (wrap), auto (heuristic-based per question)
   - check/show/reset/restart controls
   - result highlighting + per-component stats
   - after "show correct answers", optional `?` popover on options with `commentMarkdown`
