@@ -1,0 +1,8 @@
+[
+  "tests/test_pipeline.py::test_pipeline_happy_path",
+  "tests/test_pipeline.py::test_pipeline_retries_on_evaluator_error",
+  "tests/test_schemas.py::test_fill_text_task_requires_matching_blank_ids",
+  "tests/test_schemas.py::test_test_question_requires_existing_correct_option",
+  "tests/test_validators.py::test_validate_suite_rejects_duplicate_component_ids",
+  "tests/test_validators.py::test_validate_suite_rejects_duplicate_match_option_ids"
+]

@@ -1,0 +1,422 @@
+[
+  {
+    "id": "section-1-choose-correct-answer",
+    "componentType": "choose-correct-answer",
+    "title": "¿Adjetivo o participio?",
+    "descriptionMarkdown": "Elige la forma correcta para completar cada oración. Recuerda: 'extinto' es un adjetivo que describe un estado, mientras que 'extinguido' es el participio del verbo 'extinguir'.",
+    "answerLayout": null,
+    "answerLayoutHeuristics": null,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Los dinosaurios son animales ________.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "extintos",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o2",
+            "text": "extinguidos",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q1o1"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "El fuego se ha ________ por completo.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "extinto",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o2",
+            "text": "extinguido",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q2o2"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "En el museo hay una exposición sobre animales ________.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "extintos",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o2",
+            "text": "extinguidos",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q3o1"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "La vela se ha ________ por el viento.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "extinta",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o2",
+            "text": "extinguida",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q4o2"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "El tigre de Tasmania es una especie ________.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "extinta",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o2",
+            "text": "extinguida",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q5o1"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Los bomberos han ________ el incendio.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q6o1",
+            "text": "extinto",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q6o2",
+            "text": "extinguido",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q6o2"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Muchas lenguas indígenas están en peligro de quedar ________.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q7o1",
+            "text": "extintas",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q7o2",
+            "text": "extinguidas",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q7o1"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "La esperanza no se ha ________ todavía.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q8o1",
+            "text": "extinta",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q8o2",
+            "text": "extinguida",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q8o2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-2-fill-in-the-blank",
+    "componentType": "fill-in-the-blank",
+    "title": "Acentuación y reglas de tilde",
+    "descriptionMarkdown": "Completa los espacios en blanco con las palabras correctas, aplicando las reglas de acentuación del español.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": "Reglas de acentuación",
+        "content": "La palabra [[b1]] se pronuncia con acento en la primera i, pero no lleva tilde por ser grave terminada en vocal. En cambio, [[b2]] lleva tilde a pesar de terminar en 's' por ser una excepción para palabras terminadas en dos consonantes.",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": [
+              "libido"
+            ],
+            "commentMarkdown": "Correcto. 'Libido' es una palabra grave terminada en vocal, por lo tanto no lleva tilde según las reglas de acentuación del español."
+          },
+          {
+            "id": "b2",
+            "correctAnswers": [
+              "bíceps"
+            ],
+            "commentMarkdown": "Correcto. 'Bíceps' es una excepción a la regla general de las palabras graves terminadas en 's', ya que termina en dos consonantes (ps) y por eso lleva tilde."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Adaptación de extranjerismos",
+        "content": "Para la palabra inglesa 'whisky', existen dos adaptaciones al español: [[b3]] y [[b4]]. Ambas formas son aceptadas por la RAE.",
+        "blanks": [
+          {
+            "id": "b3",
+            "correctAnswers": [
+              "güisqui"
+            ],
+            "commentMarkdown": "Correcto. 'Güisqui' es una de las adaptaciones al español de la palabra inglesa 'whisky'."
+          },
+          {
+            "id": "b4",
+            "correctAnswers": [
+              "wiski"
+            ],
+            "commentMarkdown": "Correcto. 'Wiski' es la otra adaptación aceptada para esta palabra extranjera."
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "title": "Participio vs adjetivo",
+        "content": "En español, [[b5]] es un adjetivo que significa 'que ya no existe', mientras que [[b6]] es el participio del verbo extinguir.",
+        "blanks": [
+          {
+            "id": "b5",
+            "correctAnswers": [
+              "extinto"
+            ],
+            "commentMarkdown": "Correcto. 'Extinto' funciona como adjetivo, por ejemplo: 'animales extintos'."
+          },
+          {
+            "id": "b6",
+            "correctAnswers": [
+              "extinguido"
+            ],
+            "commentMarkdown": "Correcto. 'Extinguido' es el participio del verbo extinguir, por ejemplo: 'el fuego se ha extinguido'."
+          }
+        ]
+      },
+      {
+        "id": "t4",
+        "title": "Pronunciación regional",
+        "content": "En España (excepto Canarias) se pronuncia [[b7]] y [[b8]], mientras que en Hispanoamérica, especialmente con influencia náhuatl, también se pronuncian de la misma manera.",
+        "blanks": [
+          {
+            "id": "b7",
+            "correctAnswers": [
+              "ATLETA"
+            ],
+            "commentMarkdown": "Correcto. En España se pronuncia 'ATLETA' con acento en la primera sílaba."
+          },
+          {
+            "id": "b8",
+            "correctAnswers": [
+              "ATLÁNTICO"
+            ],
+            "commentMarkdown": "Correcto. 'ATLÁNTICO' lleva tilde por ser una palabra esdrújula."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-3-match-pairs",
+    "componentType": "match-pairs",
+    "title": "Emparejar palabras con sus características",
+    "descriptionMarkdown": "Relaciona cada palabra (columna izquierda) con la descripción correcta de su uso, pronunciación o regla ortográfica (columna derecha).",
+    "tasks": [
+      {
+        "id": "t1",
+        "title": "Vocabulario y pronunciación",
+        "leftColumnTitle": "Palabra",
+        "rightColumnTitle": "Característica",
+        "rows": [
+          {
+            "id": "r1",
+            "prompt": "Atlanta",
+            "correctOptionId": "o1",
+            "commentMarkdown": "En España (excepto Canarias) y en Hispanoamérica se pronuncia de la misma manera: **ATLETA** y **ATLÁNTICO**. No hay diferencia regional en este caso."
+          },
+          {
+            "id": "r2",
+            "prompt": "Náhuatl",
+            "correctOptionId": "o2",
+            "commentMarkdown": null
+          },
+          {
+            "id": "r3",
+            "prompt": "Septiembre",
+            "correctOptionId": "o3",
+            "commentMarkdown": null
+          },
+          {
+            "id": "r4",
+            "prompt": "Libido",
+            "correctOptionId": "o4",
+            "commentMarkdown": "Aunque popularmente se acentúa la primera 'i', la palabra **libido** es grave terminada en vocal y, por lo tanto, **no lleva tilde**. La pronunciación correcta no implica acento prosódico en esa sílaba."
+          },
+          {
+            "id": "r5",
+            "prompt": "Lívido",
+            "correctOptionId": "o5",
+            "commentMarkdown": null
+          },
+          {
+            "id": "r6",
+            "prompt": "Whisky",
+            "correctOptionId": "o6",
+            "commentMarkdown": null
+          },
+          {
+            "id": "r7",
+            "prompt": "Bíceps",
+            "correctOptionId": "o7",
+            "commentMarkdown": "**Bíceps** es una excepción a la regla general de acentuación para palabras graves. Termina en dos consonantes ('ps'), lo que justifica la tilde a pesar de terminar en 's'."
+          },
+          {
+            "id": "r8",
+            "prompt": "Extinto",
+            "correctOptionId": "o8",
+            "commentMarkdown": null
+          }
+        ],
+        "options": [
+          {
+            "id": "o1",
+            "text": "Su pronunciación es la misma en España e Hispanoamérica."
+          },
+          {
+            "id": "o2",
+            "text": "Es una lengua indígena de México."
+          },
+          {
+            "id": "o3",
+            "text": "Es una forma popular en Perú, pero 'octubre' se considera un error en la lengua culta."
+          },
+          {
+            "id": "o4",
+            "text": "Se pronuncia con acento en la primera 'i', pero no lleva tilde por ser grave terminada en vocal."
+          },
+          {
+            "id": "o5",
+            "text": "Significa pálido o de un tono morado."
+          },
+          {
+            "id": "o6",
+            "text": "Tiene adaptaciones al español: 'güisqui' y 'wiski'."
+          },
+          {
+            "id": "o7",
+            "text": "Lleva tilde a pesar de terminar en 's' por ser una excepción (termina en dos consonantes)."
+          },
+          {
+            "id": "o8",
+            "text": "Es un adjetivo (ej. 'animal extinto'), no el participio del verbo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-4-yes-no-questions",
+    "componentType": "yes-no-questions",
+    "title": "Comprensión auditiva: Variación dialectal y adaptación",
+    "descriptionMarkdown": "Escucha el audio sobre variación dialectal y adaptación de extranjerismos en español. Responde si las siguientes afirmaciones son verdaderas (Sí) o falsas (No) según lo escuchado.",
+    "tasks": [
+      {
+        "id": "tarea-audio",
+        "title": "Audio sobre pronunciación y adaptación",
+        "texts": [
+          "En España (excepto Canarias) se pronuncia ATLETA y ATLÁNTICO.",
+          "En Hispanoamérica, especialmente con influencia náhuatl, se pronuncia ATLETA y ATLÁNTICO.",
+          "Septiembre es una forma popular en Perú, pero octubre se considera un error en la lengua culta.",
+          "Existen dos adaptaciones al español para whisky: güisqui y wiski."
+        ],
+        "questions": [
+          {
+            "id": "q1",
+            "text": "En España (excepto Canarias) se pronuncia ATLETA y ATLÁNTICO de la misma manera.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q2",
+            "text": "En Hispanoamérica, especialmente con influencia náhuatl, se pronuncia ATLETA y ATLÁNTICO de manera diferente.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q3",
+            "text": "La palabra 'septiembre' es una forma popular en Perú, pero 'octubre' se considera un error en la lengua culta.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q4",
+            "text": "Existen dos adaptaciones al español para la palabra 'whisky': güisqui y wiski.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q5",
+            "text": "La palabra 'libido' lleva tilde en la primera 'i' según la pronunciación correcta.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q6",
+            "text": "La palabra 'bíceps' es una excepción a las reglas de acentuación porque termina en dos consonantes.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q7",
+            "text": "'Extinto' es un adjetivo, mientras que 'extinguido' es el participio del verbo extinguir.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q8",
+            "text": "La pronunciación 'atlanta' con acento en la primera 'a' es la única forma aceptada en todos los dialectos del español.",
+            "correctAnswer": false
+          }
+        ]
+      }
+    ]
+  }
+]

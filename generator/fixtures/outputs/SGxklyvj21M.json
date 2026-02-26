@@ -1,0 +1,449 @@
+[
+  {
+    "id": "section-1-yes-no-questions",
+    "componentType": "yes-no-questions",
+    "title": "Comprensión auditiva: La historia de Caroline",
+    "descriptionMarkdown": "Escucha el audio sobre Caroline y responde a las preguntas de sí o no sobre los eventos principales de la historia.",
+    "tasks": [
+      {
+        "id": "task-1",
+        "title": "La historia de Caroline",
+        "texts": [
+          "Caroline era una chica rubia, joven y con cara angelical.",
+          "Caroline sacaba buenas notas, estudiaba mucho y jugaba al baloncesto.",
+          "Caroline era fan del dúo flamenco Las Grecas.",
+          "Caroline recibió una beca Erasmus para ir a España, aunque era estadounidense.",
+          "Caroline se fue a vivir a Cádiz, la ciudad que consideraba la mejor de España.",
+          "La primera noche en Cádiz, Caroline conoció a un chico flamenco y se enamoró de él.",
+          "Caroline decidió quedarse en Cádiz con el chico flamenco cuando se le acabó la beca.",
+          "Los padres de Caroline volaron a Cádiz y decidieron quedarse también.",
+          "El padre de Caroline le dijo que se casara con José Luis y que él pagaría la boda.",
+          "La historia termina con todos bailando flamenco y siendo felices en Cádiz."
+        ],
+        "questions": [
+          {
+            "id": "q1",
+            "text": "Caroline era una chica morena y mayor.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q2",
+            "text": "Caroline era una buena estudiante y deportista.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q3",
+            "text": "Caroline era fan de la música clásica.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q4",
+            "text": "Caroline recibió una beca para estudiar en España.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q5",
+            "text": "Caroline se fue a vivir a Sevilla porque la consideraba la mejor ciudad de España.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q6",
+            "text": "Caroline conoció a un chico flamenco y se enamoró de él durante su primera noche en Cádiz.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q7",
+            "text": "Cuando se le acabó la beca, Caroline decidió volver a Estados Unidos.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q8",
+            "text": "Los padres de Caroline volaron a Cádiz y decidieron quedarse a vivir allí también.",
+            "correctAnswer": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-2-fill-in-the-blank",
+    "componentType": "fill-in-the-blank",
+    "title": "Pretérito Imperfecto vs Indefinido",
+    "descriptionMarkdown": "Completa los espacios en blanco con la forma correcta del verbo en pretérito imperfecto o indefinido, según el contexto de la historia de Caroline.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": "La historia de Caroline",
+        "content": "Caroline [[b1]] rubita y [[b2]] una cara angelical. Un día sin esperarlo, le [[b3]] una beca. Ella [[b4]] con ir a España porque [[b5]] fan de las grecas. Ella [[b6]] súper feliz cuando [[b7]] la beca. Ella se [[b8]] a España para mejorar su acento. Los padres [[b9]] los billetes y [[b10]] inmediatamente a Cádiz.",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": [
+              "era"
+            ],
+            "commentMarkdown": "Se usa el pretérito imperfecto 'era' para describir una característica física permanente en el pasado."
+          },
+          {
+            "id": "b2",
+            "correctAnswers": [
+              "tenía"
+            ],
+            "commentMarkdown": "Se usa el pretérito imperfecto 'tenía' para describir una posesión o característica en el pasado."
+          },
+          {
+            "id": "b3",
+            "correctAnswers": [
+              "llegó"
+            ],
+            "commentMarkdown": "Se usa el pretérito indefinido 'llegó' para una acción puntual y completada en el pasado ('un día sin esperarlo')."
+          },
+          {
+            "id": "b4",
+            "correctAnswers": [
+              "soñaba"
+            ],
+            "commentMarkdown": "Se usa el pretérito imperfecto 'soñaba' para un estado mental o deseo habitual en el pasado."
+          },
+          {
+            "id": "b5",
+            "correctAnswers": [
+              "era"
+            ],
+            "commentMarkdown": "Se usa el pretérito imperfecto 'era' para describir una identidad o característica permanente en el pasado."
+          },
+          {
+            "id": "b6",
+            "correctAnswers": [
+              "estaba"
+            ],
+            "commentMarkdown": "Se usa el pretérito imperfecto 'estaba' para un estado temporal de ánimo en el pasado."
+          },
+          {
+            "id": "b7",
+            "correctAnswers": [
+              "recibió"
+            ],
+            "commentMarkdown": "Se usa el pretérito indefinido 'recibió' para una acción puntual y completada en el pasado, marcada por 'cuando'."
+          },
+          {
+            "id": "b8",
+            "correctAnswers": [
+              "fue"
+            ],
+            "commentMarkdown": "Se usa el pretérito indefinido 'fue' para una acción de movimiento completada en el pasado."
+          },
+          {
+            "id": "b9",
+            "correctAnswers": [
+              "compraron"
+            ],
+            "commentMarkdown": "Se usa el pretérito indefinido 'compraron' para una acción puntual y completada en el pasado."
+          },
+          {
+            "id": "b10",
+            "correctAnswers": [
+              "fueron"
+            ],
+            "commentMarkdown": "Se usa el pretérito indefinido 'fueron' para una acción de movimiento completada en el pasado, en secuencia con la acción anterior."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-3-choose-correct-answer",
+    "componentType": "choose-correct-answer",
+    "title": "Gramática: Ser/Estar, Por/Para, Subjuntivo",
+    "descriptionMarkdown": "Selecciona la opción correcta para completar cada oración, basándote en las reglas gramaticales del español.",
+    "answerLayout": null,
+    "answerLayoutHeuristics": null,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Caroline ______ rubita y tenía una cara angelical.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "estaba",
+            "commentMarkdown": "Incorrecto. Se usa 'ser' para describir características físicas permanentes o inherentes, como el color del pelo."
+          },
+          {
+            "id": "q1o2",
+            "text": "era",
+            "commentMarkdown": "Correcto. Se usa 'ser' para describir características físicas permanentes o inherentes, como el color del pelo."
+          }
+        ],
+        "correctOptionIds": [
+          "q1o2"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Ella ______ súper feliz cuando recibió la beca.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "estaba",
+            "commentMarkdown": "Correcto. Se usa 'estar' para describir estados emocionales temporales, como la felicidad en un momento específico."
+          },
+          {
+            "id": "q2o2",
+            "text": "era",
+            "commentMarkdown": "Incorrecto. Se usa 'estar' para describir estados emocionales temporales, como la felicidad en un momento específico."
+          }
+        ],
+        "correctOptionIds": [
+          "q2o1"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Ella se fue a España ______ mejorar su acento.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "por",
+            "commentMarkdown": "Incorrecto. Se usa 'para' para expresar el propósito o la finalidad de una acción."
+          },
+          {
+            "id": "q3o2",
+            "text": "para",
+            "commentMarkdown": "Correcto. Se usa 'para' para expresar el propósito o la finalidad de una acción."
+          }
+        ],
+        "correctOptionIds": [
+          "q3o2"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "El padre le dijo: 'Yo quiero que tú ______ muy feliz'.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "eres",
+            "commentMarkdown": "Incorrecto. Después de verbos de deseo o voluntad como 'querer', se usa el subjuntivo."
+          },
+          {
+            "id": "q4o2",
+            "text": "seas",
+            "commentMarkdown": "Correcto. Después de verbos de deseo o voluntad como 'querer', se usa el subjuntivo."
+          }
+        ],
+        "correctOptionIds": [
+          "q4o2"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Caroline se puso un traje de flamenca ______ la videollamada.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "por",
+            "commentMarkdown": "Incorrecto. Se usa 'para' para indicar la finalidad o el destinatario de una acción."
+          },
+          {
+            "id": "q5o2",
+            "text": "para",
+            "commentMarkdown": "Correcto. Se usa 'para' para indicar la finalidad o el destinatario de una acción."
+          }
+        ],
+        "correctOptionIds": [
+          "q5o2"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Los padres compraron los billetes y ______ inmediatamente a Cádiz.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q6o1",
+            "text": "fueron",
+            "commentMarkdown": "Correcto. Se usa el pretérito indefinido ('fueron') para narrar acciones completas y secuenciales en el pasado."
+          },
+          {
+            "id": "q6o2",
+            "text": "iban",
+            "commentMarkdown": "Incorrecto. Se usa el pretérito indefinido para narrar acciones completas y secuenciales en el pasado, no el imperfecto."
+          }
+        ],
+        "correctOptionIds": [
+          "q6o1"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "La gente le ______: 'Caroline, el sol de nuestra tierra es lo que te gusta'.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q7o1",
+            "text": "decía",
+            "commentMarkdown": "Correcto. Se usa el pretérito imperfecto ('decía') para describir acciones habituales o repetidas en el pasado."
+          },
+          {
+            "id": "q7o2",
+            "text": "dijo",
+            "commentMarkdown": "Incorrecto. Se usa el pretérito imperfecto para describir acciones habituales o repetidas en el pasado, no el indefinido para una acción puntual."
+          }
+        ],
+        "correctOptionIds": [
+          "q7o1"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "Todo el mundo que ______ un pie en Cádiz se quiere quedar allí.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q8o1",
+            "text": "pone",
+            "commentMarkdown": "Correcto. Se usa el presente de indicativo ('pone') para expresar una verdad general o un hábito."
+          },
+          {
+            "id": "q8o2",
+            "text": "puso",
+            "commentMarkdown": "Incorrecto. Se usa el presente de indicativo para expresar una verdad general o un hábito, no el pretérito indefinido."
+          }
+        ],
+        "correctOptionIds": [
+          "q8o1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-4-match-pairs",
+    "componentType": "match-pairs",
+    "title": "Vocabulario: Términos clave de la historia",
+    "descriptionMarkdown": "Relaciona cada palabra o frase de la columna izquierda con su significado o definición correcta en la columna derecha. Todos los términos aparecen en la historia de Caroline.",
+    "tasks": [
+      {
+        "id": "vocab-task-1",
+        "title": "Vocabulario específico",
+        "leftColumnTitle": "Término",
+        "rightColumnTitle": "Significado",
+        "rows": [
+          {
+            "id": "r1",
+            "prompt": "rubita",
+            "correctOptionId": "o7",
+            "commentMarkdown": "Diminutivo cariñoso de 'rubia'. En la historia, Caroline era una chica rubita."
+          },
+          {
+            "id": "r2",
+            "prompt": "angelical",
+            "correctOptionId": "o2",
+            "commentMarkdown": "Que tiene cualidades de ángel, inocente y puro. Caroline tenía una cara angelical."
+          },
+          {
+            "id": "r3",
+            "prompt": "soprano",
+            "correctOptionId": "o10",
+            "commentMarkdown": "Es el tipo de voz femenina más aguda. Caroline era la voz soprano de una coral."
+          },
+          {
+            "id": "r4",
+            "prompt": "coral",
+            "correctOptionId": "o3",
+            "commentMarkdown": "Grupo de personas que cantan juntas, un coro. Caroline cantaba en una coral."
+          },
+          {
+            "id": "r5",
+            "prompt": "grecas",
+            "correctOptionId": "o6",
+            "commentMarkdown": "Un dúo flamenco español muy famoso. Caroline era fan de las Grecas."
+          },
+          {
+            "id": "r6",
+            "prompt": "beca",
+            "correctOptionId": "o9",
+            "commentMarkdown": "Ayuda económica para estudiar. A Caroline le llegó una beca Erasmus."
+          },
+          {
+            "id": "r7",
+            "prompt": "Erasmus",
+            "correctOptionId": "o4",
+            "commentMarkdown": "Programa europeo de intercambio universitario. Caroline consiguió una beca Erasmus para ir a España."
+          },
+          {
+            "id": "r8",
+            "prompt": "prendada",
+            "correctOptionId": "o11",
+            "commentMarkdown": "Quedarse muy impresionado/a o enamorado/a de alguien al instante. En la historia, Caroline se quedó prendada (forma femenina)."
+          },
+          {
+            "id": "r9",
+            "prompt": "caña",
+            "correctOptionId": "o1",
+            "commentMarkdown": "Vaso pequeño de cerveza de barril. En Cádiz, Caroline estaba contenta con una caña y una tapa."
+          },
+          {
+            "id": "r10",
+            "prompt": "tapa",
+            "correctOptionId": "o12",
+            "commentMarkdown": "Pequeña porción de comida que se sirve con una bebida. Es típico tapear en España."
+          }
+        ],
+        "options": [
+          {
+            "id": "o1",
+            "text": "Vaso pequeño de cerveza de barril"
+          },
+          {
+            "id": "o2",
+            "text": "Que tiene cualidades de ángel, inocente y puro"
+          },
+          {
+            "id": "o3",
+            "text": "Grupo de personas que cantan juntas, un coro"
+          },
+          {
+            "id": "o4",
+            "text": "Programa europeo de intercambio universitario"
+          },
+          {
+            "id": "o5",
+            "text": "Peineta decorativa que se usa en el flamenco"
+          },
+          {
+            "id": "o6",
+            "text": "Un dúo flamenco español muy famoso"
+          },
+          {
+            "id": "o7",
+            "text": "Diminutivo cariñoso de 'rubia'"
+          },
+          {
+            "id": "o8",
+            "text": "Pulseras de coral, accesorio flamenco"
+          },
+          {
+            "id": "o9",
+            "text": "Ayuda económica para estudiar"
+          },
+          {
+            "id": "o10",
+            "text": "Tipo de voz femenina más aguda"
+          },
+          {
+            "id": "o11",
+            "text": "Quedarse muy impresionado/a o enamorado/a al instante"
+          },
+          {
+            "id": "o12",
+            "text": "Pequeña porción de comida que se sirve con una bebida"
+          }
+        ]
+      }
+    ]
+  }
+]

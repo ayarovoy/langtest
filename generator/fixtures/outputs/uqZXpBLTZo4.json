@@ -1,0 +1,488 @@
+[
+  {
+    "id": "section-1-choose-correct-answer",
+    "componentType": "choose-correct-answer",
+    "title": "Pretérito perfecto, indefinido e imperfecto",
+    "descriptionMarkdown": "Elige la forma verbal correcta para completar cada oración. Presta atención a los marcadores temporales y al contexto.",
+    "answerLayout": null,
+    "answerLayoutHeuristics": null,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Hoy ______ un vídeo muy interesante en YouTube.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "he visto",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o2",
+            "text": "vi",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o3",
+            "text": "veía",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q1o1"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "El año pasado, ______ a Italia de vacaciones.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "he ido",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o2",
+            "text": "fui",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o3",
+            "text": "iba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q2o2"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Cuando era niño, siempre ______ libros de aventuras.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "he leído",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o2",
+            "text": "leí",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o3",
+            "text": "leía",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q3o3"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Esta mañana ______ las manos muy bien, como recomiendan.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "he lavado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o2",
+            "text": "lavé",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o3",
+            "text": "lavaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q4o1"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Ayer por la tarde, mientras tú cocinabas, yo ______ mi habitación.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "he ordenado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o2",
+            "text": "ordené",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o3",
+            "text": "ordenaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q5o2"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Nunca ______ una serie en alemán, pero me gustaría intentarlo.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q6o1",
+            "text": "he visto",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q6o2",
+            "text": "vi",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q6o3",
+            "text": "veía",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q6o1"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "El mes pasado ______ mucho deporte en casa porque no podíamos salir.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q7o1",
+            "text": "he hecho",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q7o2",
+            "text": "hice",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q7o3",
+            "text": "hacía",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q7o2"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "De pequeño, cada verano ______ con mis abuelos al pueblo.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q8o1",
+            "text": "he ido",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q8o2",
+            "text": "fui",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q8o3",
+            "text": "iba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q8o3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-2-fill-in-the-blank",
+    "componentType": "fill-in-the-blank",
+    "title": "Completa con ser, estar, por o para",
+    "descriptionMarkdown": "Completa los espacios en blanco con la forma correcta de **ser**, **estar**, **por** o **para**. Usa el contexto de la oración para decidir.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": null,
+        "content": "Hoy [[b1]] un día un poco extraño, ¿no?",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": [
+              "es"
+            ],
+            "commentMarkdown": "Se usa 'ser' para describir características esenciales o permanentes. Aquí se describe el día."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": null,
+        "content": "Lo que [[b2]] peor es que parece que esto va a durar mucho tiempo.",
+        "blanks": [
+          {
+            "id": "b2",
+            "correctAnswers": [
+              "es"
+            ],
+            "commentMarkdown": "Se usa 'ser' en la construcción 'lo que es...' para expresar una cualidad inherente."
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "title": null,
+        "content": "No me apetecía hacer un vídeo normal. [[b3]] eso, hice algo diferente.",
+        "blanks": [
+          {
+            "id": "b3",
+            "correctAnswers": [
+              "Por"
+            ],
+            "commentMarkdown": "Se usa 'por' para indicar causa o motivo. La razón para hacer algo diferente fue la falta de ganas."
+          }
+        ]
+      },
+      {
+        "id": "t4",
+        "title": null,
+        "content": "Llevo un rato aquí buscando vídeos [[b4]] YouTube.",
+        "blanks": [
+          {
+            "id": "b4",
+            "correctAnswers": [
+              "en"
+            ],
+            "commentMarkdown": "Se usa la preposición 'en' para indicar el lugar (plataforma) donde se realiza la búsqueda. Nota: Este ítem no usa ser/estar/por/para, pero se incluye para practicar preposiciones en contexto. La respuesta correcta es 'en'."
+          }
+        ]
+      },
+      {
+        "id": "t5",
+        "title": null,
+        "content": "He visto un vídeo que me ha gustado. [[b5]] eso lo recomiendo.",
+        "blanks": [
+          {
+            "id": "b5",
+            "correctAnswers": [
+              "Por"
+            ],
+            "commentMarkdown": "Se usa 'por' para expresar la razón o causa de una acción. La recomendación se debe a que el vídeo gustó."
+          }
+        ]
+      },
+      {
+        "id": "t6",
+        "title": null,
+        "content": "Ojalá [[b6]] muy poco tiempo.",
+        "blanks": [
+          {
+            "id": "b6",
+            "correctAnswers": [
+              "sea"
+            ],
+            "commentMarkdown": "Se usa el subjuntivo del verbo 'ser' ('sea') después de 'Ojalá' para expresar un deseo."
+          }
+        ]
+      },
+      {
+        "id": "t7",
+        "title": null,
+        "content": "Es una de las fuentes más importantes de contagio. [[b7]] eso, hay que lavarse las manos.",
+        "blanks": [
+          {
+            "id": "b7",
+            "correctAnswers": [
+              "Por"
+            ],
+            "commentMarkdown": "Se usa 'por' para introducir la consecuencia o razón de una acción necesaria."
+          }
+        ]
+      },
+      {
+        "id": "t8",
+        "title": null,
+        "content": "Nunca [[b8]] tarde [[b9]] empezar un nuevo idioma.",
+        "blanks": [
+          {
+            "id": "b8",
+            "correctAnswers": [
+              "es"
+            ],
+            "commentMarkdown": "Se usa 'ser' con adjetivos que expresan una cualidad inherente o una verdad general."
+          },
+          {
+            "id": "b9",
+            "correctAnswers": [
+              "para"
+            ],
+            "commentMarkdown": "Se usa 'para' para indicar finalidad o propósito. El propósito es 'empezar un nuevo idioma'."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-3-match-pairs",
+    "componentType": "match-pairs",
+    "title": "Empareja las expresiones",
+    "descriptionMarkdown": "Relaciona cada expresión coloquial en español con su significado correspondiente.",
+    "tasks": [
+      {
+        "id": "task1",
+        "title": null,
+        "leftColumnTitle": "Expresión coloquial",
+        "rightColumnTitle": "Significado",
+        "rows": [
+          {
+            "id": "r1",
+            "prompt": "dar la chapa",
+            "correctOptionId": "o1",
+            "commentMarkdown": "Correcto. 'Dar la chapa' significa aburrir a alguien hablando mucho o insistiendo en un tema."
+          },
+          {
+            "id": "r2",
+            "prompt": "enrollarse",
+            "correctOptionId": "o2",
+            "commentMarkdown": "Correcto. 'Enrollarse' es una forma coloquial de decir que alguien se extiende demasiado al hablar."
+          },
+          {
+            "id": "r3",
+            "prompt": "manidas",
+            "correctOptionId": "o3",
+            "commentMarkdown": "Correcto. 'Manidas' se refiere a ideas o frases que son muy comunes y han perdido originalidad."
+          },
+          {
+            "id": "r4",
+            "prompt": "matar dos pájaros de un tiro",
+            "correctOptionId": "o4",
+            "commentMarkdown": "Correcto. Es una expresión idiomática que significa lograr dos objetivos con una sola acción."
+          },
+          {
+            "id": "r5",
+            "prompt": "ponerse al día",
+            "correctOptionId": "o5",
+            "commentMarkdown": "Correcto. 'Ponerse al día' significa actualizarse o recuperar el tiempo perdido en alguna actividad."
+          },
+          {
+            "id": "r6",
+            "prompt": "súper guay",
+            "correctOptionId": "o6",
+            "commentMarkdown": "Correcto. Es una expresión juvenil y coloquial para decir que algo es muy bueno o divertido."
+          },
+          {
+            "id": "r7",
+            "prompt": "sedentarismo",
+            "correctOptionId": "o7",
+            "commentMarkdown": "Correcto. El 'sedentarismo' es un estilo de vida con poca actividad física, común en la vida moderna."
+          }
+        ],
+        "options": [
+          {
+            "id": "o1",
+            "text": "Aburrir a alguien hablando mucho"
+          },
+          {
+            "id": "o2",
+            "text": "Extenderse demasiado al hablar"
+          },
+          {
+            "id": "o3",
+            "text": "Ideas o frases muy comunes y poco originales"
+          },
+          {
+            "id": "o4",
+            "text": "Lograr dos objetivos con una sola acción"
+          },
+          {
+            "id": "o5",
+            "text": "Actualizarse o recuperar el tiempo perdido"
+          },
+          {
+            "id": "o6",
+            "text": "Muy bueno, divertido o estupendo"
+          },
+          {
+            "id": "o7",
+            "text": "Estilo de vida con poca actividad física"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-4-yes-no-questions",
+    "componentType": "yes-no-questions",
+    "title": "Comprensión auditiva: Recomendaciones de cuarentena",
+    "descriptionMarkdown": "Escucha el audio sobre recomendaciones durante la cuarentena y responde si las siguientes afirmaciones son verdaderas o falsas según lo que escuchaste.",
+    "tasks": [
+      {
+        "id": "task-1",
+        "title": "Recomendaciones de salud",
+        "texts": [
+          "El virus se puede pasar a la cara tocándola con las manos.",
+          "Hay que lavarse las manos durante 20 o 30 segundos.",
+          "Es importante quedarse en casa y salir lo menos posible.",
+          "La cuarentena puede durar semanas o más tiempo.",
+          "La youtuber recomienda cocinar, ordenar la habitación, leer, ver series en otros idiomas y hacer deporte en casa."
+        ],
+        "questions": [
+          {
+            "id": "q1",
+            "text": "Una forma de contagio es tocarse la cara con las manos sucias.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q2",
+            "text": "Se recomienda lavarse las manos durante exactamente 20 segundos.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q3",
+            "text": "Es necesario salir de casa solo para lo esencial.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q4",
+            "text": "La cuarentena probablemente durará solo unos días.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q5",
+            "text": "La youtuber sugiere cocinar como una actividad para hacer en casa.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q6",
+            "text": "La youtuber recomienda ver series en otros idiomas como una actividad para la cuarentena.",
+            "correctAnswer": true
+          },
+          {
+            "id": "q7",
+            "text": "Hacer deporte en casa no es una recomendación de la youtuber.",
+            "correctAnswer": false
+          },
+          {
+            "id": "q8",
+            "text": "Ordenar la habitación es una de las actividades sugeridas.",
+            "correctAnswer": true
+          }
+        ]
+      }
+    ]
+  }
+]

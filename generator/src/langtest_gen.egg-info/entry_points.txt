@@ -1,0 +1,2 @@
+[console_scripts]
+langtest-gen = langtest_gen.cli:main

@@ -1,0 +1,377 @@
+[
+  {
+    "id": "section-1-choose-correct-answer",
+    "componentType": "choose-correct-answer",
+    "title": "Diferencias regionales: verbos de movimiento",
+    "descriptionMarkdown": "Selecciona la opción correcta según el uso de los verbos de movimiento en diferentes regiones hispanohablantes.",
+    "answerLayout": null,
+    "answerLayoutHeuristics": null,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "En México, ¿qué significa comúnmente el verbo 'andar'?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "Caminar o desplazarse",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o2",
+            "text": "Estar o encontrarse en un lugar",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o3",
+            "text": "Correr rápidamente",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o4",
+            "text": "Viajar en transporte público",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q1o2"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "En España, ¿cuál es el uso más frecuente de 'andar'?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "Como sinónimo de 'estar' (ubicación)",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o2",
+            "text": "Para describir el medio de transporte",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o3",
+            "text": "Para expresar caminar o desplazarse a pie",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o4",
+            "text": "Como equivalente a 'correr' en contextos deportivos",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q2o3"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "¿Cuál de estas expresiones se utiliza principalmente para describir el medio de transporte?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "Ir a pie",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o2",
+            "text": "Andar",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o3",
+            "text": "Pasear",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o4",
+            "text": "Dar una vuelta",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q3o1"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "En la frase 'Parece que desde aquí se puede ir andando a la playa', ¿qué significa 'ir andando'?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "Ir en coche o transporte",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o2",
+            "text": "Ir caminando, desplazarse a pie",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o3",
+            "text": "Ir corriendo",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o4",
+            "text": "Estar ubicado cerca de la playa",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q4o2"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "En el contexto 'No vamos en metro. No vamos en autobús. Vamos a pie.', ¿qué expresa 'ir a pie'?",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "Un paseo recreativo sin destino fijo",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o2",
+            "text": "El medio de transporte elegido para el desplazamiento",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o3",
+            "text": "Un estado de ánimo o situación personal",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o4",
+            "text": "Una actividad deportiva intensa",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q5o2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-2-match-pairs",
+    "componentType": "match-pairs",
+    "title": "Vocabulario de caminar y pasear",
+    "descriptionMarkdown": "Relaciona cada expresión en español con su significado o uso principal.",
+    "tasks": [
+      {
+        "id": "t1",
+        "title": "Términos y expresiones",
+        "leftColumnTitle": "Expresión",
+        "rightColumnTitle": "Significado / Uso",
+        "rows": [
+          {
+            "id": "r1",
+            "prompt": "caminar",
+            "correctOptionId": "o1",
+            "commentMarkdown": "Es el verbo más general y neutro para 'to walk'. Ejemplo: *Me gusta caminar en el parque.*"
+          },
+          {
+            "id": "r2",
+            "prompt": "andar",
+            "correctOptionId": "o2",
+            "commentMarkdown": "En España se usa comúnmente como sinónimo de 'caminar'. En México, suele significar 'estar' o 'encontrarse'. Ejemplo (España): *Ahora ando por el sendero.*"
+          },
+          {
+            "id": "r3",
+            "prompt": "ir a pie",
+            "correctOptionId": "o3",
+            "commentMarkdown": "Se enfoca en el medio de transporte, a diferencia de usar un vehículo. Ejemplo: *Vamos a volver a casa a pie.*"
+          },
+          {
+            "id": "r4",
+            "prompt": "pasear",
+            "correctOptionId": "o4",
+            "commentMarkdown": "Implica un paseo tranquilo, a menudo por placer o recreo. Ejemplo: *Me gusta pasear en donde veo muchas flores.*"
+          },
+          {
+            "id": "r5",
+            "prompt": "dar un paseo",
+            "correctOptionId": "o5",
+            "commentMarkdown": "Expresión común que significa 'to take a walk'. Ejemplo: *¿Quieren dar un paseo conmigo?*"
+          },
+          {
+            "id": "r6",
+            "prompt": "sacarlo a pasear",
+            "correctOptionId": "o6",
+            "commentMarkdown": "Se usa específicamente para sacar a alguien o algo (como una mascota) a dar un paseo. Ejemplo: *Aquí es un buen lugar para sacar a pasear al perro.*"
+          },
+          {
+            "id": "r7",
+            "prompt": "dar una vuelta",
+            "correctOptionId": "o7",
+            "commentMarkdown": "Expresión informal que puede significar 'to go for a walk' o incluso 'to go for a ride' (en coche, bicicleta). Ejemplo: *Salí a dar una vuelta.*"
+          }
+        ],
+        "options": [
+          {
+            "id": "o1",
+            "text": "Caminar (verbo general y neutro)"
+          },
+          {
+            "id": "o2",
+            "text": "Caminar (común en España); estar (común en México)"
+          },
+          {
+            "id": "o3",
+            "text": "Ir caminando (medio de transporte)"
+          },
+          {
+            "id": "o4",
+            "text": "Pasear, deambular tranquilamente"
+          },
+          {
+            "id": "o5",
+            "text": "Hacer un paseo (expresión común)"
+          },
+          {
+            "id": "o6",
+            "text": "Sacar a alguien/algo a pasear"
+          },
+          {
+            "id": "o7",
+            "text": "Salir a caminar o pasear (expresión informal)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-3-fill-in-the-blank",
+    "componentType": "fill-in-the-blank",
+    "title": "Completa las expresiones con 'ir' y verbos reflexivos",
+    "descriptionMarkdown": "Completa los espacios en blanco con la palabra o expresión correcta relacionada con el movimiento o los verbos reflexivos. Presta atención a las pistas de contexto.",
+    "texts": [
+      {
+        "id": "t1",
+        "title": null,
+        "content": "Voy [[b1]] al trabajo hoy.",
+        "blanks": [
+          {
+            "id": "b1",
+            "correctAnswers": [
+              "a pie"
+            ],
+            "commentMarkdown": "La expresión 'ir a pie' indica el medio de transporte (caminando)."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": null,
+        "content": "¿Te fuiste a pie [[b2]] ayer?",
+        "blanks": [
+          {
+            "id": "b2",
+            "correctAnswers": [
+              "también"
+            ],
+            "commentMarkdown": "'También' se usa aquí para añadir información de manera similar."
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "title": null,
+        "content": "En España, me gusta [[b3]] en el parque los domingos.",
+        "blanks": [
+          {
+            "id": "b3",
+            "correctAnswers": [
+              "andar",
+              "pasear",
+              "caminar"
+            ],
+            "commentMarkdown": "En España, 'andar' significa 'caminar'. 'Pasear' y 'caminar' también son correctos en este contexto."
+          }
+        ]
+      },
+      {
+        "id": "t4",
+        "title": null,
+        "content": "Anoche di una [[b4]] por el barrio.",
+        "blanks": [
+          {
+            "id": "b4",
+            "correctAnswers": [
+              "vuelta",
+              "vueltecita"
+            ],
+            "commentMarkdown": "'Dar una vuelta' es una expresión común para 'ir a caminar' o 'pasear'."
+          }
+        ]
+      },
+      {
+        "id": "t5",
+        "title": null,
+        "content": "Aquí es un buen lugar para sacar a pasear al [[b5]].",
+        "blanks": [
+          {
+            "id": "b5",
+            "correctAnswers": [
+              "perro"
+            ],
+            "commentMarkdown": "'Sacar a pasear al perro' es una frase típica para esta actividad."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-4-yes-no-questions",
+    "componentType": "yes-no-questions",
+    "title": "Comprensión auditiva: Actividades y transporte",
+    "descriptionMarkdown": "Escucha las preguntas sobre actividades y medios de transporte. Decide si las afirmaciones son verdaderas (Sí) o falsas (No) basándote en lo que escuchas. Imagina que estás en España para interpretar el significado de las palabras.",
+    "tasks": [
+      {
+        "id": "t1",
+        "title": "Preguntas sobre actividades diarias",
+        "texts": [
+          "¿Vas a pie al trabajo esta semana?",
+          "¿Andas por el sendero hoy?",
+          "¿Diste un paseo la semana pasada?",
+          "¿Sacaste al perro a pasear ayer?",
+          "¿Prefieres ir en autobús o a pie?"
+        ],
+        "questions": [
+          {
+            "id": "p1",
+            "text": "La pregunta se refiere a tu medio de transporte para ir al trabajo esta semana.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p2",
+            "text": "La pregunta se refiere a si estás caminando por el sendero en este momento.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p3",
+            "text": "La pregunta pregunta sobre una actividad que hiciste la semana pasada.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p4",
+            "text": "La pregunta se refiere a si sacaste al perro a pasear hoy.",
+            "correctAnswer": false
+          },
+          {
+            "id": "p5",
+            "text": "La pregunta te pide elegir entre dos medios de transporte.",
+            "correctAnswer": true
+          }
+        ]
+      }
+    ]
+  }
+]

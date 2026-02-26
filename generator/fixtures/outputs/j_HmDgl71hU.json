@@ -1,0 +1,232 @@
+[
+  {
+    "id": "section-1-choose-correct-answer",
+    "componentType": "choose-correct-answer",
+    "title": "Pretérito perfecto, indefinido o imperfecto",
+    "descriptionMarkdown": "Elige la forma verbal correcta para completar cada oración. Presta atención a los marcadores temporales (hoy, ayer, cuando era niño, etc.) que indican qué tiempo verbal se debe usar.",
+    "answerLayout": null,
+    "answerLayoutHeuristics": null,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "______ (quitarse) el dolor de cabeza.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q1o1",
+            "text": "Se me ha quitado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o2",
+            "text": "Se me quitó",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q1o3",
+            "text": "Se me quitaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q1o2"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Hoy ______ (quitarse) el dolor.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q2o1",
+            "text": "se me ha quitado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o2",
+            "text": "se me quitó",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q2o3",
+            "text": "se me quitaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q2o1"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Ayer ______ (quitarse) el dolor.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q3o1",
+            "text": "se me ha quitado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o2",
+            "text": "se me quitó",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q3o3",
+            "text": "se me quitaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q3o2"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Cuando era niño, ______ (quitarse) el dolor rápido.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q4o1",
+            "text": "se me ha quitado",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o2",
+            "text": "se me quitó",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q4o3",
+            "text": "se me quitaba",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q4o3"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "______ (llover) mucho anoche.",
+        "multiple": false,
+        "options": [
+          {
+            "id": "q5o1",
+            "text": "Ha llovido",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o2",
+            "text": "Llovió",
+            "commentMarkdown": null
+          },
+          {
+            "id": "q5o3",
+            "text": "Llovía",
+            "commentMarkdown": null
+          }
+        ],
+        "correctOptionIds": [
+          "q5o2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-2-match-pairs",
+    "componentType": "match-pairs",
+    "title": "Relaciona las expresiones",
+    "descriptionMarkdown": "Relaciona cada expresión en español con su significado correcto.",
+    "tasks": [
+      {
+        "id": "tarea1",
+        "title": null,
+        "leftColumnTitle": "Expresión en español",
+        "rightColumnTitle": "Significado",
+        "rows": [
+          {
+            "id": "r1",
+            "prompt": "quitarse",
+            "correctOptionId": "o4",
+            "commentMarkdown": "Es el verbo reflexivo en infinitivo. Significa 'irse' o 'desaparecer', especialmente para un síntoma o una sensación."
+          },
+          {
+            "id": "r2",
+            "prompt": "Se me quitó",
+            "correctOptionId": "o3",
+            "commentMarkdown": "Es una forma conjugada en pretérito indefinido. 'Se me quitó' significa 'se me fue' o 'desapareció para mí', como un dolor."
+          },
+          {
+            "id": "r3",
+            "prompt": "dolor de cabeza",
+            "correctOptionId": "o1",
+            "commentMarkdown": null
+          },
+          {
+            "id": "r4",
+            "prompt": "Se me quitó el dolor de cabeza.",
+            "correctOptionId": "o2",
+            "commentMarkdown": "Esta es una oración completa de ejemplo. Usa la estructura 'se me quitó' + el síntoma (dolor de cabeza)."
+          }
+        ],
+        "options": [
+          {
+            "id": "o1",
+            "text": "headache"
+          },
+          {
+            "id": "o2",
+            "text": "My headache went away."
+          },
+          {
+            "id": "o3",
+            "text": "It went away (from me)."
+          },
+          {
+            "id": "o4",
+            "text": "to go away (of a symptom/feeling)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section-3-yes-no-questions",
+    "componentType": "yes-no-questions",
+    "title": "Comprensión auditiva: declaraciones factuales",
+    "descriptionMarkdown": "Escucha el audio y responde si las siguientes afirmaciones son verdaderas o falsas según lo que escuchaste.",
+    "tasks": [
+      {
+        "id": "tarea-dolor-cabeza",
+        "title": "El dolor de cabeza",
+        "texts": [
+          "Se me quitó el dolor de cabeza. Se me quitó ayer."
+        ],
+        "questions": [
+          {
+            "id": "p1",
+            "text": "El hablante dice que algo se le quitó.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p2",
+            "text": "El hablante menciona un dolor de cabeza.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p3",
+            "text": "El dolor se le quitó ayer.",
+            "correctAnswer": true
+          },
+          {
+            "id": "p4",
+            "text": "El hablante es un adulto.",
+            "correctAnswer": false
+          }
+        ]
+      }
+    ]
+  }
+]

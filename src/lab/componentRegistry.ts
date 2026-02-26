@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 import ChooseCorrectAnswerDemo from '../demos/ChooseCorrectAnswerDemo.vue'
 import FillInTheBlankDemo from '../demos/FillInTheBlankDemo.vue'
+import GeneratedSuitesBrowserDemo from '../demos/GeneratedSuitesBrowserDemo.vue'
 import MatchPairsDemo from '../demos/MatchPairsDemo.vue'
 import SpanishA1A2IrregularPreteritesSuiteDemo from '../demos/SpanishA1A2IrregularPreteritesSuiteDemo.vue'
 import TestSuiteContainerDemo from '../demos/TestSuiteContainerDemo.vue'
@@ -15,6 +16,13 @@ export interface ComponentLabEntry {
 }
 
 export const componentRegistry: ComponentLabEntry[] = [
+  {
+    id: 'generated-suites-browser',
+    title: 'Просмотр сгенерированных наборов',
+    description: 'Загружает JSON из generator/fixtures/outputs и рендерит их в TestSuiteContainer.',
+    tags: ['generator', 'outputs', 'browser', 'container'],
+    component: GeneratedSuitesBrowserDemo,
+  },
   {
     id: 'test-suite-container',
     title: 'Контейнер: набор компонентов',
