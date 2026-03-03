@@ -89,6 +89,11 @@
             :model-value="item"
             @update:model-value="onChooseCorrectAnswerUpdate(index, $event)"
           />
+          <FillInTheBlankEditor
+            v-else-if="item.componentType === 'fill-in-the-blank'"
+            :model-value="item"
+            @update:model-value="onFillInTheBlankUpdate(index, $event)"
+          />
           <template v-else>
             <textarea
               v-model="localJsonByKey[item.id]"
@@ -115,7 +120,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import ChooseCorrectAnswerEditor from './editors/ChooseCorrectAnswerEditor.vue'
-import type { ChooseCorrectAnswerConfig, TestComponentConfig, TestComponentType } from '../types/test-config'
+import FillInTheBlankEditor from './editors/FillInTheBlankEditor.vue'
+import type {
+  ChooseCorrectAnswerConfig,
+  FillInTheBlankConfig,
+  TestComponentConfig,
+  TestComponentType,
+} from '../types/test-config'
 
 const componentTypes: TestComponentType[] = [
   'choose-correct-answer',
@@ -229,8 +240,10 @@ const syncLocalJsonFromItems = (): void => {
     }
   }
   for (const item of items.value) {
-    if (item.componentType !== 'choose-correct-answer') {
+    if (item.componentType !== 'choose-correct-answer' && item.componentType !== 'fill-in-the-blank') {
       localJsonByKey[item.id] = itemJsonWithoutTitle(item)
+    } else {
+      delete localJsonByKey[item.id]
     }
     delete jsonErrorByKey[item.id]
   }
@@ -292,6 +305,14 @@ const onChooseCorrectAnswerUpdate = (index: number, payload: ChooseCorrectAnswer
   emitItems()
 }
 
+const onFillInTheBlankUpdate = (index: number, payload: FillInTheBlankConfig): void => {
+  if (!snapshotsEqual([items.value[index]], [payload])) {
+    pushUndo()
+  }
+  items.value[index] = payload
+  emitItems()
+}
+
 const onTitleBlur = (id: string, value: string): void => {
   const idx = items.value.findIndex((i) => i.id === id)
   if (idx < 0) return
@@ -301,7 +322,12 @@ const onTitleBlur = (id: string, value: string): void => {
   if (newTitle !== currentTitle) {
     pushUndo()
     items.value[idx] = { ...items.value[idx], title: newTitle || undefined }
-    localJsonByKey[id] = itemJsonWithoutTitle(items.value[idx])
+    if (
+      items.value[idx].componentType !== 'choose-correct-answer'
+      && items.value[idx].componentType !== 'fill-in-the-blank'
+    ) {
+      localJsonByKey[id] = itemJsonWithoutTitle(items.value[idx])
+    }
     emitItems()
   }
 }
@@ -357,7 +383,9 @@ const addComponent = (): void => {
   pushUndo()
   const stub = stubs[type]()
   items.value.push(stub)
-  localJsonByKey[stub.id] = itemJsonWithoutTitle(stub)
+  if (stub.componentType !== 'choose-correct-answer' && stub.componentType !== 'fill-in-the-blank') {
+    localJsonByKey[stub.id] = itemJsonWithoutTitle(stub)
+  }
   activeNames.value = [...(activeNames.value || []), stub.id]
   emitItems()
 }

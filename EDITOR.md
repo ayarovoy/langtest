@@ -58,6 +58,24 @@ src/demos/
     - click по `?` открывает диалог с `MarkdownEditor` для редактирования
 - Поля `title`, `descriptionMarkdown`, `id`, `answerLayout`, `questions` и ответы вопросов редактируются через структурированный UI (без JSON-блока «остальные атрибуты»)
 
+### Редактор компонента fill-in-the-blank
+
+- **Описание (Markdown)** — редактируется через `MarkdownEditor`
+- **Основные атрибуты** — отдельное поле `id`
+- **Список текстов** вынесен в отдельный вложенный `collapse`:
+  - добавление
+  - удаление (кнопка-корзина)
+  - drag-and-drop перемещение текстов через handle `⋮⋮`
+  - редактирование `id`, `title`, `content`
+- **Редактор пропусков** внутри каждого текста:
+  - добавление/удаление пропусков
+  - редактирование `id`, списка `correctAnswers` (через структурированный UI)
+  - поддержка `commentMarkdown` через кнопку `?` с tooltip и диалогом `MarkdownEditor`
+- **Мягкая проверка синхронизации** `content` и `blanks`:
+  - предупреждение, если в `content` есть `[[blankId]]` без соответствующего элемента в `blanks`
+  - предупреждение, если в `blanks` есть id, отсутствующие в `content`
+- Поля `title`, `descriptionMarkdown`, `id`, `texts` и `blanks` редактируются через структурированный UI (без JSON-блока «остальные атрибуты»)
+
 ### Демо (SuiteJsonEditorDemo)
 
 - **Предпросмотр** — диалог с `TestSuiteContainer`, можно выполнять тест
@@ -75,12 +93,12 @@ src/demos/
 
 ### Специализированные редакторы для остальных типов
 
-Сейчас для `fill-in-the-blank`, `match-pairs` и `yes-no-questions` используется примитивный textarea с JSON.
+Сейчас для `match-pairs` и `yes-no-questions` используется примитивный textarea с JSON.
 
 | Тип компонента      | Статус                 | План                                                                 |
 |---------------------|------------------------|----------------------------------------------------------------------|
 | choose-correct-answer | ✅ Готов               | —                                                                    |
-| fill-in-the-blank   | ⏳ Примитивный JSON    | Редактор с Markdown для `descriptionMarkdown`, остальное — в JSON    |
+| fill-in-the-blank   | ✅ Готов               | —                                                                    |
 | match-pairs         | ⏳ Примитивный JSON    | Редактор с Markdown для `descriptionMarkdown`, остальное — в JSON    |
 | yes-no-questions    | ⏳ Примитивный JSON    | Редактор с Markdown для `descriptionMarkdown`, остальное — в JSON    |
 
