@@ -33,11 +33,10 @@
         </li>
       </ul>
     </aside>
-
-    <main class="lab__preview">
-      <component :is="selectedEntry.component" />
-    </main>
   </div>
+  <main class="lab__preview" :class="`lab--${selectedTheme}`">
+    <component :is="selectedEntry.component" />
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -59,7 +58,8 @@ const selectedEntry = computed(
 </script>
 
 <style scoped>
-.lab {
+.lab,
+.lab__preview {
   --lt-color-primary: #2f6feb;
   --lt-color-primary-contrast: #ffffff;
   --lt-color-secondary-bg: #ffffff;
@@ -89,12 +89,12 @@ const selectedEntry = computed(
   --lt-color-popover-trigger-text: #334155;
   --lt-radius-card: 12px;
   --lt-radius-control: 8px;
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 320px 1fr;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.lab {
   background: var(--lab-bg, #f7f9fc);
   color: var(--lab-text, #111827);
-  font-family: Inter, Arial, sans-serif;
 }
 
 .lab__sidebar {
@@ -184,6 +184,8 @@ const selectedEntry = computed(
 
 .lab__preview {
   padding: 1.25rem;
+  background: var(--lab-bg, #f7f9fc);
+  color: var(--lab-text, #111827);
 }
 
 .lab--light {

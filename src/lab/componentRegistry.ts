@@ -4,6 +4,7 @@ import FillInTheBlankDemo from '../demos/FillInTheBlankDemo.vue'
 import GeneratedSuitesBrowserDemo from '../demos/GeneratedSuitesBrowserDemo.vue'
 import MatchPairsDemo from '../demos/MatchPairsDemo.vue'
 import SpanishA1A2IrregularPreteritesSuiteDemo from '../demos/SpanishA1A2IrregularPreteritesSuiteDemo.vue'
+import SuiteJsonEditorDemo from '../demos/SuiteJsonEditorDemo.vue'
 import TestSuiteContainerDemo from '../demos/TestSuiteContainerDemo.vue'
 import YesNoQuestionsDemo from '../demos/YesNoQuestionsDemo.vue'
 
@@ -16,6 +17,13 @@ export interface ComponentLabEntry {
 }
 
 export const componentRegistry: ComponentLabEntry[] = [
+  {
+    id: 'suite-json-editor',
+    title: 'Редактор JSON сюита',
+    description: 'Редактирование массива компонентов контейнера: добавление, удаление, перемещение, примитивное редактирование JSON.',
+    tags: ['editor', 'json', 'container', 'suite'],
+    component: SuiteJsonEditorDemo,
+  },
   {
     id: 'generated-suites-browser',
     title: 'Просмотр сгенерированных наборов',

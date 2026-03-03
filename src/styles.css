@@ -11,6 +11,12 @@ body,
   min-height: 100%;
 }
 
+#app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 100vh;
+}
+
 body {
   background: #f7f9fc;
 }

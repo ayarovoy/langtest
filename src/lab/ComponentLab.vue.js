@@ -12,6 +12,8 @@ debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
 const __VLS_ctx = {};
 let __VLS_components;
 let __VLS_directives;
+/** @type {__VLS_StyleScopedClasses['lab']} */ ;
+/** @type {__VLS_StyleScopedClasses['lab__preview']} */ ;
 // CSS variable injection 
 // CSS variable injection end 
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -74,6 +76,7 @@ for (const [entry] of __VLS_getVForSourceType((__VLS_ctx.componentRegistry))) {
 }
 __VLS_asFunctionalElement(__VLS_intrinsicElements.main, __VLS_intrinsicElements.main)({
     ...{ class: "lab__preview" },
+    ...{ class: (`lab--${__VLS_ctx.selectedTheme}`) },
 });
 const __VLS_0 = ((__VLS_ctx.selectedEntry.component));
 // @ts-ignore

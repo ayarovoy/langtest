@@ -140,6 +140,11 @@ let __VLS_directives;
 /** @type {__VLS_StyleScopedClasses['yn-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__description']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__description']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
+/** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__question']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__question-actions']} */ ;
 // CSS variable injection 
@@ -199,15 +204,11 @@ for (const [task] of __VLS_getVForSourceType((__VLS_ctx.tasks))) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.h3, __VLS_intrinsicElements.h3)({});
         (task.title);
     }
-    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-        ...{ class: "yn-test__texts" },
-    });
-    for (const [textItem, textIndex] of __VLS_getVForSourceType((task.texts))) {
-        __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
-            key: (`${task.id}-text-${textIndex}`),
+    if (task.textMarkdown) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
             ...{ class: "yn-test__text" },
         });
-        (textItem);
+        __VLS_asFunctionalDirective(__VLS_directives.vHtml)(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.renderMarkdown(task.textMarkdown)) }, null, null);
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.ul, __VLS_intrinsicElements.ul)({
         ...{ class: "yn-test__questions" },
@@ -276,7 +277,6 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 /** @type {__VLS_StyleScopedClasses['yn-test__progress-fill']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__task']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__completed-mark']} */ ;
-/** @type {__VLS_StyleScopedClasses['yn-test__texts']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__text']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__questions']} */ ;
 /** @type {__VLS_StyleScopedClasses['yn-test__question']} */ ;
@@ -293,6 +293,7 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            renderMarkdown: renderMarkdown,
             renderedDescription: renderedDescription,
             selectAnswer: selectAnswer,
             totalTasksCount: totalTasksCount,

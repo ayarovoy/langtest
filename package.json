@@ -28,6 +28,9 @@
   "peerDependencies": {
     "vue": "^3.5.0"
   },
+  "dependencies": {
+    "element-plus": "^2.8.4"
+  },
   "devDependencies": {
     "@types/node": "^25.3.0",
     "@vitejs/plugin-vue": "^5.2.1",
