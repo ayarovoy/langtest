@@ -83,7 +83,7 @@ async def generate_section(
                 f"STRICT LANGUAGE RULE: all learner-facing strings must be in {output_language_label} "
                 f"(language code: {language_code}).\n"
                 "This includes title, descriptionMarkdown, question text, option text, prompts, "
-                "reading texts, and commentMarkdown.\n"
+                "reading text (textMarkdown for yes-no-questions), and commentMarkdown.\n"
                 "Do not mix in other languages unless they are explicitly the lesson target tokens.\n"
                 f"Language-specific rules: {pack.fill_blank_rules}\n"
                 f"Ambiguity checklist: {pack.ambiguity_checklist}\n"

@@ -337,13 +337,7 @@
       {
         "id": "t1",
         "title": "Preguntas sobre actividades diarias",
-        "texts": [
-          "¿Vas a pie al trabajo esta semana?",
-          "¿Andas por el sendero hoy?",
-          "¿Diste un paseo la semana pasada?",
-          "¿Sacaste al perro a pasear ayer?",
-          "¿Prefieres ir en autobús o a pie?"
-        ],
+        "textMarkdown": "¿Vas a pie al trabajo esta semana?\n\n¿Andas por el sendero hoy?\n\n¿Diste un paseo la semana pasada?\n\n¿Sacaste al perro a pasear ayer?\n\n¿Prefieres ir en autobús o a pie?",
         "questions": [
           {
             "id": "p1",

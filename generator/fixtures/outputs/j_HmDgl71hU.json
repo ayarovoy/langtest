@@ -201,9 +201,7 @@
       {
         "id": "tarea-dolor-cabeza",
         "title": "El dolor de cabeza",
-        "texts": [
-          "Se me quitó el dolor de cabeza. Se me quitó ayer."
-        ],
+        "textMarkdown": "Se me quitó el dolor de cabeza. Se me quitó ayer.",
         "questions": [
           {
             "id": "p1",

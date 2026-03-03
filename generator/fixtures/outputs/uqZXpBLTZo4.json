@@ -433,13 +433,7 @@
       {
         "id": "task-1",
         "title": "Recomendaciones de salud",
-        "texts": [
-          "El virus se puede pasar a la cara tocándola con las manos.",
-          "Hay que lavarse las manos durante 20 o 30 segundos.",
-          "Es importante quedarse en casa y salir lo menos posible.",
-          "La cuarentena puede durar semanas o más tiempo.",
-          "La youtuber recomienda cocinar, ordenar la habitación, leer, ver series en otros idiomas y hacer deporte en casa."
-        ],
+        "textMarkdown": "El virus se puede pasar a la cara tocándola con las manos.\n\nHay que lavarse las manos durante 20 o 30 segundos.\n\nEs importante quedarse en casa y salir lo menos posible.\n\nLa cuarentena puede durar semanas o más tiempo.\n\nLa youtuber recomienda cocinar, ordenar la habitación, leer, ver series en otros idiomas y hacer deporte en casa.",
         "questions": [
           {
             "id": "q1",

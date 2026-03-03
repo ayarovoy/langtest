@@ -368,12 +368,7 @@
       {
         "id": "tarea-audio",
         "title": "Audio sobre pronunciación y adaptación",
-        "texts": [
-          "En España (excepto Canarias) se pronuncia ATLETA y ATLÁNTICO.",
-          "En Hispanoamérica, especialmente con influencia náhuatl, se pronuncia ATLETA y ATLÁNTICO.",
-          "Septiembre es una forma popular en Perú, pero octubre se considera un error en la lengua culta.",
-          "Existen dos adaptaciones al español para whisky: güisqui y wiski."
-        ],
+        "textMarkdown": "En España (excepto Canarias) se pronuncia ATLETA y ATLÁNTICO.\n\nEn Hispanoamérica, especialmente con influencia náhuatl, se pronuncia ATLETA y ATLÁNTICO.\n\nSeptiembre es una forma popular en Perú, pero octubre se considera un error en la lengua culta.\n\nExisten dos adaptaciones al español para whisky: güisqui y wiski.",
         "questions": [
           {
             "id": "q1",

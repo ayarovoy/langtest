@@ -277,7 +277,7 @@ import type { YesNoTask } from 'langtest'
 const tasks: YesNoTask[] = [
   {
     id: 'yn1',
-    texts: ['Anna practices Spanish every weekend.'],
+    textMarkdown: 'Anna practices Spanish every weekend.',
     questions: [
       { id: 'q1', text: 'Анна практикует испанский по выходным.', correctAnswer: true },
       { id: 'q2', text: 'Анна никогда не практикует язык дома.', correctAnswer: false }
@@ -347,7 +347,7 @@ import type {
 ### yes-no-questions
 
 - `tasks[]`:
-  - `id`, `texts[]`, `questions[]`
+  - `id`, `textMarkdown`, `questions[]`
 - `questions[]`:
   - `id`, `text`, `correctAnswer` (`true` для ДА, `false` для НЕТ)
 

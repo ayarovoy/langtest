@@ -119,13 +119,13 @@ class YesNoQuestion(StrictModel):
 class YesNoTask(StrictModel):
     id: str
     title: str | None = None
-    texts: list[str]
+    textMarkdown: str
     questions: list[YesNoQuestion]
 
     @model_validator(mode="after")
     def validate_non_empty(self) -> "YesNoTask":
-        if not self.texts:
-            raise ValueError("YesNo task must include at least one text block.")
+        if not self.textMarkdown.strip():
+            raise ValueError("YesNo task must include non-empty textMarkdown.")
         if not self.questions:
             raise ValueError("YesNo task must include at least one question.")
         return self

@@ -5,10 +5,8 @@
   "tasks": [
     {
       "id": "yn-task-1",
-      "title": "Текст 1: Анна и итальянский",
-      "texts": [
-        "Anna started learning Italian six months ago because she plans to study in Rome next year."
-      ],
+      "title": "Текст 1: Анна и итальянский (с Markdown)",
+      "textMarkdown": "### Биография\n\nAnna started learning **Italian** six months ago because she plans to study in Rome next year. She chose Italian for two main reasons:\n\n- fascination with the *dolce vita* lifestyle\n- academic exchange programme at `La Sapienza`\n\n### Формат занятий\n\nShe attends online classes **three times a week** and also practices speaking with a language partner on weekends. At first she found listening difficult, but now she can understand short podcasts about travel and daily life.",
       "questions": [
         {
           "id": "yn-q1",
@@ -17,35 +15,38 @@
         },
         {
           "id": "yn-q2",
-          "text": "Анна начала учить итальянский шесть месяцев назад.",
+          "text": "Анна занимается онлайн три раза в неделю.",
           "correctAnswer": true
         },
         {
           "id": "yn-q3",
-          "text": "Анна уже учится в Риме.",
+          "text": "С самого начала Анна легко понимала аудирование.",
           "correctAnswer": false
+        },
+        {
+          "id": "yn-q4",
+          "text": "Анну привлекает образ dolce vita.",
+          "correctAnswer": true
         }
       ]
     },
     {
       "id": "yn-task-2",
       "title": "Текст 2: Формат занятий",
-      "texts": [
-        "She attends online classes three times a week and also practices speaking with a language partner on weekends."
-      ],
+      "textMarkdown": "She attends online classes three times a week and also practices speaking with a language partner on weekends.",
       "questions": [
         {
-          "id": "yn-q4",
+          "id": "yn-q5",
           "text": "Анна занимается онлайн три раза в неделю.",
           "correctAnswer": true
         },
         {
-          "id": "yn-q5",
+          "id": "yn-q6",
           "text": "По выходным она вообще не практикует речь.",
           "correctAnswer": false
         },
         {
-          "id": "yn-q6",
+          "id": "yn-q7",
           "text": "У Анны есть языковой партнер для практики.",
           "correctAnswer": true
         }
@@ -54,22 +55,20 @@
     {
       "id": "yn-task-3",
       "title": "Текст 3: Прогресс в аудировании",
-      "texts": [
-        "At first she found listening difficult, but now she can understand short podcasts about travel and daily life."
-      ],
+      "textMarkdown": "At first she found listening difficult, but now she can understand short podcasts about travel and daily life.",
       "questions": [
         {
-          "id": "yn-q7",
+          "id": "yn-q8",
           "text": "С самого начала Анна легко понимала аудирование.",
           "correctAnswer": false
         },
         {
-          "id": "yn-q8",
+          "id": "yn-q9",
           "text": "Сейчас Анна может понимать короткие подкасты на знакомые темы.",
           "correctAnswer": true
         },
         {
-          "id": "yn-q9",
+          "id": "yn-q10",
           "text": "Подкасты, которые она понимает, не связаны с повседневной жизнью.",
           "correctAnswer": false
         }

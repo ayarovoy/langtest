@@ -22,11 +22,7 @@
       <span v-if="isTaskCompleted(task.id)" class="yn-test__completed-mark" aria-hidden="true">✓</span>
       <h3 v-if="task.title">{{ task.title }}</h3>
 
-      <div class="yn-test__texts">
-        <p v-for="(textItem, textIndex) in task.texts" :key="`${task.id}-text-${textIndex}`" class="yn-test__text">
-          {{ textItem }}
-        </p>
-      </div>
+      <div v-if="task.textMarkdown" class="yn-test__text" v-html="renderMarkdown(task.textMarkdown)"></div>
 
       <ul class="yn-test__questions">
         <li
@@ -293,15 +289,15 @@ defineExpose<StatefulTestComponentHandle<YesNoQuestionsState>>({ getState, setSt
   color: #fff;
   background: var(--lt-color-correct-strong, #1f9d42);
 }
-.yn-test__texts {
-  display: grid;
-  gap: 0.45rem;
-  margin: 0.35rem 0 0.8rem;
-}
 .yn-test__text {
-  margin: 0;
+  margin: 0.35rem 0 0.8rem;
   line-height: 1.5;
 }
+:deep(.yn-test__text p) { margin: 0.25rem 0; }
+:deep(.yn-test__text ul) { margin: 0.25rem 0; padding-left: 1.2rem; }
+:deep(.yn-test__text h3),
+:deep(.yn-test__text h4),
+:deep(.yn-test__text h5) { margin: 0.35rem 0; font-size: 0.95rem; }
 .yn-test__questions {
   list-style: none;
   margin: 0;

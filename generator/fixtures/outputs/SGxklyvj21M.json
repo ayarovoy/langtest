@@ -8,18 +8,7 @@
       {
         "id": "task-1",
         "title": "La historia de Caroline",
-        "texts": [
-          "Caroline era una chica rubia, joven y con cara angelical.",
-          "Caroline sacaba buenas notas, estudiaba mucho y jugaba al baloncesto.",
-          "Caroline era fan del dúo flamenco Las Grecas.",
-          "Caroline recibió una beca Erasmus para ir a España, aunque era estadounidense.",
-          "Caroline se fue a vivir a Cádiz, la ciudad que consideraba la mejor de España.",
-          "La primera noche en Cádiz, Caroline conoció a un chico flamenco y se enamoró de él.",
-          "Caroline decidió quedarse en Cádiz con el chico flamenco cuando se le acabó la beca.",
-          "Los padres de Caroline volaron a Cádiz y decidieron quedarse también.",
-          "El padre de Caroline le dijo que se casara con José Luis y que él pagaría la boda.",
-          "La historia termina con todos bailando flamenco y siendo felices en Cádiz."
-        ],
+        "textMarkdown": "Caroline era una chica rubia, joven y con cara angelical.\n\nCaroline sacaba buenas notas, estudiaba mucho y jugaba al baloncesto.\n\nCaroline era fan del dúo flamenco Las Grecas.\n\nCaroline recibió una beca Erasmus para ir a España, aunque era estadounidense.\n\nCaroline se fue a vivir a Cádiz, la ciudad que consideraba la mejor de España.\n\nLa primera noche en Cádiz, Caroline conoció a un chico flamenco y se enamoró de él.\n\nCaroline decidió quedarse en Cádiz con el chico flamenco cuando se le acabó la beca.\n\nLos padres de Caroline volaron a Cádiz y decidieron quedarse también.\n\nEl padre de Caroline le dijo que se casara con José Luis y que él pagaría la boda.\n\nLa historia termina con todos bailando flamenco y siendo felices en Cádiz.",
         "questions": [
           {
             "id": "q1",

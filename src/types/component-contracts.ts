@@ -55,6 +55,6 @@ export interface YesNoQuestion {
 export interface YesNoTask {
   id: string
   title?: string
-  texts: string[]
+  textMarkdown: string
   questions: YesNoQuestion[]
 }

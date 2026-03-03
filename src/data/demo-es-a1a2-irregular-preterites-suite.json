@@ -72,10 +72,7 @@
       {
         "id": "y4",
         "title": "Reglas rápidas",
-        "texts": [
-          "En el uso común en España, el pretérito perfecto se usa mucho con periodos no terminados: hoy, esta semana, este mes.",
-          "El pretérito indefinido se usa con periodos terminados: ayer, la semana pasada, el año pasado, en 2019."
-        ],
+        "textMarkdown": "En el uso común en España, el pretérito perfecto se usa mucho con periodos no terminados: hoy, esta semana, este mes.\n\nEl pretérito indefinido se usa con periodos terminados: ayer, la semana pasada, el año pasado, en 2019.",
         "questions": [
           { "id": "y4q1", "text": "Con «ayer» normalmente usamos pretérito perfecto.", "correctAnswer": false },
           { "id": "y4q2", "text": "Con «esta semana» normalmente usamos pretérito perfecto.", "correctAnswer": true },
@@ -156,9 +153,7 @@
       {
         "id": "y8",
         "title": "¿Correcto o no?",
-        "texts": [
-          "Regla de este ejercicio: hoy/esta semana → perfecto; ayer/la semana pasada → indefinido."
-        ],
+        "textMarkdown": "Regla de este ejercicio: hoy/esta semana → perfecto; ayer/la semana pasada → indefinido.",
         "questions": [
           { "id": "y8q1", "text": "«Esta semana he visto a Ana.» (perfecto)", "correctAnswer": true },
           { "id": "y8q2", "text": "«Ayer he tenido un examen.» (perfecto)", "correctAnswer": false },
@@ -239,7 +234,7 @@
       {
         "id": "y12",
         "title": "¿Correcto?",
-        "texts": ["Pretérito perfecto = haber (presente) + participio."],
+        "textMarkdown": "Pretérito perfecto = haber (presente) + participio.",
         "questions": [
           { "id": "y12q1", "text": "(yo) «ha»", "correctAnswer": false },
           { "id": "y12q2", "text": "(nosotros) «hemos»", "correctAnswer": true },
@@ -320,7 +315,7 @@
       {
         "id": "y16",
         "title": "Participio",
-        "texts": ["Проверьте форму participio (не время!)."],
+        "textMarkdown": "Проверьте форму participio (не время!).",
         "questions": [
           { "id": "y16q1", "text": "hacer → hecho", "correctAnswer": true },
           { "id": "y16q2", "text": "decir → decido", "correctAnswer": false },
@@ -399,7 +394,7 @@
       {
         "id": "y20",
         "title": "Frases",
-        "texts": ["Считаем правильным выбор: hoy/esta semana → perfecto; ayer/el año pasado/en + año → indefinido."],
+        "textMarkdown": "Считаем правильным выбор: hoy/esta semana → perfecto; ayer/el año pasado/en + año → indefinido.",
         "questions": [
           { "id": "y20q1", "text": "«Hoy he puesto la mesa.»", "correctAnswer": true },
           { "id": "y20q2", "text": "«Ayer he hecho la tarea.»", "correctAnswer": false },

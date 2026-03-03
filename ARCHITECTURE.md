@@ -96,8 +96,8 @@
   - check/show/reset/restart controls
   - after "show correct answers", optional `?` popover on rows with `commentMarkdown`
 - `YesNoQuestionsTest.vue`
-  - one or more text blocks followed by true/false style questions (`ДА` / `НЕТ`)
-  - per-text-block completion marker (`✓`) when all yes/no questions are answered
+  - one or more tasks, each with a single `textMarkdown` block followed by true/false style questions (`ДА` / `НЕТ`)
+  - per-task completion marker (`✓`) when all yes/no questions are answered
   - local progress bar (hidden inside suite container)
   - "Правильно: X из Y" is shown near progress and counts only after `Проверить` (`Y=0` before check)
   - per-question answer buttons aligned to the right
